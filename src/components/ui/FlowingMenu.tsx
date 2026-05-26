@@ -334,7 +334,7 @@ export function FlowingMenu({
   speed = 15,
   textColor = '#F5F5F0',
   bgColor = '#05060F',
-  marqueeBgColor = '#C8A96E',
+  marqueeBgColor = '#000A67',
   marqueeTextColor = '#05060F',
   borderColor = 'rgba(255, 255, 255, 0.12)',
   onItemClick,

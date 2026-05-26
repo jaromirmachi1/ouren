@@ -1,14 +1,6 @@
 import { createGlobalStyle } from 'styled-components';
 
 export const GlobalStyles = createGlobalStyle`
-  @font-face {
-    font-family: 'Vastine';
-    src: url('/fonts/Vastine.ttf') format('truetype');
-    font-weight: 100 900;
-    font-style: normal;
-    font-display: swap;
-  }
-
   *,
   *::before,
   *::after {
@@ -64,7 +56,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   ::selection {
-    background: ${({ theme }) => theme.colors.gold};
+    background: ${({ theme }) => theme.colors.highlight};
     color: ${({ theme }) => theme.colors.deepBlack};
   }
 

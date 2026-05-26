@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLanguage } from '../i18n/LanguageContext';
 import { refreshScrollTriggers } from '../utils/scrollReveal';
 import { Footer } from '../components/layout/Footer';
 import { About } from '../components/sections/About';
@@ -18,6 +19,7 @@ const Page = styled.main`
 `;
 
 export default function HomePage() {
+  const { t } = useLanguage();
   const location = useLocation();
 
   useEffect(() => {
@@ -45,10 +47,7 @@ export default function HomePage() {
 
   return (
     <Page>
-      <PageMeta
-        description="Ouren is a Czech-based international real estate developer and brokerage for premium residential and commercial properties."
-        title="Ouren Real Estate | We build. We place. We elevate."
-      />
+      <PageMeta description={t.meta.homeDescription} title={t.meta.homeTitle} />
       <Hero />
       <PropertyMenu />
       <Projects />

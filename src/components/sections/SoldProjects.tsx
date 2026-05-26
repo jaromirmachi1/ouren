@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
 import { soldProjects } from '../../data/projects';
+import { useLanguage } from '../../i18n/LanguageContext';
 import { scrollTriggerDefaults } from '../../styles/animations';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -95,6 +96,7 @@ const Location = styled.p`
 `;
 
 export function SoldProjects() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLParagraphElement>(null);
@@ -151,10 +153,10 @@ export function SoldProjects() {
   return (
     <Section id="sold" ref={sectionRef}>
       <Header>
-        <Title>Completed</Title>
+        <Title>{t.sold.title}</Title>
         <Counter>
           <span ref={counterRef}>0</span>
-          <CounterLabel>properties placed</CounterLabel>
+          <CounterLabel>{t.sold.counterLabel}</CounterLabel>
         </Counter>
       </Header>
       <PinWrap>

@@ -9,8 +9,6 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@fontsource/cormorant-garamond": "latest",
-    "@fontsource/dm-sans": "latest",
     "@hookform/resolvers": "^5.4.0",
     "@studio-freight/lenis": "latest",
     "framer-motion": "latest",

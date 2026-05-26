@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { ThemeProvider } from 'styled-components';
 import App from './App';
 import { useLenis } from './hooks/useLenis';
+import { LanguageProvider } from './i18n/LanguageContext';
 import { GlobalStyles } from './styles/GlobalStyles';
 import { theme } from './styles/theme';
 import { refreshScrollTriggers } from './utils/scrollReveal';
@@ -21,10 +22,12 @@ function Root() {
   }, []);
 
   return (
-    <ThemeProvider theme={theme}>
-      <GlobalStyles />
-      <App />
-    </ThemeProvider>
+    <LanguageProvider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyles />
+        <App />
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }
 

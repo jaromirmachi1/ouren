@@ -6,6 +6,7 @@ import { CustomCursor } from "./components/ui/CustomCursor";
 import { ErrorBoundary } from "./components/ui/ErrorBoundary";
 import { PageTransition } from "./components/ui/PageTransition";
 import { TopFade } from "./components/ui/TopFade";
+import { useLanguage } from "./i18n/LanguageContext";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
@@ -32,6 +33,8 @@ const MainStack = styled.div`
 `;
 
 function App() {
+  const { t } = useLanguage();
+
   return (
     <BrowserRouter>
       <ErrorBoundary>
@@ -44,7 +47,7 @@ function App() {
           <Suspense
             fallback={
               <Loader aria-live="polite" role="status">
-                Loading
+                {t.common.loading}
               </Loader>
             }
           >

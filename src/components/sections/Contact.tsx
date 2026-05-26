@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { useLanguage } from '../../i18n/LanguageContext';
 
 const Section = styled.section`
   padding: clamp(56px, 8vw, 96px) ${({ theme }) => theme.spacing.pageX};
@@ -47,16 +48,15 @@ const Link = styled.a`
 `;
 
 export function Contact() {
+  const { t } = useLanguage();
+
   return (
     <Section id="contact">
       <Grid>
         <div>
-          <Eyebrow>Contact</Eyebrow>
-          <Headline>Begin the conversation.</Headline>
-          <Copy>
-            For acquisitions, private listings, and development partnerships across Czech Republic and
-            international markets.
-          </Copy>
+          <Eyebrow>{t.contact.eyebrow}</Eyebrow>
+          <Headline>{t.contact.headline}</Headline>
+          <Copy>{t.contact.copy}</Copy>
         </div>
         <Details>
           <Link className="hoverable" href="mailto:hello@ouren.cz">
@@ -65,7 +65,7 @@ export function Contact() {
           <Link className="hoverable" href="tel:+420123456789">
             +420 123 456 789
           </Link>
-          <Copy>Prague · Brno · International</Copy>
+          <Copy>{t.contact.locations}</Copy>
         </Details>
       </Grid>
     </Section>

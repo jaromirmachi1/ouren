@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { activeProjects } from '../../data/projects';
+import { useLanguage } from '../../i18n/LanguageContext';
 import { refreshScrollTriggers, revealOnScroll } from '../../utils/scrollReveal';
 import { SplitText } from '../ui/SplitText';
 import { ProjectCard } from './ProjectCard';
@@ -30,6 +31,7 @@ const GridRest = styled.div`
 `;
 
 export function Projects() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const [featured, ...rest] = activeProjects;
 
@@ -54,7 +56,7 @@ export function Projects() {
     <Section id="projects" ref={sectionRef}>
       <Title>
         <SplitText as="span" triggerOnScroll splitBy="words">
-          Current projects
+          {t.projects.title}
         </SplitText>
       </Title>
       <Grid>

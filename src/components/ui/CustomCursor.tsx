@@ -121,7 +121,7 @@ export function CustomCursor() {
       setLabel(target.dataset.cursorLabel ?? '');
       gsap.to(dot, { autoAlpha: 0, scale: 0, duration: 0.25, ease: 'power3.out' });
       gsap.to(ring, {
-        borderColor: '#C8A96E',
+        borderColor: '#CBDFEE',
         scale: 2.5,
         duration: 0.3,
         ease: 'power3.out',

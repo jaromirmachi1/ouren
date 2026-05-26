@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLanguage } from '../../i18n/LanguageContext';
+import { formatDate, formatReadTime } from '../../i18n/format';
 import type { BlogPost } from '../../types';
 
 type BlogCardProps = {
@@ -16,7 +18,7 @@ const Card = styled(Link)`
   transition: border-color 0.4s ease;
 
   &:hover {
-    border-color: rgba(200, 169, 110, 0.3);
+    border-color: rgba(203, 223, 238, 0.45);
   }
 `;
 
@@ -83,19 +85,8 @@ const Footer = styled.p`
   text-transform: uppercase;
 `;
 
-const categoryLabels: Record<BlogPost['category'], string> = {
-  market: 'Market',
-  design: 'Design',
-  investment: 'Investment',
-  lifestyle: 'Lifestyle',
-};
-
 export function BlogCard({ post, index }: BlogCardProps) {
-  const formattedDate = new Date(post.publishedAt).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  });
+  const { locale, t } = useLanguage();
 
   return (
     <Card
@@ -108,13 +99,13 @@ export function BlogCard({ post, index }: BlogCardProps) {
       </Media>
       <Body>
         <Meta>
-          <Category>{categoryLabels[post.category]}</Category>
-          <Published>{formattedDate}</Published>
+          <Category>{t.blog.categories[post.category]}</Category>
+          <Published>{formatDate(post.publishedAt, locale)}</Published>
         </Meta>
         <Title>{post.title}</Title>
         <Excerpt>{post.excerpt}</Excerpt>
         <Footer>
-          {post.readTime} min read · {post.author}
+          {formatReadTime(post.readTime, locale)} · {post.author}
         </Footer>
       </Body>
     </Card>

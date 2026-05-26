@@ -2,21 +2,23 @@ import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import styled from 'styled-components';
+import { useLanguage } from '../../i18n/LanguageContext';
+import type { NavKey } from '../../i18n/types';
 import { OurenLogo } from '../ui/OurenLogo';
 
-const LEFT_LINKS = [
-  { label: 'projects', to: '/#projects' },
-  { label: 'sold', to: '/#sold' },
-  { label: 'about', to: '/#about' },
-] as const;
+const LEFT_LINK_KEYS = [
+  { key: 'projects' as const, to: '/#projects' },
+  { key: 'sold' as const, to: '/#sold' },
+  { key: 'about' as const, to: '/#about' },
+];
 
-const RIGHT_LINKS = [
-  { label: 'sell with us', to: '/#sell-with-us' },
-  { label: 'journal', to: '/blog' },
-  { label: 'contact', to: '/#contact' },
-] as const;
+const RIGHT_LINK_KEYS = [
+  { key: 'sellWithUs' as const, to: '/#sell-with-us' },
+  { key: 'journal' as const, to: '/blog' },
+  { key: 'contact' as const, to: '/#contact' },
+];
 
-const NAV_LINKS = [...LEFT_LINKS, ...RIGHT_LINKS];
+const NAV_LINK_KEYS = [...LEFT_LINK_KEYS, ...RIGHT_LINK_KEYS];
 
 const Header = styled.header`
   position: fixed;
@@ -209,20 +211,22 @@ const MobileNavLink = styled(NavLink)`
   }
 `;
 
-type NavItem = { label: string; to: string };
+type NavItem = { key: NavKey; to: string };
 
 function NavLinks({
   links,
   getNavLinkProps,
+  labels,
 }: {
   links: readonly NavItem[];
   getNavLinkProps: (to: string) => ReturnType<typeof Object>;
+  labels: Record<NavKey, string>;
 }) {
   return (
     <>
       {links.map((link) => (
         <StyledNavLink className="hoverable" key={link.to} {...getNavLinkProps(link.to)}>
-          {link.label}
+          {labels[link.key]}
         </StyledNavLink>
       ))}
     </>
@@ -230,6 +234,7 @@ function NavLinks({
 }
 
 export function Navbar() {
+  const { t } = useLanguage();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -303,21 +308,21 @@ export function Navbar() {
     <Header>
       <Bar>
         <SideNav $align="left" aria-label="Primary navigation left">
-          <NavLinks getNavLinkProps={getNavLinkProps} links={LEFT_LINKS} />
+          <NavLinks getNavLinkProps={getNavLinkProps} labels={t.nav} links={LEFT_LINK_KEYS} />
         </SideNav>
 
-        <LogoWrap aria-label="Ouren home" className="hoverable" to="/">
+        <LogoWrap aria-label={t.common.homeLabel} className="hoverable" to="/">
           <OurenLogo />
         </LogoWrap>
 
         <SideNav $align="right" aria-label="Primary navigation right">
-          <NavLinks getNavLinkProps={getNavLinkProps} links={RIGHT_LINKS} />
+          <NavLinks getNavLinkProps={getNavLinkProps} labels={t.nav} links={RIGHT_LINK_KEYS} />
         </SideNav>
 
         <MenuButton
           aria-controls="mobile-menu"
           aria-expanded={isOpen}
-          aria-label={isOpen ? 'Close navigation menu' : 'Open navigation menu'}
+          aria-label={isOpen ? t.common.closeMenu : t.common.openMenu}
           className="hoverable"
           onClick={() => setIsOpen((current) => !current)}
           type="button"
@@ -328,7 +333,7 @@ export function Navbar() {
 
       <MobileMenu $open={isOpen} id="mobile-menu" ref={mobileMenuRef}>
         <MobileNav aria-label="Mobile navigation">
-          {NAV_LINKS.map((link, index) => (
+          {NAV_LINK_KEYS.map((link, index) => (
             <MobileNavLink
               className="hoverable"
               key={link.to}
@@ -336,7 +341,7 @@ export function Navbar() {
               {...getNavLinkProps(link.to)}
             >
               <span>{String(index + 1).padStart(2, '0')}</span>
-              {link.label}
+              {t.nav[link.key]}
             </MobileNavLink>
           ))}
         </MobileNav>

@@ -3,12 +3,13 @@ export interface Project {
   name: string;
   location: string;
   type: 'apartment' | 'house' | 'commercial';
-  status: 'available' | 'reserved' | 'sold';
+  status: 'available' | 'reserved' | 'sold' | 'inProgress';
   price: string;
   units: number;
   image: string;
   year: number;
   slug: string;
+  websiteUrl?: string;
 }
 
 export type PropertyType = 'apartment' | 'house' | 'land' | 'commercial';

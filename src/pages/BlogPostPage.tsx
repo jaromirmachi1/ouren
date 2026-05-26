@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { Footer } from '../components/layout/Footer';
 import { GradientBlob } from '../components/ui/GradientBlob';
 import { getBlogPost } from '../data/blog';
+import { useLanguage } from '../i18n/LanguageContext';
+import { formatDate, formatReadTime } from '../i18n/format';
 import { PageMeta } from '../seo/PageMeta';
 
 const Page = styled.main`
@@ -90,14 +92,8 @@ const Paragraph = styled.p`
   line-height: ${({ theme }) => theme.typography.leading.body};
 `;
 
-const categoryLabels = {
-  market: 'Market',
-  design: 'Design',
-  investment: 'Investment',
-  lifestyle: 'Lifestyle',
-} as const;
-
 export default function BlogPostPage() {
+  const { locale, t } = useLanguage();
   const { slug } = useParams<{ slug: string }>();
   const post = slug ? getBlogPost(slug) : undefined;
   const articleRef = useRef<HTMLElement>(null);
@@ -118,24 +114,18 @@ export default function BlogPostPage() {
     return <Navigate replace to="/blog" />;
   }
 
-  const formattedDate = new Date(post.publishedAt).toLocaleDateString('en-GB', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-  });
-
   return (
     <Page>
       <PageMeta description={post.excerpt} title={`${post.title} | Ouren Journal`} />
       <Hero>
         <GradientBlob color="rgba(26, 47, 160, 0.65)" left="70%" opacity={0.5} size="clamp(280px, 40vw, 520px)" top="10%" />
         <BackLink className="hoverable" to="/blog">
-          ← Back to journal
+          ← {t.common.backToJournal}
         </BackLink>
         <Meta>
-          <span>{categoryLabels[post.category]}</span>
-          <span>{formattedDate}</span>
-          <span>{post.readTime} min read</span>
+          <span>{t.blog.categories[post.category]}</span>
+          <span>{formatDate(post.publishedAt, locale)}</span>
+          <span>{formatReadTime(post.readTime, locale)}</span>
         </Meta>
         <Title>{post.title}</Title>
       </Hero>

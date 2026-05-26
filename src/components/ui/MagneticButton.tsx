@@ -10,6 +10,12 @@ type MagneticButtonProps = {
   onClick?: () => void;
 };
 
+const Label = styled.span`
+  position: relative;
+  z-index: 1;
+  transition: color 0.35s ease;
+`;
+
 const Button = styled.button`
   position: relative;
   display: inline-flex;
@@ -18,27 +24,26 @@ const Button = styled.button`
   overflow: hidden;
   min-width: 220px;
   padding: 18px 32px;
-  border: 1px solid rgba(200, 169, 110, 0.45);
+  border: 1px solid rgba(203, 223, 238, 0.55);
   background: transparent;
   color: ${({ theme }) => theme.colors.white};
   font-size: 12px;
   font-weight: ${({ theme }) => theme.typography.weights.light};
   letter-spacing: ${({ theme }) => theme.typography.tracking.label};
   text-transform: uppercase;
+
+  &:hover ${Label} {
+    color: ${({ theme }) => theme.colors.deepBlack};
+  }
 `;
 
 const Fill = styled.span`
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: ${({ theme }) => theme.colors.gold};
+  background: ${({ theme }) => theme.colors.highlight};
   transform: scaleX(0);
   transform-origin: left;
-`;
-
-const Label = styled.span`
-  position: relative;
-  z-index: 1;
 `;
 
 export function MagneticButton({

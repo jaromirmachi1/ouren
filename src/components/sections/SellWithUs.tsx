@@ -1,21 +1,13 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import gsap from 'gsap';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 import { z } from 'zod';
+import { useLanguage } from '../../i18n/LanguageContext';
 import type { SellFormValues } from '../../types';
 import { GradientBlob } from '../ui/GradientBlob';
 import { MagneticButton } from '../ui/MagneticButton';
-
-const schema = z.object({
-  name: z.string().min(2, 'Name is required'),
-  email: z.string().email('Enter a valid email'),
-  phone: z.string().min(6, 'Phone is required'),
-  propertyType: z.enum(['apartment', 'house', 'land', 'commercial']),
-  estimatedValue: z.string().min(1, 'Estimated value is required'),
-  message: z.string().min(10, 'Please add a short message'),
-});
 
 const Section = styled.section`
   position: relative;
@@ -126,6 +118,21 @@ const Success = styled.p`
 `;
 
 export function SellWithUs() {
+  const { t } = useLanguage();
+
+  const schema = useMemo(
+    () =>
+      z.object({
+        name: z.string().min(2, t.sell.validation.name),
+        email: z.string().email(t.sell.validation.email),
+        phone: z.string().min(6, t.sell.validation.phone),
+        propertyType: z.enum(['apartment', 'house', 'land', 'commercial']),
+        estimatedValue: z.string().min(1, t.sell.validation.estimatedValue),
+        message: z.string().min(10, t.sell.validation.message),
+      }),
+    [t],
+  );
+
   const {
     register,
     handleSubmit,
@@ -152,7 +159,7 @@ export function SellWithUs() {
     fields.forEach((field) => {
       const onFocus = () => {
         gsap.to(field, {
-          borderBottomColor: '#C8A96E',
+          borderBottomColor: '#CBDFEE',
           duration: 0.35,
           ease: 'power2.out',
         });
@@ -180,44 +187,44 @@ export function SellWithUs() {
     <Section id="sell-with-us" ref={sectionRef}>
       <GradientBlob color="rgba(26, 47, 160, 0.55)" left="72%" opacity={0.5} size="clamp(280px, 40vw, 560px)" top="12%" />
       <Inner>
-        <Headline>List your property with us</Headline>
+        <Headline>{t.sell.headline}</Headline>
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>
           <Field>
-            <FieldLabel $active>Name</FieldLabel>
+            <FieldLabel $active>{t.sell.fields.name}</FieldLabel>
             <Input {...register('name')} />
             {errors.name && <ErrorText>{errors.name.message}</ErrorText>}
           </Field>
           <Field>
-            <FieldLabel $active>Email</FieldLabel>
+            <FieldLabel $active>{t.sell.fields.email}</FieldLabel>
             <Input type="email" {...register('email')} />
             {errors.email && <ErrorText>{errors.email.message}</ErrorText>}
           </Field>
           <Field>
-            <FieldLabel $active>Phone</FieldLabel>
+            <FieldLabel $active>{t.sell.fields.phone}</FieldLabel>
             <Input type="tel" {...register('phone')} />
             {errors.phone && <ErrorText>{errors.phone.message}</ErrorText>}
           </Field>
           <Field>
-            <FieldLabel $active>Property type</FieldLabel>
+            <FieldLabel $active>{t.sell.fields.propertyType}</FieldLabel>
             <Select {...register('propertyType')}>
-              <option value="apartment">Apartment</option>
-              <option value="house">House</option>
-              <option value="land">Land</option>
-              <option value="commercial">Commercial</option>
+              <option value="apartment">{t.sell.propertyTypes.apartment}</option>
+              <option value="house">{t.sell.propertyTypes.house}</option>
+              <option value="land">{t.sell.propertyTypes.land}</option>
+              <option value="commercial">{t.sell.propertyTypes.commercial}</option>
             </Select>
           </Field>
           <Field>
-            <FieldLabel $active>Estimated value</FieldLabel>
+            <FieldLabel $active>{t.sell.fields.estimatedValue}</FieldLabel>
             <Input {...register('estimatedValue')} />
             {errors.estimatedValue && <ErrorText>{errors.estimatedValue.message}</ErrorText>}
           </Field>
           <Field>
-            <FieldLabel $active>Message</FieldLabel>
+            <FieldLabel $active>{t.sell.fields.message}</FieldLabel>
             <Textarea {...register('message')} />
             {errors.message && <ErrorText>{errors.message.message}</ErrorText>}
           </Field>
-          <MagneticButton type="submit">Submit inquiry</MagneticButton>
-          {isSubmitSuccessful && <Success>Thank you. Our team will contact you shortly.</Success>}
+          <MagneticButton type="submit">{t.sell.submit}</MagneticButton>
+          {isSubmitSuccessful && <Success>{t.sell.success}</Success>}
         </Form>
       </Inner>
     </Section>

@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import styled from 'styled-components';
 import { ColorBends } from '../ui/ColorBends';
+import { useLanguage } from '../../i18n/LanguageContext';
 import { theme } from '../../styles/theme';
 
 const Section = styled.section`
@@ -85,9 +86,8 @@ const Subline = styled.p`
 
 const OUREN_BLUES = [theme.colors.navy, theme.colors.midBlue, theme.colors.lightBlue];
 
-const HERO_LINES = ['We build.', 'We place.', 'We elevate.'];
-
 export function Hero() {
+  const { t, locale } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -119,7 +119,7 @@ export function Hero() {
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [locale]);
 
   return (
     <Section id="top" ref={sectionRef}>
@@ -145,13 +145,13 @@ export function Hero() {
       </Background>
       <Content>
         <Headline>
-          {HERO_LINES.map((line) => (
-            <Line key={line}>
+          {t.hero.lines.map((line) => (
+            <Line key={`${locale}-${line}`}>
               <LineInner data-hero-line>{line}</LineInner>
             </Line>
           ))}
         </Headline>
-        <Subline data-hero-subline>Czech Republic — International</Subline>
+        <Subline data-hero-subline>{t.hero.subline}</Subline>
       </Content>
     </Section>
   );

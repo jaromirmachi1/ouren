@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLanguage } from '../../i18n/LanguageContext';
+import type { NavKey } from '../../i18n/types';
 import { OurenLogo } from '../ui/OurenLogo';
 
 const FooterWrap = styled.footer`
@@ -103,15 +105,31 @@ const Bar = styled.div`
   letter-spacing: 0.08em;
 `;
 
-const LangToggle = styled.button`
+const LangToggle = styled.button<{ $active?: boolean }>`
   background: transparent;
-  color: rgba(245, 245, 240, 0.72);
+  color: ${({ $active, theme }) => ($active ? theme.colors.gold : 'rgba(245, 245, 240, 0.72)')};
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  transition: color 0.25s ease;
 `;
 
+const LangRow = styled.div`
+  display: flex;
+  gap: 12px;
+`;
+
+const FOOTER_NAV: { key: NavKey; to: string }[] = [
+  { key: 'projects', to: '/#projects' },
+  { key: 'sold', to: '/#sold' },
+  { key: 'sellWithUs', to: '/#sell-with-us' },
+  { key: 'about', to: '/#about' },
+  { key: 'journal', to: '/blog' },
+];
+
 export function Footer() {
+  const { locale, setLocale, t } = useLanguage();
+
   return (
     <FooterWrap>
       <Watermark aria-hidden="true">
@@ -119,25 +137,15 @@ export function Footer() {
       </Watermark>
       <Grid>
         <Column>
-          <Label>Navigation</Label>
-          <FooterLink className="hoverable" to="/#projects">
-            Projects
-          </FooterLink>
-          <FooterLink className="hoverable" to="/#sold">
-            Sold
-          </FooterLink>
-          <FooterLink className="hoverable" to="/#sell-with-us">
-            Sell with us
-          </FooterLink>
-          <FooterLink className="hoverable" to="/#about">
-            About
-          </FooterLink>
-          <FooterLink className="hoverable" to="/blog">
-            Journal
-          </FooterLink>
+          <Label>{t.footer.navigation}</Label>
+          {FOOTER_NAV.map((item) => (
+            <FooterLink className="hoverable" key={item.to} to={item.to}>
+              {t.nav[item.key]}
+            </FooterLink>
+          ))}
         </Column>
         <Column>
-          <Label>Contact</Label>
+          <Label>{t.footer.contact}</Label>
           <ExternalLink className="hoverable" href="mailto:hello@ouren.cz">
             hello@ouren.cz
           </ExternalLink>
@@ -155,10 +163,25 @@ export function Footer() {
         </Column>
       </Grid>
       <Bar>
-        <span>© 2025 Ouren Real Estate</span>
-        <LangToggle className="hoverable" type="button">
-          CZ — EN
-        </LangToggle>
+        <span>{t.footer.copyright}</span>
+        <LangRow>
+          <LangToggle
+            $active={locale === 'cs'}
+            className="hoverable"
+            onClick={() => setLocale('cs')}
+            type="button"
+          >
+            {t.lang.switchToCzech}
+          </LangToggle>
+          <LangToggle
+            $active={locale === 'en'}
+            className="hoverable"
+            onClick={() => setLocale('en')}
+            type="button"
+          >
+            {t.lang.switchToEnglish}
+          </LangToggle>
+        </LangRow>
       </Bar>
     </FooterWrap>
   );

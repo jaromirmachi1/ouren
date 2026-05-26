@@ -6,6 +6,7 @@ import { Footer } from '../components/layout/Footer';
 import { GradientBlob } from '../components/ui/GradientBlob';
 import { blogPosts } from '../data/blog';
 import { PageMeta } from '../seo/PageMeta';
+import { useLanguage } from '../i18n/LanguageContext';
 import { prefersReducedMotion } from '../utils/performance';
 import { refreshScrollTriggers, revealOnScroll } from '../utils/scrollReveal';
 
@@ -78,6 +79,7 @@ const Featured = styled.div`
 `;
 
 export default function BlogPage() {
+  const { t } = useLanguage();
   const gridRef = useRef<HTMLDivElement>(null);
   const [featured, ...rest] = blogPosts;
 
@@ -114,18 +116,13 @@ export default function BlogPage() {
 
   return (
     <Page>
-      <PageMeta
-        description="Editorial insights on luxury real estate, design, investment, and market intelligence from Ouren."
-        title="Journal | Ouren Real Estate"
-      />
+      <PageMeta description={t.meta.blogDescription} title={t.meta.blogTitle} />
       <Hero>
         <GradientBlob color="rgba(26, 47, 160, 0.8)" left="50%" opacity={0.65} size="clamp(400px, 58vw, 820px)" top="20%" />
         <div>
-          <Eyebrow data-blog-hero>Journal</Eyebrow>
-          <Title data-blog-hero>Insights on place, design, and value.</Title>
-          <Lead data-blog-hero>
-            Perspectives from our team on markets, architecture, and the craft of placing exceptional properties.
-          </Lead>
+          <Eyebrow data-blog-hero>{t.blog.eyebrow}</Eyebrow>
+          <Title data-blog-hero>{t.blog.title}</Title>
+          <Lead data-blog-hero>{t.blog.lead}</Lead>
         </div>
       </Hero>
       <Content>

@@ -1,5 +1,8 @@
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useLanguage } from '../../i18n/LanguageContext';
+import type { PropertyTypeKey } from '../../i18n/types';
 import { FlowingMenu, type FlowingMenuItem } from '../ui/FlowingMenu';
 import { theme } from '../../styles/theme';
 
@@ -32,31 +35,28 @@ const Eyebrow = styled.p`
   text-transform: uppercase;
 `;
 
-const PROPERTY_ITEMS: FlowingMenuItem[] = [
-  {
-    link: '/#projects',
-    text: 'Flats',
-    image: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    link: '/#projects',
-    text: 'Houses',
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    link: '/#projects',
-    text: 'Commercial',
-    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    link: '/#projects',
-    text: 'Others',
-    image: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
-  },
-];
+const PROPERTY_IMAGES: Record<PropertyTypeKey, string> = {
+  flats: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80',
+  houses: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80',
+  commercial: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
+  others: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
+};
+
+const PROPERTY_KEYS: PropertyTypeKey[] = ['flats', 'houses', 'commercial', 'others'];
 
 export function PropertyMenu() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
+
+  const items = useMemo<FlowingMenuItem[]>(
+    () =>
+      PROPERTY_KEYS.map((key) => ({
+        link: '/#projects',
+        text: t.propertyMenu.types[key],
+        image: PROPERTY_IMAGES[key],
+      })),
+    [t],
+  );
 
   const handleItemClick = () => {
     navigate('/#projects');
@@ -68,15 +68,15 @@ export function PropertyMenu() {
   return (
     <Section aria-labelledby="property-menu-label" id="property-types">
       <Header>
-        <Eyebrow id="property-menu-label">Browse by type</Eyebrow>
+        <Eyebrow id="property-menu-label">{t.propertyMenu.eyebrow}</Eyebrow>
       </Header>
       <MenuFill>
         <FlowingMenu
           bgColor={theme.colors.deepBlack}
           borderColor="rgba(255, 255, 255, 0.1)"
-          items={PROPERTY_ITEMS}
-          marqueeBgColor={theme.colors.navy}
-          marqueeTextColor={theme.colors.white}
+          items={items}
+          marqueeBgColor={theme.colors.highlight}
+          marqueeTextColor={theme.colors.deepBlack}
           onItemClick={handleItemClick}
           speed={12}
           textColor={theme.colors.white}

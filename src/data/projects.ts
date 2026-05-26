@@ -1,17 +1,19 @@
 import type { Project } from '../types';
+import panoramaZabinyImage from '../assets/images/IMG_3434.jpg';
 
 export const activeProjects: Project[] = [
   {
     id: '1',
-    name: 'Nebula Residence',
-    location: 'Prague 7 — Holešovice',
+    name: 'Panorama Žabiny',
+    location: 'Brno — Žabiny',
     type: 'apartment',
     status: 'available',
-    price: 'From €420,000',
-    units: 18,
-    image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1600&q=80',
+    price: '5 420 000',
+    units: 24,
+    image: panoramaZabinyImage,
     year: 2026,
-    slug: 'nebula-residence',
+    slug: 'panorama-zabiny',
+    websiteUrl: 'https://panoramazabiny.cz',
   },
   {
     id: '2',

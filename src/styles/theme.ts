@@ -3,7 +3,8 @@ export const theme = {
     navy: '#000A67',
     deepBlack: '#05060F',
     white: '#F5F5F0',
-    gold: '#C8A96E',
+    gold: '#CBDFEE',
+    highlight: '#CBDFEE',
     midBlue: '#1A2FA0',
     lightBlue: '#3B5BDB',
     card: '#0D1020',
@@ -11,11 +12,11 @@ export const theme = {
     border: 'rgba(255, 255, 255, 0.08)',
   },
   typography: {
-    sans: '"Vastine", system-ui, sans-serif',
-    display: '"Vastine", system-ui, sans-serif',
+    sans: '"Switzer", system-ui, sans-serif',
+    display: '"Switzer", system-ui, sans-serif',
     weights: {
-      extraLight: 400,
-      light: 400,
+      extraLight: 300,
+      light: 300,
       regular: 400,
     },
     scale: {

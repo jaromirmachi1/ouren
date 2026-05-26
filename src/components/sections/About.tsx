@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
+import { useLanguage } from '../../i18n/LanguageContext';
 import { scrollTriggerDefaults } from '../../styles/animations';
 import { SplitText } from '../ui/SplitText';
 
@@ -86,6 +87,7 @@ const StatLabel = styled.p`
 `;
 
 export function About() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
@@ -124,35 +126,29 @@ export function About() {
       <Grid>
         <ImageWrap>
           <Image
-            alt="Ouren team in a modern architectural office"
+            alt={t.about.imageAlt}
             loading="lazy"
             ref={imageRef}
             src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80"
           />
         </ImageWrap>
         <Content>
-          <Eyebrow>About Ouren</Eyebrow>
+          <Eyebrow>{t.about.eyebrow}</Eyebrow>
           <Headline>
             <SplitText as="span" splitBy="words" triggerOnScroll>
-              Built on precision. Driven by vision.
+              {t.about.headline}
             </SplitText>
           </Headline>
-          <Body>
-            Ouren is an international real estate firm rooted in the Czech Republic, shaping residential and
-            commercial environments with editorial clarity and long-term value.
-          </Body>
-          <Body>
-            From development strategy to placement, we guide every stage with discretion, precision, and a
-            design-led sensibility that elevates each property we represent.
-          </Body>
+          <Body>{t.about.body1}</Body>
+          <Body>{t.about.body2}</Body>
           <Stats>
             <Stat>
               <StatValue>12+</StatValue>
-              <StatLabel>active projects</StatLabel>
+              <StatLabel>{t.about.stats.activeProjects}</StatLabel>
             </Stat>
             <Stat>
               <StatValue>200+</StatValue>
-              <StatLabel>properties sold</StatLabel>
+              <StatLabel>{t.about.stats.propertiesSold}</StatLabel>
             </Stat>
           </Stats>
         </Content>
