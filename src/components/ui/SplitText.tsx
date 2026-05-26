@@ -1,10 +1,7 @@
 import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
-import { scrollTriggerDefaults } from '../../styles/animations';
-
-gsap.registerPlugin(ScrollTrigger);
+import { refreshScrollTriggers, revealOnScroll } from '../../utils/scrollReveal';
+import { prefersReducedMotion } from '../../utils/performance';
 
 type SplitTextProps = {
   as?: 'h1' | 'h2' | 'h3' | 'p' | 'span';
@@ -42,33 +39,21 @@ export function SplitText({
     root.innerHTML = units
       .map((unit) => {
         const content = splitBy === 'lines' ? unit : `${unit}&nbsp;`;
-        return `<span class="split-line" style="display:block;overflow:hidden"><span class="split-inner" style="display:inline-block">${content}</span></span>`;
+        return `<span class="split-line" style="display:block;overflow:hidden"><span class="split-inner" style="display:inline-block;opacity:1;visibility:visible">${content}</span></span>`;
       })
       .join('');
 
+    if (prefersReducedMotion() || !triggerOnScroll) {
+      return;
+    }
+
     const inners = root.querySelectorAll('.split-inner');
+    const context = revealOnScroll(root, inners, { y: 40, stagger: 0.08, duration: 1 });
 
-    gsap.set(inners, { yPercent: 110, autoAlpha: 0 });
-
-    const tween = gsap.to(inners, {
-      yPercent: 0,
-      autoAlpha: 1,
-      duration: 1,
-      ease: 'power3.out',
-      stagger: 0.08,
-      ...(triggerOnScroll
-        ? {
-            scrollTrigger: {
-              trigger: root,
-              ...scrollTriggerDefaults,
-            },
-          }
-        : {}),
-    });
+    refreshScrollTriggers();
 
     return () => {
-      tween.scrollTrigger?.kill();
-      tween.kill();
+      context.revert();
     };
   }, [children, splitBy, triggerOnScroll]);
 

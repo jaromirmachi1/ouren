@@ -125,6 +125,13 @@ export const GlobalStyles = createGlobalStyle`
     cursor: crosshair;
   }
 
+  .project-card,
+  .blog-card,
+  .split-inner {
+    opacity: 1;
+    visibility: visible;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

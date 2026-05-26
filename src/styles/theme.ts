@@ -58,7 +58,8 @@ export const theme = {
     cursor: 200,
     nav: 100,
     overlay: 90,
-    grain: 80,
+    grain: 1,
+    content: 1,
   },
 } as const;
 

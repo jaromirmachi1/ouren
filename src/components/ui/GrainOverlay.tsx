@@ -1,9 +1,20 @@
 import styled from 'styled-components';
+import { shouldUseHeavyEffects } from '../../utils/performance';
 
 type GrainOverlayProps = {
   opacity?: number;
   className?: string;
 };
+
+const LightGrain = styled.div<{ $opacity: number }>`
+  position: fixed;
+  inset: 0;
+  z-index: ${({ theme }) => theme.zIndex.grain};
+  opacity: ${({ $opacity }) => $opacity};
+  pointer-events: none;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 0.6px, transparent 0.6px);
+  background-size: 3px 3px;
+`;
 
 const Overlay = styled.svg<{ $opacity: number }>`
   position: fixed;
@@ -12,11 +23,14 @@ const Overlay = styled.svg<{ $opacity: number }>`
   width: 100vw;
   height: 100vh;
   opacity: ${({ $opacity }) => $opacity};
-  mix-blend-mode: overlay;
   pointer-events: none;
 `;
 
 export function GrainOverlay({ opacity = 0.035, className }: GrainOverlayProps) {
+  if (!shouldUseHeavyEffects()) {
+    return <LightGrain aria-hidden="true" className={className} $opacity={opacity} />;
+  }
+
   return (
     <Overlay
       aria-hidden="true"

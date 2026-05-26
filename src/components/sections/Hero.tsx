@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import styled from 'styled-components';
 import { ColorBends } from '../ui/ColorBends';
-import { GrainOverlay } from '../ui/GrainOverlay';
 import { theme } from '../../styles/theme';
 
 const Section = styled.section`
@@ -144,7 +143,6 @@ export function Hero() {
         />
         <Vignette />
       </Background>
-      <GrainOverlay opacity={0.05} />
       <Content>
         <Headline>
           {HERO_LINES.map((line) => (

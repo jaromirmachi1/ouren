@@ -1,16 +1,13 @@
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
 import { BlogCard } from '../components/blog/BlogCard';
 import { Footer } from '../components/layout/Footer';
 import { GradientBlob } from '../components/ui/GradientBlob';
-import { GrainOverlay } from '../components/ui/GrainOverlay';
 import { blogPosts } from '../data/blog';
 import { PageMeta } from '../seo/PageMeta';
-import { scrollTriggerDefaults } from '../styles/animations';
-
-gsap.registerPlugin(ScrollTrigger);
+import { prefersReducedMotion } from '../utils/performance';
+import { refreshScrollTriggers, revealOnScroll } from '../utils/scrollReveal';
 
 const Page = styled.main`
   position: relative;
@@ -92,30 +89,27 @@ export default function BlogPage() {
     }
 
     const cards = grid.querySelectorAll('.blog-card');
+    const context = revealOnScroll(grid, cards, { y: 50, duration: 0.85, stagger: 0.1 });
 
-    gsap.from(cards, {
-      y: 50,
-      autoAlpha: 0,
-      duration: 0.85,
-      ease: 'power3.out',
-      stagger: 0.1,
-      scrollTrigger: {
-        trigger: grid,
-        ...scrollTriggerDefaults,
-      },
-    });
+    refreshScrollTriggers();
+
+    return () => {
+      context.revert();
+    };
   }, []);
 
   useEffect(() => {
+    if (prefersReducedMotion()) {
+      return;
+    }
+
     const heroLines = document.querySelectorAll('[data-blog-hero]');
 
-    gsap.from(heroLines, {
-      y: 60,
-      autoAlpha: 0,
-      duration: 0.9,
-      ease: 'power3.out',
-      stagger: 0.12,
-    });
+    gsap.fromTo(
+      heroLines,
+      { y: 60, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.9, ease: 'power3.out', stagger: 0.12, immediateRender: false },
+    );
   }, []);
 
   return (
@@ -125,7 +119,6 @@ export default function BlogPage() {
         title="Journal | Ouren Real Estate"
       />
       <Hero>
-        <GrainOverlay opacity={0.05} />
         <GradientBlob color="rgba(26, 47, 160, 0.8)" left="50%" opacity={0.65} size="clamp(400px, 58vw, 820px)" top="20%" />
         <div>
           <Eyebrow data-blog-hero>Journal</Eyebrow>

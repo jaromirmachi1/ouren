@@ -164,17 +164,21 @@ const MobileMenu = styled.div<{ $open: boolean }>`
   inset: 0;
   z-index: ${({ theme }) => theme.zIndex.nav - 1};
   display: none;
+  visibility: hidden;
   align-items: end;
   padding: 120px ${({ theme }) => theme.spacing.pageX} 48px;
   background:
     radial-gradient(circle at 50% 18%, rgba(26, 47, 160, 0.52), transparent 52vw),
     rgba(5, 6, 15, 0.96);
-  opacity: ${({ $open }) => ($open ? 1 : 0)};
-  pointer-events: ${({ $open }) => ($open ? 'auto' : 'none')};
-  transition: opacity 0.35s ease;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease, visibility 0.35s ease;
 
   @media (max-width: 900px) {
     display: flex;
+    visibility: ${({ $open }) => ($open ? 'visible' : 'hidden')};
+    opacity: ${({ $open }) => ($open ? 1 : 0)};
+    pointer-events: ${({ $open }) => ($open ? 'auto' : 'none')};
   }
 `;
 

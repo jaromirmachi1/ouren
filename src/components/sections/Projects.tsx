@@ -1,13 +1,9 @@
 import { useEffect, useRef } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
 import { activeProjects } from '../../data/projects';
-import { scrollTriggerDefaults } from '../../styles/animations';
+import { refreshScrollTriggers, revealOnScroll } from '../../utils/scrollReveal';
 import { SplitText } from '../ui/SplitText';
 import { ProjectCard } from './ProjectCard';
-
-gsap.registerPlugin(ScrollTrigger);
 
 const Section = styled.section`
   padding: ${({ theme }) => theme.spacing.sectionY} ${({ theme }) => theme.spacing.pageX};
@@ -45,18 +41,13 @@ export function Projects() {
     }
 
     const cards = section.querySelectorAll('.project-card');
+    const context = revealOnScroll(section, cards);
 
-    gsap.from(cards, {
-      y: 60,
-      autoAlpha: 0,
-      duration: 0.9,
-      ease: 'power3.out',
-      stagger: 0.12,
-      scrollTrigger: {
-        trigger: section,
-        ...scrollTriggerDefaults,
-      },
-    });
+    refreshScrollTriggers();
+
+    return () => {
+      context.revert();
+    };
   }, []);
 
   return (

@@ -2,11 +2,16 @@ import { useEffect } from 'react';
 import Lenis from '@studio-freight/lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { shouldUseHeavyEffects } from '../utils/performance';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function useLenis() {
   useEffect(() => {
+    if (!shouldUseHeavyEffects()) {
+      return;
+    }
+
     let lenis: Lenis | null = null;
     let rafId = 0;
 

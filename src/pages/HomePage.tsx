@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { refreshScrollTriggers } from '../utils/scrollReveal';
 import { Footer } from '../components/layout/Footer';
 import { About } from '../components/sections/About';
 import { Contact } from '../components/sections/Contact';
@@ -27,10 +28,20 @@ export default function HomePage() {
     const id = location.hash.replace('#', '');
     const timer = window.setTimeout(() => {
       document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+      refreshScrollTriggers();
     }, 400);
 
-    return () => window.clearTimeout(timer);
+    const refreshTimer = window.setTimeout(refreshScrollTriggers, 900);
+
+    return () => {
+      window.clearTimeout(timer);
+      window.clearTimeout(refreshTimer);
+    };
   }, [location.hash]);
+
+  useEffect(() => {
+    refreshScrollTriggers();
+  }, []);
 
   return (
     <Page>

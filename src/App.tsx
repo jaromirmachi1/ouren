@@ -1,16 +1,15 @@
-import { lazy, Suspense } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import styled from 'styled-components';
-import { Navbar } from './components/layout/Navbar';
-import { CustomCursor } from './components/ui/CustomCursor';
-import { GrainOverlay } from './components/ui/GrainOverlay';
-import { ErrorBoundary } from './components/ui/ErrorBoundary';
-import { PageTransition } from './components/ui/PageTransition';
-import { TopFade } from './components/ui/TopFade';
+import { lazy, Suspense } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import styled from "styled-components";
+import { Navbar } from "./components/layout/Navbar";
+import { CustomCursor } from "./components/ui/CustomCursor";
+import { ErrorBoundary } from "./components/ui/ErrorBoundary";
+import { PageTransition } from "./components/ui/PageTransition";
+import { TopFade } from "./components/ui/TopFade";
 
-const HomePage = lazy(() => import('./pages/HomePage'));
-const BlogPage = lazy(() => import('./pages/BlogPage'));
-const BlogPostPage = lazy(() => import('./pages/BlogPostPage'));
+const HomePage = lazy(() => import("./pages/HomePage"));
+const BlogPage = lazy(() => import("./pages/BlogPage"));
+const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
 
 const Loader = styled.div`
   display: grid;
@@ -22,15 +21,26 @@ const Loader = styled.div`
   text-transform: uppercase;
 `;
 
+const SiteContent = styled.div`
+  position: relative;
+  z-index: ${({ theme }) => theme.zIndex.content};
+`;
+
+const MainStack = styled.div`
+  position: relative;
+  z-index: 2;
+`;
+
 function App() {
   return (
     <BrowserRouter>
       <ErrorBoundary>
-        <GrainOverlay />
         <CustomCursor />
         <Navbar />
         <TopFade />
-        <PageTransition>
+        <SiteContent>
+          <MainStack>
+            <PageTransition>
           <Suspense
             fallback={
               <Loader aria-live="polite" role="status">
@@ -44,7 +54,9 @@ function App() {
               <Route element={<BlogPostPage />} path="/blog/:slug" />
             </Routes>
           </Suspense>
-        </PageTransition>
+            </PageTransition>
+          </MainStack>
+        </SiteContent>
       </ErrorBoundary>
     </BrowserRouter>
   );

@@ -25,6 +25,7 @@ export const staggerDefaults = {
 } as const;
 
 export const scrollTriggerDefaults = {
-  start: 'top 82%',
-  toggleActions: 'play none none reverse',
+  start: 'top 85%',
+  toggleActions: 'play none none none',
+  once: true,
 } as const;

@@ -4,7 +4,6 @@ import gsap from 'gsap';
 import styled from 'styled-components';
 import { Footer } from '../components/layout/Footer';
 import { GradientBlob } from '../components/ui/GradientBlob';
-import { GrainOverlay } from '../components/ui/GrainOverlay';
 import { getBlogPost } from '../data/blog';
 import { PageMeta } from '../seo/PageMeta';
 
@@ -108,13 +107,11 @@ export default function BlogPostPage() {
       return;
     }
 
-    gsap.from(articleRef.current.children, {
-      y: 32,
-      autoAlpha: 0,
-      duration: 0.8,
-      ease: 'power3.out',
-      stagger: 0.1,
-    });
+    gsap.fromTo(
+      articleRef.current.children,
+      { y: 32, autoAlpha: 0 },
+      { y: 0, autoAlpha: 1, duration: 0.8, ease: 'power3.out', stagger: 0.1, immediateRender: false },
+    );
   }, [slug]);
 
   if (!post) {
@@ -131,7 +128,6 @@ export default function BlogPostPage() {
     <Page>
       <PageMeta description={post.excerpt} title={`${post.title} | Ouren Journal`} />
       <Hero>
-        <GrainOverlay opacity={0.05} />
         <GradientBlob color="rgba(26, 47, 160, 0.65)" left="70%" opacity={0.5} size="clamp(280px, 40vw, 520px)" top="10%" />
         <BackLink className="hoverable" to="/blog">
           ← Back to journal

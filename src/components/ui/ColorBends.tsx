@@ -5,6 +5,7 @@
 import { useEffect, useRef, type CSSProperties } from 'react';
 import * as THREE from 'three';
 import styled from 'styled-components';
+import { getPerformanceTier } from '../../utils/performance';
 
 const MAX_COLORS = 8 as const;
 
@@ -159,6 +160,9 @@ export function ColorBends({
   const autoRotateRef = useRef(autoRotate);
   const pointerTargetRef = useRef(new THREE.Vector2(0, 0));
   const pointerCurrentRef = useRef(new THREE.Vector2(0, 0));
+  const isVisibleRef = useRef(true);
+  const isDocumentVisibleRef = useRef(true);
+  const lowTierRef = useRef(getPerformanceTier() === 'low');
 
   useEffect(() => {
     const container = containerRef.current;
@@ -166,6 +170,8 @@ export function ColorBends({
     if (!container) {
       return;
     }
+
+    const isLowTier = lowTierRef.current;
 
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -217,7 +223,7 @@ export function ColorBends({
 
     rendererRef.current = renderer;
     renderer.outputColorSpace = THREE.SRGBColorSpace;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    renderer.setPixelRatio(isLowTier ? 1 : Math.min(window.devicePixelRatio || 1, 2));
     renderer.setClearColor(0x000000, transparent ? 0 : 1);
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
@@ -239,6 +245,8 @@ export function ColorBends({
     ro.observe(container);
     resizeObserverRef.current = ro;
 
+    let pointerFrame = 0;
+
     const onPointerMove = (event: PointerEvent) => {
       const rect = container.parentElement?.getBoundingClientRect() ?? container.getBoundingClientRect();
       const x = ((event.clientX - rect.left) / (rect.width || 1)) * 2 - 1;
@@ -246,9 +254,45 @@ export function ColorBends({
       pointerTargetRef.current.set(x, y);
     };
 
-    window.addEventListener('pointermove', onPointerMove);
+    if (!isLowTier) {
+      window.addEventListener('pointermove', onPointerMove, { passive: true });
+    } else {
+      material.uniforms.uMouseInfluence.value = 0;
+      material.uniforms.uNoise.value = 0;
+      material.uniforms.uIterations.value = Math.min(iterations, 2);
+    }
+
+    const visibilityObserver = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry?.isIntersecting ?? true;
+      },
+      { threshold: 0.05 },
+    );
+
+    visibilityObserver.observe(container);
+
+    const onDocumentVisibility = () => {
+      isDocumentVisibleRef.current = document.visibilityState === 'visible';
+    };
+
+    document.addEventListener('visibilitychange', onDocumentVisibility);
+
+    let frameIndex = 0;
 
     const loop = () => {
+      rafRef.current = requestAnimationFrame(loop);
+
+      if (!isVisibleRef.current || !isDocumentVisibleRef.current) {
+        return;
+      }
+
+      if (isLowTier) {
+        frameIndex += 1;
+        if (frameIndex % 2 !== 0) {
+          return;
+        }
+      }
+
       const dt = clock.getDelta();
       const elapsed = clock.elapsedTime;
       material.uniforms.uTime.value = elapsed;
@@ -257,11 +301,15 @@ export function ColorBends({
       const rad = (deg * Math.PI) / 180;
       material.uniforms.uRot.value.set(Math.cos(rad), Math.sin(rad));
 
-      pointerCurrentRef.current.lerp(pointerTargetRef.current, Math.min(1, dt * 8));
-      (material.uniforms.uPointer.value as THREE.Vector2).copy(pointerCurrentRef.current);
+      if (!isLowTier) {
+        pointerFrame += 1;
+        if (pointerFrame % 2 === 0) {
+          pointerCurrentRef.current.lerp(pointerTargetRef.current, Math.min(1, dt * 8));
+          (material.uniforms.uPointer.value as THREE.Vector2).copy(pointerCurrentRef.current);
+        }
+      }
 
       renderer.render(scene, camera);
-      rafRef.current = requestAnimationFrame(loop);
     };
 
     rafRef.current = requestAnimationFrame(loop);
@@ -270,6 +318,8 @@ export function ColorBends({
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
       }
+      visibilityObserver.disconnect();
+      document.removeEventListener('visibilitychange', onDocumentVisibility);
       resizeObserverRef.current?.disconnect();
       window.removeEventListener('pointermove', onPointerMove);
       geometry.dispose();
@@ -295,10 +345,10 @@ export function ColorBends({
     material.uniforms.uScale.value = scale;
     material.uniforms.uFrequency.value = frequency;
     material.uniforms.uWarpStrength.value = warpStrength;
-    material.uniforms.uMouseInfluence.value = mouseInfluence;
+    material.uniforms.uMouseInfluence.value = lowTierRef.current ? 0 : mouseInfluence;
     material.uniforms.uParallax.value = parallax;
-    material.uniforms.uNoise.value = noise;
-    material.uniforms.uIterations.value = iterations;
+    material.uniforms.uNoise.value = lowTierRef.current ? 0 : noise;
+    material.uniforms.uIterations.value = lowTierRef.current ? Math.min(iterations, 2) : iterations;
     material.uniforms.uIntensity.value = intensity;
     material.uniforms.uBandWidth.value = bandWidth;
 

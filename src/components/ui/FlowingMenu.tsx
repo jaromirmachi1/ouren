@@ -3,7 +3,18 @@
  */
 import { useEffect, useRef, useState, type MouseEvent } from 'react';
 import gsap from 'gsap';
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
+import { getPerformanceTier } from '../../utils/performance';
+
+const marqueeScroll = keyframes`
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(var(--marquee-shift, -50%), 0, 0);
+  }
+`;
 
 export type FlowingMenuItem = {
   link: string;
@@ -111,9 +122,25 @@ const MarqueeInner = styled.div`
   display: flex;
   position: relative;
   align-items: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const MarqueeTrack = styled.div<{ $active: boolean; $duration: number }>`
+  display: flex;
+  align-items: center;
   width: fit-content;
   height: 100%;
-  will-change: transform;
+  will-change: ${({ $active }) => ($active ? 'transform' : 'auto')};
+
+  ${({ $active, $duration }) =>
+    $active
+      ? css`
+          animation: ${marqueeScroll} ${$duration}s linear infinite;
+        `
+      : css`
+          animation: none;
+        `}
 `;
 
 const MarqueePart = styled.div`
@@ -165,8 +192,10 @@ function MenuItem({
   const itemRef = useRef<HTMLDivElement>(null);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const marqueeInnerRef = useRef<HTMLDivElement>(null);
-  const animationRef = useRef<gsap.core.Tween | null>(null);
+  const marqueeTrackRef = useRef<HTMLDivElement>(null);
   const [repetitions, setRepetitions] = useState(4);
+  const [isHovered, setIsHovered] = useState(false);
+  const isLowTier = getPerformanceTier() === 'low';
 
   const animationDefaults = { duration: 0.6, ease: 'expo.out' } as const;
 
@@ -197,50 +226,35 @@ function MenuItem({
       const contentWidth = marqueeContent.offsetWidth;
       const viewportWidth = window.innerWidth;
       const needed = Math.ceil(viewportWidth / contentWidth) + 2;
-      setRepetitions(Math.max(4, needed));
+      const capped = isLowTier ? Math.min(needed, 5) : needed;
+      setRepetitions(Math.max(4, capped));
     };
 
     calculateRepetitions();
     window.addEventListener('resize', calculateRepetitions);
 
     return () => window.removeEventListener('resize', calculateRepetitions);
-  }, [text, image]);
+  }, [isLowTier, text, image]);
 
   useEffect(() => {
-    const setupMarquee = () => {
-      if (!marqueeInnerRef.current) {
-        return;
-      }
+    if (!isHovered || !marqueeTrackRef.current) {
+      return;
+    }
 
-      const marqueeContent = marqueeInnerRef.current.querySelector('[data-marquee-part]') as HTMLElement | null;
+    const marqueeContent = marqueeTrackRef.current.querySelector('[data-marquee-part]') as HTMLElement | null;
 
-      if (!marqueeContent) {
-        return;
-      }
+    if (!marqueeContent) {
+      return;
+    }
 
-      const contentWidth = marqueeContent.offsetWidth;
+    const contentWidth = marqueeContent.getBoundingClientRect().width;
 
-      if (contentWidth === 0) {
-        return;
-      }
+    if (contentWidth === 0) {
+      return;
+    }
 
-      animationRef.current?.kill();
-
-      animationRef.current = gsap.to(marqueeInnerRef.current, {
-        x: -contentWidth,
-        duration: speed,
-        ease: 'none',
-        repeat: -1,
-      });
-    };
-
-    const timer = window.setTimeout(setupMarquee, 50);
-
-    return () => {
-      window.clearTimeout(timer);
-      animationRef.current?.kill();
-    };
-  }, [text, image, repetitions, speed]);
+    marqueeTrackRef.current.style.setProperty('--marquee-shift', `-${contentWidth}px`);
+  }, [isHovered, repetitions, text, image]);
 
   const handleMouseEnter = (event: MouseEvent) => {
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) {
@@ -252,6 +266,8 @@ function MenuItem({
     const y = event.clientY - rect.top;
     const edge = findClosestEdge(x, y, rect.width, rect.height);
 
+    setIsHovered(true);
+
     gsap
       .timeline({ defaults: animationDefaults })
       .set(marqueeRef.current, { y: edge === 'top' ? '-101%' : '101%' }, 0)
@@ -260,6 +276,7 @@ function MenuItem({
   };
 
   const handleMouseLeave = (event: MouseEvent) => {
+    setIsHovered(false);
     if (!itemRef.current || !marqueeRef.current || !marqueeInnerRef.current) {
       return;
     }
@@ -297,12 +314,14 @@ function MenuItem({
       <Marquee $bg={marqueeBgColor} $color={marqueeTextColor} ref={marqueeRef}>
         <MarqueeInnerWrap>
           <MarqueeInner ref={marqueeInnerRef}>
-            {[...Array(repetitions)].map((_, index) => (
-              <MarqueePart data-marquee-part={index === 0 ? true : undefined} key={index}>
-                <MarqueeText>{text}</MarqueeText>
-                <MarqueeImage $image={image} />
-              </MarqueePart>
-            ))}
+            <MarqueeTrack $active={isHovered} $duration={speed} ref={marqueeTrackRef}>
+              {[...Array(repetitions)].map((_, index) => (
+                <MarqueePart data-marquee-part={index === 0 ? true : undefined} key={index}>
+                  <MarqueeText>{text}</MarqueeText>
+                  <MarqueeImage $image={image} />
+                </MarqueePart>
+              ))}
+            </MarqueeTrack>
           </MarqueeInner>
         </MarqueeInnerWrap>
       </Marquee>

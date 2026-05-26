@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import styled from 'styled-components';
+import { getPerformanceTier } from '../../utils/performance';
 
 const CursorLayer = styled.div`
   pointer-events: none;
@@ -57,10 +58,14 @@ export function CustomCursor() {
       return;
     }
 
+    const isLowTier = getPerformanceTier() === 'low';
     const setDotX = gsap.quickSetter(dot, 'x', 'px');
     const setDotY = gsap.quickSetter(dot, 'y', 'px');
-    const setRingX = gsap.quickTo(ring, 'x', { duration: 0.15, ease: 'power3.out' });
-    const setRingY = gsap.quickTo(ring, 'y', { duration: 0.15, ease: 'power3.out' });
+    const setRingX = gsap.quickTo(ring, 'x', { duration: isLowTier ? 0.22 : 0.15, ease: 'power3.out' });
+    const setRingY = gsap.quickTo(ring, 'y', { duration: isLowTier ? 0.22 : 0.15, ease: 'power3.out' });
+    let moveFrame = 0;
+    let lastX = 0;
+    let lastY = 0;
 
     gsap.set([dot, ring], { autoAlpha: 0 });
 
@@ -72,11 +77,30 @@ export function CustomCursor() {
       return target.closest<HTMLElement>('a, button, .hoverable, [data-cursor], [data-cursor-label]');
     };
 
+    const applyCursorPosition = (x: number, y: number) => {
+      setDotX(x - 4);
+      setDotY(y - 4);
+      setRingX(x - 18);
+      setRingY(y - 18);
+    };
+
     const moveCursor = (event: PointerEvent) => {
-      setDotX(event.clientX - 4);
-      setDotY(event.clientY - 4);
-      setRingX(event.clientX - 18);
-      setRingY(event.clientY - 18);
+      lastX = event.clientX;
+      lastY = event.clientY;
+
+      if (!isLowTier) {
+        applyCursorPosition(lastX, lastY);
+        return;
+      }
+
+      if (moveFrame) {
+        return;
+      }
+
+      moveFrame = requestAnimationFrame(() => {
+        applyCursorPosition(lastX, lastY);
+        moveFrame = 0;
+      });
     };
 
     const showCursor = () => {
@@ -129,6 +153,9 @@ export function CustomCursor() {
     document.addEventListener('pointerout', deactivateCursor);
 
     return () => {
+      if (moveFrame) {
+        cancelAnimationFrame(moveFrame);
+      }
       window.removeEventListener('pointermove', moveCursor);
       window.removeEventListener('pointerenter', showCursor);
       window.removeEventListener('pointerleave', hideCursor);
