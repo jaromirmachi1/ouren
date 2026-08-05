@@ -5,7 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:site": "vite",
+    "dev:dashboard": "npm --prefix dashboard run dev",
+    "dev:sanity": "npm --prefix sanity run dev",
     "build": "tsc -b && vite build",
+    "build:dashboard": "npm --prefix dashboard run build",
     "preview": "vite preview"
   },
   "dependencies": {

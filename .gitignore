@@ -22,5 +22,14 @@ npm-debug.log*
 # TypeScript
 *.tsbuildinfo
 
-# Vite
-.vite/
+# Next.js
+dashboard/.next/
+dashboard/out/
+
+# Sanity
+sanity/dist/
+
+
+# Sanity runtime
+sanity/.sanity/
+
