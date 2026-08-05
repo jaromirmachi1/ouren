@@ -1,5 +1,5 @@
 import { createClient } from 'next-sanity'
-import { mockCustomers, mockInquiries, mockProjects, mockUnits } from './mock-data'
+import { seedCustomers, seedInquiries, seedProjects, seedUnits } from './mock-data'
 import type { Customer, Inquiry, Project, Unit } from './types'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
@@ -72,24 +72,43 @@ const inquiriesQuery = `*[_type == "inquiry"] | order(createdAt desc) {
   "relatedProjectName": relatedProject->name
 }`
 
+async function fetchOrSeed<T>(query: string, seed: T[]): Promise<T[]> {
+  if (!sanityClient) return seed
+  try {
+    const data = await sanityClient.fetch<T[]>(query)
+    // Sanity is connected but still empty — keep serving the real local seed
+    // until content is imported into the dataset.
+    if (!data || data.length === 0) return seed
+    return data
+  } catch {
+    return seed
+  }
+}
+
 export async function getProjects(): Promise<Project[]> {
-  if (!sanityClient) return mockProjects
-  return sanityClient.fetch(projectsQuery)
+  return fetchOrSeed(projectsQuery, seedProjects)
 }
 
 export async function getUnits(): Promise<Unit[]> {
-  if (!sanityClient) return mockUnits
-  return sanityClient.fetch(unitsQuery)
+  if (!sanityClient) return seedUnits
+  try {
+    return (await sanityClient.fetch(unitsQuery)) ?? []
+  } catch {
+    return seedUnits
+  }
 }
 
 export async function getCustomers(): Promise<Customer[]> {
-  if (!sanityClient) return mockCustomers
-  return sanityClient.fetch(customersQuery)
+  return fetchOrSeed(customersQuery, seedCustomers)
 }
 
 export async function getInquiries(): Promise<Inquiry[]> {
-  if (!sanityClient) return mockInquiries
-  return sanityClient.fetch(inquiriesQuery)
+  if (!sanityClient) return seedInquiries
+  try {
+    return (await sanityClient.fetch(inquiriesQuery)) ?? []
+  } catch {
+    return seedInquiries
+  }
 }
 
 export async function getDashboardStats() {

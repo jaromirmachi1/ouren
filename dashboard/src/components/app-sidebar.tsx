@@ -9,6 +9,8 @@ import {
   Users,
   Inbox,
   ExternalLink,
+  Settings,
+  LogOut,
 } from 'lucide-react'
 import {
   Sidebar,
@@ -23,17 +25,24 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from '@/components/ui/sidebar'
+import { useLanguage } from '@/components/language-provider'
 
-const nav = [
-  { title: 'Overview', href: '/', icon: LayoutDashboard },
-  { title: 'Customers', href: '/customers', icon: Users },
-  { title: 'Projects', href: '/projects', icon: Building2 },
-  { title: 'Units', href: '/units', icon: FileText },
-  { title: 'Inquiries', href: '/inquiries', icon: Inbox },
-]
-
-export function AppSidebar() {
+export function AppSidebar({
+  signOutAction,
+}: {
+  signOutAction?: () => Promise<void>
+}) {
   const pathname = usePathname()
+  const { t } = useLanguage()
+
+  const nav = [
+    { title: t.nav.overview, href: '/', icon: LayoutDashboard },
+    { title: t.nav.customers, href: '/customers', icon: Users },
+    { title: t.nav.projects, href: '/projects', icon: Building2 },
+    { title: t.nav.units, href: '/units', icon: FileText },
+    { title: t.nav.inquiries, href: '/inquiries', icon: Inbox },
+    { title: t.nav.settings, href: '/settings', icon: Settings },
+  ]
 
   return (
     <Sidebar collapsible="icon">
@@ -42,12 +51,12 @@ export function AppSidebar() {
           <span className="grid size-8 place-items-center rounded-md bg-primary text-xs text-primary-foreground">
             O
           </span>
-          <span className="group-data-[collapsible=icon]:hidden">Ouren Portal</span>
+          <span className="group-data-[collapsible=icon]:hidden">{t.brand}</span>
         </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupLabel>{t.workspace}</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {nav.map((item) => {
@@ -73,13 +82,23 @@ export function AppSidebar() {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton
-              tooltip="Marketing site"
+              tooltip={t.marketingSite}
               render={<a href="http://localhost:5173" target="_blank" rel="noreferrer" />}
             >
               <ExternalLink />
-              <span>Marketing site</span>
+              <span>{t.marketingSite}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
+          {signOutAction ? (
+            <SidebarMenuItem>
+              <form action={signOutAction} className="w-full">
+                <SidebarMenuButton type="submit" tooltip={t.settings.signOut} className="w-full">
+                  <LogOut />
+                  <span>{t.settings.signOut}</span>
+                </SidebarMenuButton>
+              </form>
+            </SidebarMenuItem>
+          ) : null}
         </SidebarMenu>
       </SidebarFooter>
       <SidebarRail />

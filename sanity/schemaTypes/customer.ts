@@ -6,7 +6,7 @@ export const customer = defineType({
   type: 'document',
   fields: [
     defineField({name: 'name', title: 'Full name', type: 'string', validation: (r) => r.required()}),
-    defineField({name: 'email', title: 'Email', type: 'string', validation: (r) => r.required().email()}),
+    defineField({name: 'email', title: 'Email', type: 'string', validation: (r) => r.email()}),
     defineField({name: 'phone', title: 'Phone', type: 'string'}),
     defineField({
       name: 'status',

@@ -11,7 +11,9 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:3000
+Open http://localhost:3000/admin
+
+With the marketing site running, you can also use http://localhost:5173/admin (Vite proxies to the dashboard).
 
 ## Connect Sanity
 
