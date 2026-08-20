@@ -24,16 +24,24 @@ Lives at **http://localhost:5173/admin** when you run `npm run dev` from the rep
 
 Users are defined in `dashboard/.env.local` as `email:password:role` (roles: `viewer`, `re_agent`, `ceo`). Unauthenticated visits to `/admin` redirect to `/admin/login`.
 
-## Deploy on Vercel (separate project)
+## Deploy on Vercel (two projects)
 
-The marketing site and portal are **two apps**. Vercel only builds the Vite site from the repo root today — `/admin` exists only in local dev via proxy.
+| Project | Root directory | Build | Env vars |
+|---------|----------------|-------|----------|
+| **Marketing** (`ouren.vercel.app`) | repo root | `npm run build` | `VITE_PORTAL_URL` only |
+| **Portal** (`ouren-portal.vercel.app`) | `dashboard` | auto (Next.js) | `AUTH_*`, Sanity keys |
 
-1. Create a **second Vercel project** from the same GitHub repo.
-2. Set **Root Directory** to `dashboard`.
-3. Add env vars from `dashboard/.env.example` (including `AUTH_URL` pointing to your portal URL, e.g. `https://your-portal.vercel.app/admin`).
-4. Deploy — the portal will be at `https://your-portal.vercel.app/admin`.
-5. On the **marketing** Vercel project, add:
-   ```
-   VITE_PORTAL_URL=https://your-portal.vercel.app/admin
-   ```
-6. Redeploy the marketing site. The footer “Ouren Portal” link will point to the live portal.
+### Portal project
+
+1. New Vercel project → same repo → **Root Directory: `dashboard`**
+2. Add env from `dashboard/.env.example` (copy values from `.env.local`)
+3. Set `AUTH_URL=https://YOUR-PORTAL-PROJECT.vercel.app/admin`
+4. Deploy
+
+### Marketing project
+
+1. Add **`VITE_PORTAL_URL=https://YOUR-PORTAL-PROJECT.vercel.app/admin`**
+2. Remove `AUTH_*` vars from marketing (they belong on portal only)
+3. **Redeploy marketing** — Vite reads env only at build time; adding env without redeploy does nothing
+
+The footer link uses `VITE_PORTAL_URL` directly. Do **not** set it to `ouren.vercel.app/admin`.

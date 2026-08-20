@@ -112,7 +112,7 @@ export const en: Translations = {
     metaDescription: 'Ouren internal portal.',
     title: 'Portal is not on this site',
     copy:
-      'ouren.vercel.app only hosts the marketing site. The internal portal is a separate Next.js app — deploy the dashboard/ folder on Vercel, then set VITE_PORTAL_URL.',
+      'The portal is a separate app (dashboard/ folder). In Vercel, create a second project with Root Directory dashboard, deploy it, then on the marketing project set VITE_PORTAL_URL to the portal URL (e.g. https://ouren-portal.vercel.app/admin) and Redeploy.',
     redirecting: 'Redirecting to the portal…',
     backHome: 'Back to home',
   },

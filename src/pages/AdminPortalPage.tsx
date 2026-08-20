@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -22,7 +21,7 @@ const Title = styled.h1`
 `;
 
 const Copy = styled.p`
-  max-width: 36rem;
+  max-width: 38rem;
   margin: 0 auto 28px;
   color: rgba(245, 245, 240, 0.65);
   font-size: 15px;
@@ -36,24 +35,8 @@ const HomeLink = styled(Link)`
   text-transform: uppercase;
 `;
 
-const PORTAL_URL = import.meta.env.VITE_PORTAL_URL?.trim() || '';
-
 export default function AdminPortalPage() {
   const { t } = useLanguage();
-
-  useEffect(() => {
-    if (!PORTAL_URL) return;
-    window.location.replace(PORTAL_URL);
-  }, []);
-
-  if (PORTAL_URL) {
-    return (
-      <Wrap>
-        <PageMeta description={t.portal.metaDescription} title={t.portal.metaTitle} />
-        <Copy>{t.portal.redirecting}</Copy>
-      </Wrap>
-    );
-  }
 
   return (
     <Wrap>

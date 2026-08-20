@@ -112,7 +112,7 @@ export const cs: Translations = {
     metaDescription: 'Interní portál Ouren.',
     title: 'Portál zde není nasazen',
     copy:
-      'ouren.vercel.app hostuje jen marketingový web. Interní portál běží jako samostatná Next.js aplikace — nasaďte složku dashboard/ na Vercel a nastavte VITE_PORTAL_URL.',
+      'Portál je samostatná aplikace (složka dashboard/). V Vercel vytvořte druhý projekt s Root Directory dashboard, nasaďte ho, pak na marketing projektu nastavte VITE_PORTAL_URL na URL portálu (např. https://ouren-portal.vercel.app/admin) a spusťte Redeploy.',
     redirecting: 'Přesměrování do portálu…',
     backHome: 'Zpět na úvod',
   },
