@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "node scripts/dev.mjs",
     "dev:site": "vite",
     "dev:dashboard": "npm --prefix dashboard run dev",
     "dev:sanity": "npm --prefix sanity run dev",

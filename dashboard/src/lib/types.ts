@@ -1,5 +1,8 @@
 export type ProjectStatus = 'available' | 'reserved' | 'sold' | 'inProgress'
 export type CustomerStatus = 'lead' | 'qualified' | 'reservation' | 'contract' | 'closed' | 'lost'
+export type FlatLayout = 'S' | '1kk' | '2kk' | '3kk' | '4kk' | 'Multiple'
+
+export const FLAT_LAYOUTS: FlatLayout[] = ['S', '1kk', '2kk', '3kk', '4kk', 'Multiple']
 export type InquiryStatus = 'new' | 'inProgress' | 'done' | 'spam'
 export type UnitStatus = 'available' | 'reserved' | 'sold'
 
@@ -41,6 +44,7 @@ export type Customer = {
   source?: string
   notes?: string
   interestedProjects?: string[]
+  lookingForLayouts?: FlatLayout[]
   portalAccess?: boolean
 }
 

@@ -1,5 +1,6 @@
 import { createClient } from 'next-sanity'
 import { seedCustomers, seedInquiries, seedProjects, seedUnits } from './mock-data'
+import { readDeletedCustomerIds, readLocalCustomers } from './local-customers'
 import type { Customer, Inquiry, Project, Unit } from './types'
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID
@@ -55,6 +56,7 @@ const customersQuery = `*[_type == "customer"] | order(name asc) {
   source,
   notes,
   portalAccess,
+  lookingForLayouts,
   "interestedProjects": interestedProjects[]->name
 }`
 
@@ -99,7 +101,22 @@ export async function getUnits(): Promise<Unit[]> {
 }
 
 export async function getCustomers(): Promise<Customer[]> {
-  return fetchOrSeed(customersQuery, seedCustomers)
+  const [remote, local, deletedIds] = await Promise.all([
+    fetchOrSeed(customersQuery, seedCustomers),
+    readLocalCustomers(),
+    readDeletedCustomerIds(),
+  ])
+  const deleted = new Set(deletedIds)
+  const byId = new Map(
+    remote.filter((customer) => !deleted.has(customer._id)).map((customer) => [customer._id, customer]),
+  )
+  const extras: Customer[] = []
+  for (const customer of local) {
+    if (deleted.has(customer._id)) continue
+    if (byId.has(customer._id)) byId.set(customer._id, customer)
+    else extras.push(customer)
+  }
+  return [...extras, ...byId.values()]
 }
 
 export async function getInquiries(): Promise<Inquiry[]> {

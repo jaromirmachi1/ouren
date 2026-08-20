@@ -20,11 +20,11 @@ function ShellInner({
   const { t } = useLanguage()
 
   return (
-    <SidebarProvider>
+    <SidebarProvider className="h-svh overflow-hidden">
       <AdminBackground />
       <AppSidebar signOutAction={signOutAction} />
-      <SidebarInset className="bg-transparent">
-        <header className="flex h-14 shrink-0 items-center gap-3 border-b bg-white/75 px-4 backdrop-blur-md">
+      <SidebarInset className="min-h-0 overflow-y-auto bg-transparent">
+        <header className="sticky top-0 z-20 flex h-14 shrink-0 items-center gap-3 border-b bg-white/75 px-4 backdrop-blur-md">
           <SidebarTrigger />
           <Separator orientation="vertical" className="h-4" />
           <p className="hidden text-sm text-muted-foreground sm:block">{t.headerSubtitle}</p>

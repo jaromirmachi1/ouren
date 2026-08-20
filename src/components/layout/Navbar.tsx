@@ -81,13 +81,14 @@ const StyledNavLink = styled(NavLink)`
   position: relative;
   display: inline-flex;
   padding: 8px 0;
-  color: rgba(245, 245, 240, 0.78);
+  color: ${({ theme }) => theme.colors.white};
   font-size: 13px;
-  font-weight: ${({ theme }) => theme.typography.weights.light};
+  font-weight: ${({ theme }) => theme.typography.weights.regular};
   letter-spacing: ${({ theme }) => theme.typography.tracking.nav};
   line-height: 1;
   text-transform: uppercase;
-  transition: color 0.25s ease;
+  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.45);
+  transition: color 0.25s ease, opacity 0.25s ease;
   white-space: nowrap;
 
   &::after {
@@ -106,12 +107,29 @@ const StyledNavLink = styled(NavLink)`
   &:hover,
   &:focus-visible {
     color: ${({ theme }) => theme.colors.white};
+    opacity: 0.85;
   }
 
   &:hover::after,
   &:focus-visible::after {
     transform: scaleX(1);
   }
+`;
+
+const LangRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+`;
+
+const LangButton = styled.button<{ $active?: boolean }>`
+  background: transparent;
+  color: ${({ $active, theme }) => ($active ? theme.colors.white : 'rgba(245, 245, 240, 0.88)')};
+  font-size: 11px;
+  font-weight: ${({ theme }) => theme.typography.weights.regular};
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
 `;
 
 const MenuButton = styled.button`
@@ -234,7 +252,7 @@ function NavLinks({
 }
 
 export function Navbar() {
-  const { t } = useLanguage();
+  const { locale, setLocale, t } = useLanguage();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -317,6 +335,14 @@ export function Navbar() {
 
         <SideNav $align="right" aria-label="Primary navigation right">
           <NavLinks getNavLinkProps={getNavLinkProps} labels={t.nav} links={RIGHT_LINK_KEYS} />
+          <LangRow>
+            <LangButton $active={locale === 'cs'} className="hoverable" type="button" onClick={() => setLocale('cs')}>
+              CZ
+            </LangButton>
+            <LangButton $active={locale === 'en'} className="hoverable" type="button" onClick={() => setLocale('en')}>
+              EN
+            </LangButton>
+          </LangRow>
         </SideNav>
 
         <MenuButton
@@ -344,6 +370,14 @@ export function Navbar() {
               {t.nav[link.key]}
             </MobileNavLink>
           ))}
+          <LangRow>
+            <LangButton $active={locale === 'cs'} className="hoverable" type="button" onClick={() => { setLocale('cs'); closeMenu(); }}>
+              CZ
+            </LangButton>
+            <LangButton $active={locale === 'en'} className="hoverable" type="button" onClick={() => { setLocale('en'); closeMenu(); }}>
+              EN
+            </LangButton>
+          </LangRow>
         </MobileNav>
       </MobileMenu>
     </Header>

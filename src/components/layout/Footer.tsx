@@ -106,11 +106,14 @@ const Bar = styled.div`
 `;
 
 const LangToggle = styled.button<{ $active?: boolean }>`
+  position: relative;
+  z-index: 2;
   background: transparent;
   color: ${({ $active, theme }) => ($active ? theme.colors.gold : 'rgba(245, 245, 240, 0.72)')};
   font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  pointer-events: auto;
   transition: color 0.25s ease;
 `;
 
@@ -143,6 +146,9 @@ export function Footer() {
               {t.nav[item.key]}
             </FooterLink>
           ))}
+          <ExternalLink className="hoverable" href="/admin">
+            {t.footer.portal}
+          </ExternalLink>
         </Column>
         <Column>
           <Label>{t.footer.contact}</Label>

@@ -54,7 +54,7 @@ export function AppSidebar({
           <span className="group-data-[collapsible=icon]:hidden">{t.brand}</span>
         </Link>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="overflow-hidden">
         <SidebarGroup>
           <SidebarGroupLabel>{t.workspace}</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -83,7 +83,7 @@ export function AppSidebar({
           <SidebarMenuItem>
             <SidebarMenuButton
               tooltip={t.marketingSite}
-              render={<a href="http://localhost:5173" target="_blank" rel="noreferrer" />}
+              render={<a href="/" />}
             >
               <ExternalLink />
               <span>{t.marketingSite}</span>

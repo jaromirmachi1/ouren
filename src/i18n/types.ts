@@ -101,6 +101,7 @@ export type Translations = {
   footer: {
     navigation: string;
     contact: string;
+    portal: string;
     copyright: string;
   };
   blog: {

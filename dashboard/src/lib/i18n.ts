@@ -45,12 +45,44 @@ export type Translations = {
     projects: string
     portal: string
     source: string
+    layouts: string
+    layoutsHint: string
+    allLayouts: string
     enabled: string
     off: string
     allStatuses: string
     allSources: string
     noResults: string
     clearFilters: string
+    add: string
+    addTitle: string
+    addDescription: string
+    edit: string
+    editTitle: string
+    editDescription: string
+    name: string
+    email: string
+    phone: string
+    notes: string
+    save: string
+    saving: string
+    cancel: string
+    delete: string
+    deleting: string
+    deleted: string
+    confirmDelete: string
+    created: string
+    updated: string
+    noProject: string
+    sourcePlaceholder: string
+    portalAccess: string
+    errors: {
+      nameRequired: string
+      sanityWriteNotConfigured: string
+      saveFailed: string
+      emailTaken: string
+      forbidden: string
+    }
   }
   projects: {
     title: string
@@ -104,14 +136,35 @@ export type Translations = {
     account: string
     accountHint: string
     signedInAs: string
+    yourRole: string
     signOut: string
     teamAccess: string
     teamHint: string
+    rolesHint: string
+    roleColumn: string
     noUsers: string
     howToAdd: string
     step1: string
     step2: string
     step3: string
+    roleUpdated: string
+    roleReLogin: string
+    roles: {
+      viewer: string
+      re_agent: string
+      ceo: string
+    }
+    roleDescriptions: {
+      viewer: string
+      re_agent: string
+      ceo: string
+    }
+    roleErrors: {
+      forbidden: string
+      invalidRole: string
+      unknownUser: string
+      saveFailed: string
+    }
   }
   status: {
     project: {
@@ -187,12 +240,44 @@ export const cs: Translations = {
     projects: 'Projekty',
     portal: 'Portál',
     source: 'Zdroj',
+    layouts: 'Dispozice',
+    layoutsHint: 'Můžete vybrat víc možností.',
+    allLayouts: 'Všechny dispozice',
     enabled: 'Zapnuto',
     off: 'Vypnuto',
     allStatuses: 'Všechny stavy',
     allSources: 'Všechny zdroje',
     noResults: 'Žádní klienti neodpovídají filtrům.',
     clearFilters: 'Zrušit filtry',
+    add: 'Přidat klienta',
+    addTitle: 'Nový klient',
+    addDescription: 'Vyplňte údaje a uložte. Klient se hned objeví v seznamu.',
+    edit: 'Upravit',
+    editTitle: 'Upravit klienta',
+    editDescription: 'Změny se uloží a hned se projeví v seznamu.',
+    name: 'Jméno',
+    email: 'E-mail',
+    phone: 'Telefon',
+    notes: 'Poznámky',
+    save: 'Uložit',
+    saving: 'Ukládám…',
+    cancel: 'Zrušit',
+    delete: 'Smazat',
+    deleting: 'Mažu…',
+    deleted: 'Klient byl smazán.',
+    confirmDelete: 'Opravdu smazat tohoto klienta?',
+    created: 'Klient byl přidán.',
+    updated: 'Klient byl uložen.',
+    noProject: 'Bez projektu',
+    sourcePlaceholder: 'např. doporučení, web',
+    portalAccess: 'Přístup do portálu',
+    errors: {
+      nameRequired: 'Vyplňte jméno klienta.',
+      sanityWriteNotConfigured: 'Chybí SANITY_API_TOKEN v dashboard/.env.local.',
+      saveFailed: 'Uložení se nepovedlo. Zkuste to znovu.',
+      emailTaken: 'Tento e-mail už má klient {name}.',
+      forbidden: 'Nemáte oprávnění tuto akci provést.',
+    },
   },
   projects: {
     title: 'Projekty',
@@ -242,18 +327,39 @@ export const cs: Translations = {
   },
   settings: {
     title: 'Nastavení',
-    subtitle: 'Účet a přístup kolegů do portálu.',
+    subtitle: 'Účet, role a přístup kolegů do portálu.',
     account: 'Účet',
     accountHint: 'Aktuálně přihlášený uživatel.',
     signedInAs: 'Přihlášen jako',
+    yourRole: 'Vaše role',
     signOut: 'Odhlásit se',
     teamAccess: 'Přístup týmu',
     teamHint: 'Účty s přístupem do /admin. Hesla se v UI neukazují.',
+    rolesHint: 'Role určují, co může uživatel v portálu měnit. Změna role se projeví po opětovném přihlášení.',
+    roleColumn: 'Role',
     noUsers: 'Žádní uživatelé v AUTH_USERS.',
     howToAdd: 'Jak přidat kolegu',
     step1: 'Otevřete dashboard/.env.local',
-    step2: 'AUTH_USERS=vas@email.cz:heslo,kolega@email.cz:heslo',
+    step2: 'AUTH_USERS=vas@email.cz:heslo:ceo,kolega@email.cz:heslo:re_agent',
     step3: 'Restartujte dashboard (npm run dev) a pošlete kolegovi jeho e-mail + heslo.',
+    roleUpdated: 'Role byla uložena.',
+    roleReLogin: 'Uživatel se musí znovu přihlásit, aby se role projevila.',
+    roles: {
+      viewer: 'Viewer',
+      re_agent: 'RE agent',
+      ceo: 'CEO',
+    },
+    roleDescriptions: {
+      viewer: 'Pouze prohlížení — žádné úpravy.',
+      re_agent: 'Správa klientů, projektů a zpráv.',
+      ceo: 'Plný přístup včetně nastavení rolí.',
+    },
+    roleErrors: {
+      forbidden: 'Nemáte oprávnění měnit role.',
+      invalidRole: 'Neplatná role.',
+      unknownUser: 'Uživatel není v AUTH_USERS.',
+      saveFailed: 'Role se nepodařilo uložit.',
+    },
   },
   status: {
     project: {
@@ -329,12 +435,44 @@ export const en: Translations = {
     projects: 'Projects',
     portal: 'Portal',
     source: 'Source',
+    layouts: 'Layout',
+    layoutsHint: 'You can select more than one.',
+    allLayouts: 'All layouts',
     enabled: 'Enabled',
     off: 'Off',
     allStatuses: 'All statuses',
     allSources: 'All sources',
     noResults: 'No customers match these filters.',
     clearFilters: 'Clear filters',
+    add: 'Add customer',
+    addTitle: 'New customer',
+    addDescription: 'Fill in the details and save. The customer appears in the list immediately.',
+    edit: 'Edit',
+    editTitle: 'Edit customer',
+    editDescription: 'Changes are saved and shown in the list immediately.',
+    name: 'Name',
+    email: 'Email',
+    phone: 'Phone',
+    notes: 'Notes',
+    save: 'Save',
+    saving: 'Saving…',
+    cancel: 'Cancel',
+    delete: 'Delete',
+    deleting: 'Deleting…',
+    deleted: 'Customer deleted.',
+    confirmDelete: 'Delete this customer?',
+    created: 'Customer added.',
+    updated: 'Customer updated.',
+    noProject: 'No project',
+    sourcePlaceholder: 'e.g. referral, website',
+    portalAccess: 'Portal access',
+    errors: {
+      nameRequired: 'Please enter the customer name.',
+      sanityWriteNotConfigured: 'SANITY_API_TOKEN is missing in dashboard/.env.local.',
+      saveFailed: 'Could not save. Please try again.',
+      emailTaken: 'This email already belongs to {name}.',
+      forbidden: 'You do not have permission to perform this action.',
+    },
   },
   projects: {
     title: 'Projects',
@@ -384,18 +522,39 @@ export const en: Translations = {
   },
   settings: {
     title: 'Settings',
-    subtitle: 'Account and colleague access to the portal.',
+    subtitle: 'Account, roles, and colleague access to the portal.',
     account: 'Account',
     accountHint: 'Currently signed-in user.',
     signedInAs: 'Signed in as',
+    yourRole: 'Your role',
     signOut: 'Sign out',
     teamAccess: 'Team access',
     teamHint: 'Accounts that can open /admin. Passwords are never shown here.',
+    rolesHint: 'Roles control what each user can change in the portal. Role changes apply after the user signs in again.',
+    roleColumn: 'Role',
     noUsers: 'No users configured in AUTH_USERS.',
     howToAdd: 'How to add a colleague',
     step1: 'Open dashboard/.env.local',
-    step2: 'AUTH_USERS=you@email.com:password,colleague@email.com:password',
+    step2: 'AUTH_USERS=you@email.com:password:ceo,colleague@email.com:password:re_agent',
     step3: 'Restart the dashboard (npm run dev) and share their email + password.',
+    roleUpdated: 'Role saved.',
+    roleReLogin: 'The user must sign in again for the role to take effect.',
+    roles: {
+      viewer: 'Viewer',
+      re_agent: 'RE agent',
+      ceo: 'CEO',
+    },
+    roleDescriptions: {
+      viewer: 'Read-only — no changes allowed.',
+      re_agent: 'Manage clients, projects, and messages.',
+      ceo: 'Full access including role management.',
+    },
+    roleErrors: {
+      forbidden: 'You do not have permission to change roles.',
+      invalidRole: 'Invalid role.',
+      unknownUser: 'User is not in AUTH_USERS.',
+      saveFailed: 'Could not save the role.',
+    },
   },
   status: {
     project: {

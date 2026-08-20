@@ -1,33 +1,25 @@
 # Ouren Portal (internal dashboard)
 
-Next.js + shadcn/ui workspace for customers, units, projects, and inquiries.
-Backed by Sanity CMS (falls back to mock data until project ID is set).
-
-## Run
-
-```bash
-cd dashboard
-npm install
-npm run dev
-```
-
-Open http://localhost:3000/admin
-
-With the marketing site running, you can also use http://localhost:5173/admin (Vite proxies to the dashboard).
+Lives at **http://localhost:5173/admin** when you run `npm run dev` from the repo root.
 
 ## Connect Sanity
 
 1. Create a project at https://www.sanity.io/manage
 2. Copy Project ID into `.env.local` (see `.env.example`)
-3. Run the studio (`cd ../sanity && npm run dev`) and add content
-4. Restart the dashboard — header badge switches from **Mock data** to **Sanity live**
+3. Restart `npm run dev`
 
 ## Pages
 
 | Route | Purpose |
 |-------|---------|
-| `/` | Overview KPIs + recent activity |
-| `/customers` | Leads & clients, portal access |
-| `/projects` | Developments |
-| `/units` | Unit inventory + assignments |
-| `/inquiries` | Website form inbox |
+| `/admin/login` | Sign in |
+| `/admin` | Overview |
+| `/admin/customers` | Clients |
+| `/admin/projects` | Developments |
+| `/admin/units` | Units |
+| `/admin/inquiries` | Form inbox |
+| `/admin/settings` | Team access & roles |
+
+## Auth
+
+Users are defined in `dashboard/.env.local` as `email:password:role` (roles: `viewer`, `re_agent`, `ceo`). Unauthenticated visits to `/admin` redirect to `/admin/login`.

@@ -128,7 +128,7 @@
     @apply min-h-full bg-background text-foreground antialiased;
   }
   [data-slot="card"],
-  [data-slot="sidebar"] {
+  [data-slot="sidebar-inner"] {
     backdrop-filter: blur(16px);
   }
 }

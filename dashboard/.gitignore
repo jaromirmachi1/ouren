@@ -33,6 +33,9 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# locally added customers (when Sanity write token is missing)
+.data/
+
 # vercel
 .vercel
 

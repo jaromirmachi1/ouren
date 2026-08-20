@@ -104,6 +104,7 @@ export const cs: Translations = {
   footer: {
     navigation: 'Navigace',
     contact: 'Kontakt',
+    portal: 'Ouren Portál',
     copyright: '© 2025 Ouren Real Estate',
   },
   blog: {
