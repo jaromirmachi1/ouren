@@ -1,8 +1,34 @@
+import type { IncomingMessage } from 'node:http';
+import type { ClientRequest } from 'node:http';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
 const ADMIN_ORIGIN = 'http://127.0.0.1:3000';
 const PUBLIC_ORIGIN = 'http://localhost:5173';
+
+// Vite's proxy typings omit http-proxy event methods used in dev only.
+type DevProxy = {
+  on(event: 'proxyReq', listener: (proxyReq: ClientRequest, req: IncomingMessage) => void): void;
+  on(event: 'proxyRes', listener: (proxyRes: IncomingMessage) => void): void;
+};
+
+function rewriteRedirectLocation(location: string) {
+  let next = location
+    .replaceAll(ADMIN_ORIGIN, PUBLIC_ORIGIN)
+    .replaceAll('http://localhost:3000', PUBLIC_ORIGIN)
+    .replaceAll('http://127.0.0.1:3000', PUBLIC_ORIGIN);
+
+  const originPrefix = `${PUBLIC_ORIGIN}`;
+  const path = next.startsWith(originPrefix) ? next.slice(originPrefix.length) : next;
+
+  if (path === '/login' || path.startsWith('/login/')) {
+    next = `${originPrefix}/admin${path}`;
+  } else if (path.startsWith('/api/auth')) {
+    next = `${originPrefix}/admin${path}`;
+  }
+
+  return next;
+}
 
 export default defineConfig({
   plugins: [react()],
@@ -15,34 +41,18 @@ export default defineConfig({
         changeOrigin: true,
         ws: true,
         configure(proxy) {
-          proxy.on('proxyReq', (proxyReq, req) => {
+          const devProxy = proxy as unknown as DevProxy;
+
+          devProxy.on('proxyReq', (proxyReq, req) => {
             proxyReq.setHeader('x-forwarded-host', req.headers.host ?? 'localhost:5173');
             proxyReq.setHeader('x-forwarded-proto', 'http');
             proxyReq.setHeader('x-forwarded-port', '5173');
           });
-          proxy.on('proxyRes', (proxyRes) => {
+
+          devProxy.on('proxyRes', (proxyRes) => {
             const location = proxyRes.headers.location;
             if (typeof location === 'string') {
-              let next = location
-                .replaceAll(ADMIN_ORIGIN, PUBLIC_ORIGIN)
-                .replaceAll('http://localhost:3000', PUBLIC_ORIGIN)
-                .replaceAll('http://127.0.0.1:3000', PUBLIC_ORIGIN);
-
-              // Auth redirects sometimes omit Next basePath (/admin)
-              try {
-                const url = new URL(next, PUBLIC_ORIGIN);
-                if (url.pathname === '/login' || url.pathname.startsWith('/login/')) {
-                  url.pathname = `/admin${url.pathname}`;
-                  next = url.toString();
-                } else if (url.pathname.startsWith('/api/auth')) {
-                  url.pathname = `/admin${url.pathname}`;
-                  next = url.toString();
-                }
-              } catch {
-                // keep rewritten location
-              }
-
-              proxyRes.headers.location = next;
+              proxyRes.headers.location = rewriteRedirectLocation(location);
             }
           });
         },

@@ -26,6 +26,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@types/node": "^20",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@types/three": "^0.184.1",
