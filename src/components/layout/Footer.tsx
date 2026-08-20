@@ -130,6 +130,9 @@ const FOOTER_NAV: { key: NavKey; to: string }[] = [
   { key: 'journal', to: '/blog' },
 ];
 
+/** Local dev uses Vite proxy (/admin). Production needs VITE_PORTAL_URL on Vercel. */
+const PORTAL_URL = import.meta.env.VITE_PORTAL_URL || (import.meta.env.DEV ? '/admin' : '');
+
 export function Footer() {
   const { locale, setLocale, t } = useLanguage();
 
@@ -146,9 +149,11 @@ export function Footer() {
               {t.nav[item.key]}
             </FooterLink>
           ))}
-          <ExternalLink className="hoverable" href="/admin">
-            {t.footer.portal}
-          </ExternalLink>
+          {PORTAL_URL ? (
+            <ExternalLink className="hoverable" href={PORTAL_URL}>
+              {t.footer.portal}
+            </ExternalLink>
+          ) : null}
         </Column>
         <Column>
           <Label>{t.footer.contact}</Label>
