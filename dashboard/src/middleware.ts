@@ -13,7 +13,18 @@ function stripBasePath(pathname: string) {
 }
 
 export default auth((req) => {
-  const path = stripBasePath(req.nextUrl.pathname)
+  const pathname = req.nextUrl.pathname
+
+  if (pathname.startsWith('/admin/api/auth')) {
+    return NextResponse.next()
+  }
+
+  const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/')
+  if (!isAdmin) {
+    return NextResponse.rewrite(new URL('/site/index.html', req.url))
+  }
+
+  const path = stripBasePath(pathname)
   const isLogin = path === '/login' || path.startsWith('/login/')
   const isAuthed = Boolean(req.auth?.user)
 
@@ -34,6 +45,6 @@ export default auth((req) => {
 export const config = {
   matcher: [
     '/',
-    '/((?!_next/static|_next/image|favicon.ico|api/auth).*)',
+    '/((?!_next/static|_next/image|favicon.ico|site/).*)',
   ],
 }

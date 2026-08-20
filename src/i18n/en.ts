@@ -107,15 +107,6 @@ export const en: Translations = {
     portal: 'Ouren Portal',
     copyright: '© 2025 Ouren Real Estate',
   },
-  portal: {
-    metaTitle: 'Ouren Portal',
-    metaDescription: 'Ouren internal portal.',
-    title: 'Portal is not on this site',
-    copy:
-      'The portal is a separate app (dashboard/ folder). In Vercel, create a second project with Root Directory dashboard, deploy it, then on the marketing project set VITE_PORTAL_URL to the portal URL (e.g. https://ouren-portal.vercel.app/admin) and Redeploy.',
-    redirecting: 'Redirecting to the portal…',
-    backHome: 'Back to home',
-  },
   blog: {
     eyebrow: 'Journal',
     title: 'Insights on place, design, and value.',

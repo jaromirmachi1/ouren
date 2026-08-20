@@ -130,8 +130,7 @@ const FOOTER_NAV: { key: NavKey; to: string }[] = [
   { key: 'journal', to: '/blog' },
 ];
 
-/** Production: set VITE_PORTAL_URL on Vercel and redeploy. Dev: Vite proxy. */
-const PORTAL_URL = import.meta.env.VITE_PORTAL_URL?.trim() || '/admin';
+const PORTAL_URL = '/admin';
 
 export function Footer() {
   const { locale, setLocale, t } = useLanguage();

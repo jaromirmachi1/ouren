@@ -104,14 +104,6 @@ export type Translations = {
     portal: string;
     copyright: string;
   };
-  portal: {
-    metaTitle: string;
-    metaDescription: string;
-    title: string;
-    copy: string;
-    redirecting: string;
-    backHome: string;
-  };
   blog: {
     eyebrow: string;
     title: string;

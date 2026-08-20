@@ -36,6 +36,9 @@ yarn-error.log*
 # locally added customers (when Sanity write token is missing)
 .data/
 
+# marketing site built into public/ on Vercel
+/public/site/
+
 # vercel
 .vercel
 
