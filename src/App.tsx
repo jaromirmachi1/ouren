@@ -11,6 +11,7 @@ import { useLanguage } from "./i18n/LanguageContext";
 const HomePage = lazy(() => import("./pages/HomePage"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
 const BlogPostPage = lazy(() => import("./pages/BlogPostPage"));
+const AdminPortalPage = lazy(() => import("./pages/AdminPortalPage"));
 
 const Loader = styled.div`
   display: grid;
@@ -55,6 +56,7 @@ function App() {
               <Route element={<HomePage />} path="/" />
               <Route element={<BlogPage />} path="/blog" />
               <Route element={<BlogPostPage />} path="/blog/:slug" />
+              <Route element={<AdminPortalPage />} path="/admin/*" />
             </Routes>
           </Suspense>
             </PageTransition>

@@ -107,6 +107,15 @@ export const en: Translations = {
     portal: 'Ouren Portal',
     copyright: '© 2025 Ouren Real Estate',
   },
+  portal: {
+    metaTitle: 'Ouren Portal',
+    metaDescription: 'Ouren internal portal.',
+    title: 'Portal is not on this site',
+    copy:
+      'ouren.vercel.app only hosts the marketing site. The internal portal is a separate Next.js app — deploy the dashboard/ folder on Vercel, then set VITE_PORTAL_URL.',
+    redirecting: 'Redirecting to the portal…',
+    backHome: 'Back to home',
+  },
   blog: {
     eyebrow: 'Journal',
     title: 'Insights on place, design, and value.',

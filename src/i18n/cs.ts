@@ -107,6 +107,15 @@ export const cs: Translations = {
     portal: 'Ouren Portál',
     copyright: '© 2025 Ouren Real Estate',
   },
+  portal: {
+    metaTitle: 'Ouren Portál',
+    metaDescription: 'Interní portál Ouren.',
+    title: 'Portál zde není nasazen',
+    copy:
+      'ouren.vercel.app hostuje jen marketingový web. Interní portál běží jako samostatná Next.js aplikace — nasaďte složku dashboard/ na Vercel a nastavte VITE_PORTAL_URL.',
+    redirecting: 'Přesměrování do portálu…',
+    backHome: 'Zpět na úvod',
+  },
   blog: {
     eyebrow: 'Journal',
     title: 'Pohledy na místo, design a hodnotu.',
