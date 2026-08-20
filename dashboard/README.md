@@ -19,10 +19,15 @@ Both the marketing site and portal deploy together from the **`dashboard/`** fol
 
 | Setting | Value |
 |---------|--------|
-| Root Directory | **`dashboard`** |
-| Framework | Next.js (auto) |
+| Root Directory | **`dashboard`** (recommended) |
+| Framework Preset | **Next.js** |
+| Output Directory | **leave empty** — remove any `dist` override |
 
-Install and build commands come from `dashboard/vercel.json`.
+If Root Directory is `dashboard`, Vercel uses `dashboard/vercel.json`.
+
+If Root Directory is empty (repo root), the root `vercel.json` builds the dashboard instead.
+
+**Important:** If you see `No Output Directory named "dist" found`, your project is still configured as a Vite app. Set Framework to **Next.js** and clear the Output Directory field (`dist`).
 
 ### Environment variables (on this project)
 

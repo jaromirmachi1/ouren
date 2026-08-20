@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react';
 
 const ADMIN_ORIGIN = 'http://127.0.0.1:3000';
 const PUBLIC_ORIGIN = 'http://localhost:5173';
-/** Unified Vercel deploy: marketing site is copied into dashboard/public/site */
-const unifiedDeploy = Boolean(process.env.VERCEL);
+/** Unified deploy: marketing site is built into dashboard/public/site */
+const unifiedDeploy = process.env.OUREN_UNIFIED_DEPLOY === '1';
 
 // Vite's proxy typings omit http-proxy event methods used in dev only.
 type DevProxy = {
