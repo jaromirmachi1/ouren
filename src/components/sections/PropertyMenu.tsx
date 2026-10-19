@@ -1,8 +1,11 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import flatsImage from '../../assets/images/IMG_3434.jpg';
+import { loadActiveProjects, loadSoldProjects } from '../../data/projects-source';
 import { useLanguage } from '../../i18n/LanguageContext';
 import type { PropertyTypeKey } from '../../i18n/types';
+import type { Project } from '../../types';
 import { FlowingMenu, type FlowingMenuItem } from '../ui/FlowingMenu';
 import { theme } from '../../styles/theme';
 
@@ -35,27 +38,64 @@ const Title = styled.p`
   text-transform: uppercase;
 `;
 
-const PROPERTY_IMAGES: Record<PropertyTypeKey, string> = {
-  flats: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=800&q=80',
-  houses: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80',
-  commercial: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80',
-  others: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80',
+/** Owned category stills — drop more files here as you shoot them. */
+const OWNED_CATEGORY_IMAGES: Partial<Record<PropertyTypeKey, string>> = {
+  flats: flatsImage,
 };
 
 const PROPERTY_KEYS: PropertyTypeKey[] = ['flats', 'houses', 'commercial', 'others'];
 
+const KEY_TO_PROJECT_TYPE: Record<PropertyTypeKey, Project['type'] | null> = {
+  flats: 'apartment',
+  houses: 'house',
+  commercial: 'commercial',
+  others: null,
+};
+
+function isStockPhoto(url: string) {
+  return url.includes('images.unsplash.com');
+}
+
+function projectPhotos(project: Project) {
+  return [project.image, ...(project.gallery ?? [])].filter(Boolean);
+}
+
+function pickCategoryImage(key: PropertyTypeKey, projects: Project[]) {
+  const owned = OWNED_CATEGORY_IMAGES[key];
+  if (owned) return owned;
+
+  const type = KEY_TO_PROJECT_TYPE[key];
+  const pool = type ? projects.filter((project) => project.type === type) : projects;
+  const ownedPhoto = pool.flatMap(projectPhotos).find((url) => !isStockPhoto(url));
+  if (ownedPhoto) return ownedPhoto;
+
+  const anyPhoto = pool.flatMap(projectPhotos)[0];
+  return anyPhoto || flatsImage;
+}
+
 export function PropertyMenu() {
   const navigate = useNavigate();
   const { t } = useLanguage();
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    Promise.all([loadActiveProjects(), loadSoldProjects()]).then(([active, sold]) => {
+      if (!cancelled) setProjects([...active, ...sold]);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   const items = useMemo<FlowingMenuItem[]>(
     () =>
       PROPERTY_KEYS.map((key) => ({
         link: '/projekty',
         text: t.propertyMenu.types[key],
-        image: PROPERTY_IMAGES[key],
+        image: pickCategoryImage(key, projects),
       })),
-    [t],
+    [projects, t],
   );
 
   const handleItemClick = () => {
