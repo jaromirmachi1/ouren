@@ -23,6 +23,11 @@ export default auth((req) => {
     return NextResponse.next()
   }
 
+  // Proxied to Sanity via next.config rewrites — never SPA-fallback.
+  if (pathname.startsWith('/sanity-api')) {
+    return NextResponse.next()
+  }
+
   const isAdmin = pathname === ADMIN_BASE || pathname.startsWith(`${ADMIN_BASE}/`)
   if (!isAdmin) {
     // /ouren-logo.png → /site/ouren-logo.png (do not SPA-fallback assets)

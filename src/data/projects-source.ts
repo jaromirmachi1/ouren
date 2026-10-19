@@ -122,10 +122,9 @@ export function mapSanityProject(doc: SanityProject): MappedProject {
 
 function projectsQueryUrl() {
   const path = `/v${apiVersion}/data/query/${dataset}`;
-  if (import.meta.env.DEV) {
-    return new URL(`/sanity-api${path}`, window.location.origin);
-  }
-  return new URL(`https://${projectId}.api.sanity.io${path}`);
+  // Always same-origin: Vite proxies /sanity-api in dev; Next rewrites it on Vercel.
+  // Direct api.sanity.io calls fail CORS for ouren.vercel.app / custom domains.
+  return new URL(`/sanity-api${path}`, window.location.origin);
 }
 
 export async function querySanity<T>(query: string): Promise<T[] | null> {
