@@ -43,6 +43,12 @@ export default defineConfig({
     port: 5173,
     strictPort: true,
     proxy: {
+      // Avoid browser CORS against Sanity during local development.
+      '/sanity-api': {
+        target: 'https://xditqcf8.api.sanity.io',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/sanity-api/, ''),
+      },
       '/admin': {
         target: ADMIN_ORIGIN,
         changeOrigin: true,

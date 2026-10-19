@@ -32,6 +32,7 @@ const unitClass: Record<UnitStatus, string> = {
   available: 'bg-emerald-500/15 text-emerald-700 border-emerald-500/30',
   reserved: 'bg-amber-500/15 text-amber-700 border-amber-500/30',
   sold: 'bg-slate-500/15 text-slate-600 border-slate-500/30',
+  rented: 'bg-indigo-500/15 text-indigo-700 border-indigo-500/30',
 }
 
 export function ProjectStatusBadge({ status }: { status: ProjectStatus }) {

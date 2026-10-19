@@ -3,7 +3,7 @@ import { useLanguage } from '../../i18n/LanguageContext';
 
 const Section = styled.section`
   padding: clamp(56px, 8vw, 96px) ${({ theme }) => theme.spacing.pageX};
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid ${({ theme }) => theme.colors.border};
 `;
 
 const Grid = styled.div`
@@ -16,20 +16,13 @@ const Grid = styled.div`
   }
 `;
 
-const Eyebrow = styled.p`
-  color: ${({ theme }) => theme.colors.gold};
-  font-size: ${({ theme }) => theme.typography.scale.label};
-  letter-spacing: ${({ theme }) => theme.typography.tracking.label};
-  text-transform: uppercase;
-`;
-
 const Headline = styled.h2`
-  margin-top: 12px;
   font-size: clamp(32px, 4vw, 52px);
   font-weight: ${({ theme }) => theme.typography.weights.light};
 `;
 
 const Copy = styled.p`
+  margin-top: 16px;
   color: rgba(245, 245, 240, 0.7);
   font-size: ${({ theme }) => theme.typography.scale.body};
   line-height: ${({ theme }) => theme.typography.leading.body};
@@ -45,6 +38,11 @@ const Link = styled.a`
   font-size: clamp(20px, 2.4vw, 28px);
   font-weight: ${({ theme }) => theme.typography.weights.light};
   letter-spacing: ${({ theme }) => theme.typography.tracking.tight};
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.ice};
+    outline-offset: 3px;
+  }
 `;
 
 export function Contact() {
@@ -54,7 +52,6 @@ export function Contact() {
     <Section id="contact">
       <Grid>
         <div>
-          <Eyebrow>{t.contact.eyebrow}</Eyebrow>
           <Headline>{t.contact.headline}</Headline>
           <Copy>{t.contact.copy}</Copy>
         </div>

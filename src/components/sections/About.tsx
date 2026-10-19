@@ -2,9 +2,10 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
+import panoramaZabinyImage from '../../assets/images/IMG_3434.jpg';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { scrollTriggerDefaults } from '../../styles/animations';
-import { SplitText } from '../ui/SplitText';
+import { shouldUseLightMotion } from '../../utils/performance';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,19 +34,11 @@ const Image = styled.img`
   height: 100%;
   min-height: inherit;
   object-fit: cover;
-  clip-path: inset(0 100% 0 0);
 `;
 
 const Content = styled.div`
   display: grid;
   gap: 24px;
-`;
-
-const Eyebrow = styled.p`
-  color: ${({ theme }) => theme.colors.gold};
-  font-size: ${({ theme }) => theme.typography.scale.label};
-  letter-spacing: ${({ theme }) => theme.typography.tracking.label};
-  text-transform: uppercase;
 `;
 
 const Headline = styled.h2`
@@ -73,7 +66,7 @@ const Stat = styled.div`
 `;
 
 const StatValue = styled.p`
-  color: ${({ theme }) => theme.colors.gold};
+  color: ${({ theme }) => theme.colors.ice};
   font-size: clamp(36px, 5vw, 64px);
   font-weight: ${({ theme }) => theme.typography.weights.extraLight};
   line-height: 0.95;
@@ -94,51 +87,31 @@ export function About() {
   useEffect(() => {
     const section = sectionRef.current;
     const image = imageRef.current;
+    if (!section || !image || !shouldUseLightMotion()) return;
 
-    if (!section || !image) {
-      return;
-    }
-
-    gsap.to(image, {
-      clipPath: 'inset(0 0% 0 0)',
-      duration: 1,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: image,
-        ...scrollTriggerDefaults,
+    gsap.fromTo(
+      image,
+      { clipPath: 'inset(0 100% 0 0)' },
+      {
+        clipPath: 'inset(0 0% 0 0)',
+        duration: 0.9,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: image,
+          ...scrollTriggerDefaults,
+        },
       },
-    });
-
-    gsap.to(image, {
-      yPercent: -12,
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top bottom',
-        end: 'bottom top',
-        scrub: true,
-      },
-    });
+    );
   }, []);
 
   return (
     <Section id="about" ref={sectionRef}>
       <Grid>
         <ImageWrap>
-          <Image
-            alt={t.about.imageAlt}
-            loading="lazy"
-            ref={imageRef}
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80"
-          />
+          <Image alt={t.about.imageAlt} decoding="async" loading="lazy" ref={imageRef} src={panoramaZabinyImage} />
         </ImageWrap>
         <Content>
-          <Eyebrow>{t.about.eyebrow}</Eyebrow>
-          <Headline>
-            <SplitText as="span" splitBy="words" triggerOnScroll>
-              {t.about.headline}
-            </SplitText>
-          </Headline>
+          <Headline>{t.about.headline}</Headline>
           <Body>{t.about.body1}</Body>
           <Body>{t.about.body2}</Body>
           <Stats>

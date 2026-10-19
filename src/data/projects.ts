@@ -1,5 +1,6 @@
 import type { Project } from '../types';
 import panoramaZabinyImage from '../assets/images/IMG_3434.jpg';
+import { buildInventory } from './inventory';
 
 export const activeProjects: Project[] = [
   {
@@ -14,6 +15,11 @@ export const activeProjects: Project[] = [
     year: 2026,
     slug: 'panorama-zabiny',
     websiteUrl: 'https://panoramazabiny.cz',
+    description: {
+      cs: 'Současná rezidenční adresa nad Brnem s výhledy, klidem a jasnými dispozicemi. Byty od 1+kk po 4+kk s terasami a efektivními půdorysy.',
+      en: 'A contemporary residential address above Brno with views, calm, and clear floor plans. Apartments from 1+kk to 4+kk with terraces and efficient layouts.',
+    },
+    inventory: buildInventory('panorama-zabiny', 24, 5_200_000),
   },
   {
     id: '2',
@@ -26,6 +32,11 @@ export const activeProjects: Project[] = [
     image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
     year: 2025,
     slug: 'riverline-lofts',
+    description: {
+      cs: 'Loftové bydlení u řeky — vysoké stropy, velké prosklení a industriální materiálová paleta v Štýřicích.',
+      en: 'Loft living by the river — high ceilings, generous glazing, and an industrial material palette in Štýřice.',
+    },
+    inventory: buildInventory('riverline-lofts', 12, 7_800_000),
   },
   {
     id: '3',
@@ -38,6 +49,22 @@ export const activeProjects: Project[] = [
     image: 'https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=1200&q=80',
     year: 2025,
     slug: 'vltava-house',
+    description: {
+      cs: 'Samostatný dům s výhledem na údolí — soukromí, zahrada a architektura navázaná na krajinu.',
+      en: 'A detached house overlooking the valley — privacy, garden, and architecture tied to the landscape.',
+    },
+    inventory: [
+      {
+        id: 'vltava-house-1',
+        number: 'H1',
+        floor: 0,
+        layout: '5+kk',
+        area: 186,
+        price: 21_900_000,
+        status: 'available',
+        terrace: 42,
+      },
+    ],
   },
   {
     id: '4',
@@ -50,6 +77,15 @@ export const activeProjects: Project[] = [
     image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
     year: 2026,
     slug: 'axis-offices',
+    description: {
+      cs: 'Flexibilní kancelářské plochy s denním světlem, lobby a parkováním v rostoucí části Ostravy.',
+      en: 'Flexible office floors with daylight, lobby, and parking in a rising Ostrava corridor.',
+    },
+    inventory: buildInventory('axis-offices', 6, 18_000_000).map((unit, index) => ({
+      ...unit,
+      layout: `Office ${index + 1}`,
+      area: 120 + index * 40,
+    })),
   },
   {
     id: '5',
@@ -62,6 +98,11 @@ export const activeProjects: Project[] = [
     image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80',
     year: 2025,
     slug: 'lumen-court',
+    description: {
+      cs: 'Komorní dům ve Vinohradech — pečlivě navržené byty s důrazem na světlo a materiál.',
+      en: 'An intimate Vinohrady house — carefully planned apartments focused on light and material.',
+    },
+    inventory: buildInventory('lumen-court', 9, 12_400_000),
   },
   {
     id: '6',
@@ -74,6 +115,16 @@ export const activeProjects: Project[] = [
     image: 'https://images.unsplash.com/photo-1605276374104-dee2a0ed3cd6?auto=format&fit=crop&w=1200&q=80',
     year: 2026,
     slug: 'harbor-point',
+    description: {
+      cs: 'Tři vilové objekty v Karlových Varech — klidná lokalita, velké zahrady a soukromí.',
+      en: 'Three villa residences in Karlovy Vary — calm setting, large gardens, and privacy.',
+    },
+    inventory: buildInventory('harbor-point', 3, 28_000_000).map((unit, index) => ({
+      ...unit,
+      number: `V${index + 1}`,
+      layout: '4+kk',
+      area: 160 + index * 20,
+    })),
   },
   {
     id: '7',
@@ -86,6 +137,15 @@ export const activeProjects: Project[] = [
     image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80',
     year: 2025,
     slug: 'northline',
+    description: {
+      cs: 'Moderní komerční plochy s dobrou dostupností a jasnou provozní logikou.',
+      en: 'Modern commercial floors with strong access and clear operational logic.',
+    },
+    inventory: buildInventory('northline', 4, 14_500_000).map((unit, index) => ({
+      ...unit,
+      layout: `Suite ${index + 1}`,
+      area: 95 + index * 35,
+    })),
   },
 ];
 
@@ -163,3 +223,11 @@ export const soldProjects: Project[] = [
     slug: 'parkline',
   },
 ];
+
+export function getProjectBySlug(slug: string) {
+  return [...activeProjects, ...soldProjects].find((project) => project.slug === slug);
+}
+
+export function getActiveProjectBySlug(slug: string) {
+  return activeProjects.find((project) => project.slug === slug);
+}

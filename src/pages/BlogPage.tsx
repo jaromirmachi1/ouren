@@ -29,7 +29,7 @@ const Hero = styled.section`
 `;
 
 const Eyebrow = styled.p`
-  color: ${({ theme }) => theme.colors.gold};
+  color: ${({ theme }) => theme.colors.ice};
   font-size: ${({ theme }) => theme.typography.scale.label};
   letter-spacing: ${({ theme }) => theme.typography.tracking.label};
   text-transform: uppercase;
@@ -79,7 +79,7 @@ const Featured = styled.div`
 `;
 
 export default function BlogPage() {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const gridRef = useRef<HTMLDivElement>(null);
   const [featured, ...rest] = blogPosts;
 
@@ -116,7 +116,12 @@ export default function BlogPage() {
 
   return (
     <Page>
-      <PageMeta description={t.meta.blogDescription} title={t.meta.blogTitle} />
+      <PageMeta
+        description={t.meta.blogDescription}
+        lang={locale}
+        path="/blog"
+        title={t.meta.blogTitle}
+      />
       <Hero>
         <GradientBlob color="rgba(26, 47, 160, 0.8)" left="50%" opacity={0.65} size="clamp(400px, 58vw, 820px)" top="20%" />
         <div>

@@ -28,8 +28,8 @@ const Header = styled.div`
   pointer-events: none;
 `;
 
-const Eyebrow = styled.p`
-  color: ${({ theme: t }) => t.colors.gold};
+const Title = styled.p`
+  color: ${({ theme: t }) => t.colors.ice};
   font-size: ${({ theme: t }) => t.typography.scale.label};
   letter-spacing: ${({ theme: t }) => t.typography.tracking.label};
   text-transform: uppercase;
@@ -51,7 +51,7 @@ export function PropertyMenu() {
   const items = useMemo<FlowingMenuItem[]>(
     () =>
       PROPERTY_KEYS.map((key) => ({
-        link: '/#projects',
+        link: '/projekty',
         text: t.propertyMenu.types[key],
         image: PROPERTY_IMAGES[key],
       })),
@@ -59,16 +59,13 @@ export function PropertyMenu() {
   );
 
   const handleItemClick = () => {
-    navigate('/#projects');
-    window.setTimeout(() => {
-      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
-    }, 120);
+    navigate('/projekty');
   };
 
   return (
     <Section aria-labelledby="property-menu-label" id="property-types">
       <Header>
-        <Eyebrow id="property-menu-label">{t.propertyMenu.eyebrow}</Eyebrow>
+        <Title id="property-menu-label">{t.propertyMenu.title}</Title>
       </Header>
       <MenuFill>
         <FlowingMenu

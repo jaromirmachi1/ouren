@@ -12,6 +12,8 @@ import { Projects } from '../components/sections/Projects';
 import { SellWithUs } from '../components/sections/SellWithUs';
 import { SoldProjects } from '../components/sections/SoldProjects';
 import { PageMeta } from '../seo/PageMeta';
+import { JsonLd } from '../seo/JsonLd';
+import { websiteJsonLd } from '../seo/schema';
 
 const Page = styled.main`
   position: relative;
@@ -19,7 +21,7 @@ const Page = styled.main`
 `;
 
 export default function HomePage() {
-  const { t } = useLanguage();
+  const { locale, t } = useLanguage();
   const location = useLocation();
 
   useEffect(() => {
@@ -47,7 +49,13 @@ export default function HomePage() {
 
   return (
     <Page>
-      <PageMeta description={t.meta.homeDescription} title={t.meta.homeTitle} />
+      <PageMeta
+        description={t.meta.homeDescription}
+        lang={locale}
+        path="/"
+        title={t.meta.homeTitle}
+      />
+      <JsonLd data={websiteJsonLd()} id="website" />
       <Hero />
       <PropertyMenu />
       <Projects />

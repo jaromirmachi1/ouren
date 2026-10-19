@@ -8,6 +8,8 @@ import { getBlogPost } from '../data/blog';
 import { useLanguage } from '../i18n/LanguageContext';
 import { formatDate, formatReadTime } from '../i18n/format';
 import { PageMeta } from '../seo/PageMeta';
+import { JsonLd } from '../seo/JsonLd';
+import { blogPostingJsonLd } from '../seo/schema';
 
 const Page = styled.main`
   position: relative;
@@ -27,7 +29,7 @@ const BackLink = styled(Link)`
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: ${({ theme }) => theme.colors.gold};
+  color: ${({ theme }) => theme.colors.ice};
   font-size: ${({ theme }) => theme.typography.scale.label};
   letter-spacing: ${({ theme }) => theme.typography.tracking.label};
   text-transform: uppercase;
@@ -116,7 +118,26 @@ export default function BlogPostPage() {
 
   return (
     <Page>
-      <PageMeta description={post.excerpt} title={`${post.title} | Ouren Journal`} />
+      <PageMeta
+        description={post.excerpt}
+        image={post.image}
+        lang={locale}
+        path={`/blog/${post.slug}`}
+        publishedTime={post.publishedAt}
+        title={`${post.title} | Ouren Journal`}
+        type="article"
+      />
+      <JsonLd
+        data={blogPostingJsonLd({
+          title: post.title,
+          description: post.excerpt,
+          path: `/blog/${post.slug}`,
+          image: post.image,
+          publishedAt: post.publishedAt,
+          author: post.author,
+        })}
+        id="blog-post"
+      />
       <Hero>
         <GradientBlob color="rgba(26, 47, 160, 0.65)" left="70%" opacity={0.5} size="clamp(280px, 40vw, 520px)" top="10%" />
         <BackLink className="hoverable" to="/blog">

@@ -53,7 +53,7 @@ const Meta = styled.div`
 `;
 
 const Category = styled.span`
-  color: ${({ theme }) => theme.colors.gold};
+  color: ${({ theme }) => theme.colors.ice};
   font-size: ${({ theme }) => theme.typography.scale.label};
   letter-spacing: ${({ theme }) => theme.typography.tracking.label};
   text-transform: uppercase;

@@ -1,9 +1,11 @@
+import { Link } from 'react-router-dom';
 import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import styled from 'styled-components';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { formatProjectPrice } from '../../i18n/format';
 import type { Project } from '../../types';
+import { shouldUseLightMotion } from '../../utils/performance';
 
 type ProjectCardProps = {
   project: Project;
@@ -11,34 +13,36 @@ type ProjectCardProps = {
   featured?: boolean;
 };
 
-const Card = styled.article<{ $featured?: boolean }>`
+const Card = styled(Link)<{ $featured?: boolean }>`
   position: relative;
   display: grid;
-  min-height: ${({ $featured }) => ($featured ? '60vh' : '40vh')};
+  min-height: ${({ $featured }) => ($featured ? '72vh' : '42vh')};
   overflow: hidden;
-  border: 0.5px solid rgba(255, 255, 255, 0.08);
   background: ${({ theme }) => theme.colors.card};
-  transition: border-color 0.45s ease;
-
-  &:hover {
-    border-color: rgba(203, 223, 238, 0.45);
-  }
+  color: inherit;
+  transition: transform 200ms cubic-bezier(0.23, 1, 0.32, 1);
 
   ${({ $featured }) =>
-    $featured &&
-    `
-    grid-template-columns: 1fr;
+    $featured
+      ? `
+    min-height: min(78vh, 860px);
+  `
+      : ''}
 
-    @media (min-width: 900px) {
-      grid-template-columns: 60% 40%;
-    }
-  `}
+  &:active {
+    transform: scale(0.995);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.ice};
+    outline-offset: 3px;
+  }
 `;
 
-const Media = styled.div<{ $featured?: boolean }>`
+const Media = styled.div`
   position: relative;
   overflow: hidden;
-  min-height: ${({ $featured }) => ($featured ? '320px' : '100%')};
+  min-height: inherit;
 `;
 
 const Image = styled.img`
@@ -49,63 +53,66 @@ const Image = styled.img`
   transform: scale(1.02);
 `;
 
-const WebsiteLink = styled.a`
+const WebsiteButton = styled.button`
   position: absolute;
   top: clamp(16px, 2vw, 24px);
   right: clamp(16px, 2vw, 24px);
   z-index: 3;
   display: grid;
-  width: clamp(44px, 5vw, 52px);
-  height: clamp(44px, 5vw, 52px);
+  width: 48px;
+  height: 48px;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  border-radius: 50%;
-  background: rgba(5, 6, 15, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: rgba(5, 6, 15, 0.55);
   color: ${({ theme }) => theme.colors.white};
-  backdrop-filter: blur(8px);
   transition:
-    border-color 0.3s ease,
-    background 0.3s ease,
-    color 0.3s ease,
-    transform 0.3s ease;
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 200ms ease,
+    color 200ms ease,
+    border-color 200ms ease;
 
   svg {
     width: 18px;
     height: 18px;
   }
 
-  &:hover {
-    border-color: ${({ theme }) => theme.colors.highlight};
-    background: ${({ theme }) => theme.colors.highlight};
-    color: ${({ theme }) => theme.colors.deepBlack};
-    transform: translate(2px, -2px);
+  @media (hover: hover) and (pointer: fine) {
+    &:hover {
+      border-color: ${({ theme }) => theme.colors.ice};
+      background: ${({ theme }) => theme.colors.ice};
+      color: ${({ theme }) => theme.colors.deepBlack};
+    }
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.ice};
+    outline-offset: 3px;
   }
 `;
 
-const Overlay = styled.div`
+const Overlay = styled.div<{ $featured?: boolean }>`
   position: absolute;
   inset: auto 0 0;
   z-index: 2;
   display: grid;
   gap: 8px;
-  padding: clamp(20px, 3vw, 32px);
-  background: linear-gradient(180deg, transparent 0%, rgba(5, 6, 15, 0.88) 72%);
+  padding: ${({ $featured }) =>
+    $featured ? 'clamp(28px, 4vw, 48px)' : 'clamp(20px, 3vw, 32px)'};
+  background: linear-gradient(180deg, transparent 0%, rgba(5, 6, 15, 0.9) 78%);
 `;
 
-const Panel = styled.div`
-  display: grid;
-  align-content: end;
-  gap: 16px;
-  padding: clamp(20px, 3vw, 32px);
-`;
-
-const Name = styled.h3`
-  font-size: ${({ theme }) => theme.typography.scale.h3};
+const Name = styled.h3<{ $featured?: boolean }>`
+  font-size: ${({ $featured, theme }) =>
+    $featured ? 'clamp(32px, 4.5vw, 56px)' : theme.typography.scale.h3};
   font-weight: ${({ theme }) => theme.typography.weights.light};
 `;
 
 const Location = styled.p`
-  color: ${({ theme }) => theme.colors.gold};
+  color: ${({ theme }) => theme.colors.ice};
   font-size: ${({ theme }) => theme.typography.scale.label};
   letter-spacing: ${({ theme }) => theme.typography.tracking.label};
   text-transform: uppercase;
@@ -139,7 +146,7 @@ const Badge = styled.span<{ $status: Project['status'] }>`
       return `color: #e8b35a; border-color: rgba(232, 179, 90, 0.35);`;
     }
     if ($status === 'inProgress') {
-      return `color: ${theme.colors.highlight}; border-color: rgba(203, 223, 238, 0.45);`;
+      return `color: ${theme.colors.ice}; border-color: rgba(203, 223, 238, 0.45);`;
     }
     return `color: ${theme.colors.mutedWhite};`;
   }}
@@ -161,7 +168,7 @@ function ArrowUpRightIcon() {
 
 export function ProjectCard({ project, index, featured = false }: ProjectCardProps) {
   const { locale, t } = useLanguage();
-  const cardRef = useRef<HTMLElement>(null);
+  const cardRef = useRef<HTMLAnchorElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
   const priceLabels = { from: t.common.from, sold: t.common.sold };
@@ -170,17 +177,13 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
   useEffect(() => {
     const card = cardRef.current;
     const image = imageRef.current;
-
-    if (!card || !image) {
-      return;
-    }
+    if (!card || !image || !shouldUseLightMotion()) return;
 
     const onEnter = () => {
-      gsap.to(image, { scale: 1.05, duration: 0.6, ease: 'power3.out' });
+      gsap.to(image, { scale: 1.05, duration: 0.55, ease: 'power3.out' });
     };
-
     const onLeave = () => {
-      gsap.to(image, { scale: 1.02, duration: 0.6, ease: 'power3.out' });
+      gsap.to(image, { scale: 1.02, duration: 0.55, ease: 'power3.out' });
     };
 
     card.addEventListener('mouseenter', onEnter);
@@ -198,39 +201,48 @@ export function ProjectCard({ project, index, featured = false }: ProjectCardPro
       className="hoverable project-card"
       data-cursor-label={String(index + 1).padStart(2, '0')}
       ref={cardRef}
+      to={`/projekty/${project.slug}`}
     >
-      <Media $featured={featured}>
-        <Image alt={project.name} loading={featured ? 'eager' : 'lazy'} ref={imageRef} src={project.image} />
-        {featured && project.websiteUrl && (
-          <WebsiteLink
-            aria-label={`${project.name} — panoramazabiny.cz`}
+      <Media>
+        <Image
+          alt={project.name}
+          decoding="async"
+          loading={featured ? 'eager' : 'lazy'}
+          ref={imageRef}
+          src={project.image}
+        />
+        {project.websiteUrl ? (
+          <WebsiteButton
+            aria-label={`${project.name} website`}
             className="hoverable"
-            href={project.websiteUrl}
-            rel="noopener noreferrer"
-            target="_blank"
+            type="button"
+            onClick={(event) => {
+              event.preventDefault();
+              event.stopPropagation();
+              window.open(project.websiteUrl, '_blank', 'noopener,noreferrer');
+            }}
           >
             <ArrowUpRightIcon />
-          </WebsiteLink>
-        )}
-        {!featured && (
-          <Overlay>
-            <Name>{project.name}</Name>
-            <Location>{project.location}</Location>
-            <Badge $status={project.status}>{t.status[project.status]}</Badge>
-          </Overlay>
-        )}
-      </Media>
-      {featured && (
-        <Panel>
+          </WebsiteButton>
+        ) : null}
+        <Overlay $featured={featured}>
           <Badge $status={project.status}>{t.status[project.status]}</Badge>
-          <Name>{project.name}</Name>
+          <Name $featured={featured}>{project.name}</Name>
           <Location>{project.location}</Location>
-          <Price>{formattedPrice} Kč</Price>
-          <Meta>
-            {project.units} {t.common.units} · {project.year}
-          </Meta>
-        </Panel>
-      )}
+          {featured ? (
+            <>
+              <Price>
+                {formattedPrice}
+                {locale === 'cs' ? ' Kč' : ''}
+              </Price>
+              <Meta>
+                {project.units} {t.common.units}
+                {project.areaSqm ? ` · ${project.areaSqm} m²` : ''} · {project.year}
+              </Meta>
+            </>
+          ) : null}
+        </Overlay>
+      </Media>
     </Card>
   );
 }

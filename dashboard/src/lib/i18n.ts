@@ -94,8 +94,68 @@ export type Translations = {
     status: string
     price: string
     units: string
+    areaSqm: string
+    areaPlaceholder: string
     year: string
     link: string
+    add: string
+    addTitle: string
+    addDescription: string
+    edit: string
+    editTitle: string
+    editDescription: string
+    name: string
+    slug: string
+    location: string
+    channel: string
+    channelHint: string
+    layout: string
+    layoutPlaceholder: string
+    websiteUrl: string
+    heroImage: string
+    heroImageHint: string
+    galleryImages: string
+    galleryImagesHint: string
+    filesSelected: string
+    compressing: string
+    descriptionCs: string
+    descriptionEn: string
+    featured: string
+    pricePlaceholder: string
+    save: string
+    saving: string
+    cancel: string
+    delete: string
+    deleting: string
+    deleted: string
+    confirmDelete: string
+    created: string
+    updated: string
+    actions: string
+    channels: {
+      residential: string
+      sale: string
+      rent: string
+    }
+    types: {
+      apartment: string
+      house: string
+      commercial: string
+    }
+    statuses: {
+      available: string
+      reserved: string
+      sold: string
+      inProgress: string
+    }
+    errors: {
+      nameRequired: string
+      saveFailed: string
+      forbidden: string
+      uploadFailed: string
+      sanityWriteRequired: string
+      sanityUnauthorized: string
+    }
   }
   units: {
     title: string
@@ -108,8 +168,64 @@ export type Translations = {
     floor: string
     rooms: string
     area: string
+    areaHouse: string
+    landArea: string
     price: string
     customer: string
+    kind: string
+    kinds: {
+      apartment: string
+      house: string
+      land: string
+    }
+    add: string
+    addTitle: string
+    addDescription: string
+    edit: string
+    editTitle: string
+    editDescription: string
+    label: string
+    location: string
+    layout: string
+    sale: string
+    rent: string
+    listOnSale: string
+    listOnRent: string
+    onSale: string
+    onRent: string
+    noProject: string
+    image: string
+    gallery: string
+    galleryHint: string
+    filesSelected: string
+    compressing: string
+    remove: string
+    descriptionCs: string
+    descriptionEn: string
+    empty: string
+    actions: string
+    save: string
+    saving: string
+    cancel: string
+    delete: string
+    deleted: string
+    confirmDelete: string
+    created: string
+    updated: string
+    statuses: {
+      available: string
+      reserved: string
+      sold: string
+      rented: string
+    }
+    errors: {
+      nameRequired: string
+      saveFailed: string
+      forbidden: string
+      uploadFailed: string
+      sanityWriteRequired: string
+      sanityUnauthorized: string
+    }
   }
   inquiries: {
     title: string
@@ -191,6 +307,7 @@ export type Translations = {
       available: string
       reserved: string
       sold: string
+      rented: string
     }
   }
 }
@@ -289,22 +406,139 @@ export const cs: Translations = {
     status: 'Stav',
     price: 'Cena',
     units: 'Jednotky',
+    areaSqm: 'Výměra (m²)',
+    areaPlaceholder: 'např. 86',
     year: 'Rok',
     link: 'Odkaz',
+    add: 'Přidat projekt',
+    addTitle: 'Nový projekt',
+    addDescription: 'Vytvořte development, který se zobrazí v portálu a na webu.',
+    edit: 'Upravit',
+    editTitle: 'Upravit projekt',
+    editDescription: 'Aktualizujte údaje developmentu.',
+    name: 'Název',
+    slug: 'Slug (URL)',
+    location: 'Lokalita',
+    channel: 'Kam na web',
+    channelHint: 'Můžete vybrat více najednou — např. Prodej i Pronájem.',
+    layout: 'Dispozice',
+    layoutPlaceholder: 'např. 2+kk',
+    websiteUrl: 'Web projektu',
+    heroImage: 'Hlavní fotka',
+    heroImageHint: 'Nahrajte obrázek ze zařízení (ne URL).',
+    galleryImages: 'Galerie',
+    galleryImagesHint: 'Můžete vybrat více fotek najednou.',
+    filesSelected: 'souborů vybráno',
+    compressing: 'Zmenšuji fotky…',
+    descriptionCs: 'Popis (CS)',
+    descriptionEn: 'Popis (EN)',
+    featured: 'Zvýraznit na homepage',
+    pricePlaceholder: 'např. 5 420 000',
+    save: 'Uložit',
+    saving: 'Ukládám…',
+    cancel: 'Zrušit',
+    delete: 'Smazat',
+    deleting: 'Mažu…',
+    deleted: 'Projekt smazán.',
+    confirmDelete: 'Opravdu smazat tento projekt?',
+    created: 'Projekt vytvořen.',
+    updated: 'Projekt uložen.',
+    actions: 'Akce',
+    channels: {
+      residential: 'Rezidenční',
+      sale: 'Prodej',
+      rent: 'Pronájem',
+    },
+    types: {
+      apartment: 'Bytový',
+      house: 'Domy',
+      commercial: 'Komerční',
+    },
+    statuses: {
+      available: 'Volný',
+      reserved: 'Rezervováno',
+      sold: 'Prodáno',
+      inProgress: 'V přípravě',
+    },
+    errors: {
+      nameRequired: 'Vyplňte název projektu.',
+      saveFailed: 'Uložení se nepovedlo. Zkuste to znovu.',
+      forbidden: 'Nemáte oprávnění tuto akci provést.',
+      uploadFailed: 'Nahrání fotky se nepovedlo. Zkuste to znovu.',
+      sanityWriteRequired: 'Pro nahrání fotek nastavte SANITY_API_TOKEN v dashboard/.env.local.',
+      sanityUnauthorized:
+        'Sanity token je neplatný nebo nemá práva zápisu. Vytvořte nový token s oprávněním Editor a restartujte npm.',
+    },
   },
   units: {
     title: 'Jednotky',
-    subtitle: 'Inventář jednotek a přiřazení ke klientům.',
+    subtitle: 'Byty a domy do Prodeje / Pronájmu, nebo jednotky vázané na projekt.',
     inventory: 'Inventář',
-    count: 'jednotek',
-    unit: 'Jednotka',
+    count: 'položek',
+    unit: 'Nemovitost',
     project: 'Projekt',
     status: 'Stav',
     floor: 'Patro',
     rooms: 'Pokoje',
-    area: 'Plocha',
+    area: 'Výměra',
+    areaHouse: 'Výměra domu',
+    landArea: 'Pozemek',
     price: 'Cena',
     customer: 'Klient',
+    kind: 'Typ',
+    kinds: {
+      apartment: 'Byt',
+      house: 'Dům',
+      land: 'Pozemek',
+    },
+    add: 'Přidat',
+    addTitle: 'Nová nemovitost',
+    addDescription: 'Byt, dům nebo pozemek se může zobrazit sám v Prodeji nebo Pronájmu, i bez projektu.',
+    edit: 'Upravit',
+    editTitle: 'Upravit nemovitost',
+    editDescription: 'Upravte údaje bytu, domu nebo pozemku.',
+    label: 'Název',
+    location: 'Lokalita',
+    layout: 'Dispozice',
+    sale: 'Prodej',
+    rent: 'Pronájem',
+    listOnSale: 'Zobrazit v Prodeji',
+    listOnRent: 'Zobrazit v Pronájmu',
+    onSale: 'Prodej',
+    onRent: 'Pronájem',
+    noProject: 'Bez projektu',
+    image: 'Fotka',
+    gallery: 'Další fotky',
+    galleryHint: 'Můžete vybrat víc fotek najednou. U uložené položky se přidají k těm stávajícím.',
+    filesSelected: 'nových fotek',
+    compressing: 'Zmenšuji fotky…',
+    remove: 'Odebrat',
+    descriptionCs: 'Popis (CS)',
+    descriptionEn: 'Popis (EN)',
+    empty: 'Zatím žádné nemovitosti. Přidejte byt, dům nebo pozemek.',
+    actions: 'Akce',
+    save: 'Uložit',
+    saving: 'Ukládám…',
+    cancel: 'Zrušit',
+    delete: 'Smazat',
+    deleted: 'Nemovitost smazána.',
+    confirmDelete: 'Opravdu smazat tuto nemovitost?',
+    created: 'Nemovitost vytvořena.',
+    updated: 'Nemovitost uložena.',
+    statuses: {
+      available: 'Volný',
+      reserved: 'Rezervováno',
+      sold: 'Prodáno',
+      rented: 'Pronajato',
+    },
+    errors: {
+      nameRequired: 'Vyplňte název.',
+      saveFailed: 'Uložení se nepovedlo. Zkuste to znovu.',
+      forbidden: 'Nemáte oprávnění tuto akci provést.',
+      uploadFailed: 'Nahrání fotky se nepovedlo. Zkuste to znovu.',
+      sanityWriteRequired: 'Pro uložení bytu nastavte SANITY_API_TOKEN v dashboard/.env.local.',
+      sanityUnauthorized: 'Sanity token je neplatný nebo nemá práva zápisu.',
+    },
   },
   inquiries: {
     title: 'Poptávky',
@@ -386,6 +620,7 @@ export const cs: Translations = {
       available: 'Volné',
       reserved: 'Rezervováno',
       sold: 'Prodáno',
+      rented: 'Pronajato',
     },
   },
 }
@@ -484,22 +719,139 @@ export const en: Translations = {
     status: 'Status',
     price: 'Price',
     units: 'Units',
+    areaSqm: 'Area (m²)',
+    areaPlaceholder: 'e.g. 86',
     year: 'Year',
     link: 'Link',
+    add: 'Add project',
+    addTitle: 'New project',
+    addDescription: 'Create a development that appears in the portal and on the website.',
+    edit: 'Edit',
+    editTitle: 'Edit project',
+    editDescription: 'Update development details.',
+    name: 'Name',
+    slug: 'Slug (URL)',
+    location: 'Location',
+    channel: 'Website section',
+    channelHint: 'You can select more than one — e.g. Sale and Rent together.',
+    layout: 'Layout',
+    layoutPlaceholder: 'e.g. 2+kk',
+    websiteUrl: 'Project website',
+    heroImage: 'Hero image',
+    heroImageHint: 'Upload an image from your device (not a URL).',
+    galleryImages: 'Gallery',
+    galleryImagesHint: 'You can select multiple photos at once.',
+    filesSelected: 'files selected',
+    compressing: 'Compressing photos…',
+    descriptionCs: 'Description (CS)',
+    descriptionEn: 'Description (EN)',
+    featured: 'Feature on homepage',
+    pricePlaceholder: 'e.g. 5 420 000',
+    save: 'Save',
+    saving: 'Saving…',
+    cancel: 'Cancel',
+    delete: 'Delete',
+    deleting: 'Deleting…',
+    deleted: 'Project deleted.',
+    confirmDelete: 'Delete this project?',
+    created: 'Project created.',
+    updated: 'Project saved.',
+    actions: 'Actions',
+    channels: {
+      residential: 'Residential',
+      sale: 'Sale',
+      rent: 'Rent',
+    },
+    types: {
+      apartment: 'Apartment',
+      house: 'House',
+      commercial: 'Commercial',
+    },
+    statuses: {
+      available: 'Available',
+      reserved: 'Reserved',
+      sold: 'Sold',
+      inProgress: 'In progress',
+    },
+    errors: {
+      nameRequired: 'Please enter the project name.',
+      saveFailed: 'Could not save. Please try again.',
+      forbidden: 'You do not have permission to perform this action.',
+      uploadFailed: 'Image upload failed. Please try again.',
+      sanityWriteRequired: 'Set SANITY_API_TOKEN in dashboard/.env.local to upload images.',
+      sanityUnauthorized:
+        'Sanity token is invalid or read-only. Create a new Editor token and restart npm.',
+    },
   },
   units: {
     title: 'Units',
-    subtitle: 'Unit-level inventory with assignment to customers.',
+    subtitle: 'Flats and houses for Sale / Rent, or units tied to a project.',
     inventory: 'Inventory',
-    count: 'units',
-    unit: 'Unit',
+    count: 'items',
+    unit: 'Property',
     project: 'Project',
     status: 'Status',
     floor: 'Floor',
     rooms: 'Rooms',
     area: 'Area',
+    areaHouse: 'House area',
+    landArea: 'Land',
     price: 'Price',
     customer: 'Customer',
+    kind: 'Type',
+    kinds: {
+      apartment: 'Flat',
+      house: 'House',
+      land: 'Land',
+    },
+    add: 'Add',
+    addTitle: 'New property',
+    addDescription: 'A flat, house, or land plot can appear on Sale or Rent by itself, even without a project.',
+    edit: 'Edit',
+    editTitle: 'Edit property',
+    editDescription: 'Update this flat, house, or land plot.',
+    label: 'Name',
+    location: 'Location',
+    layout: 'Layout',
+    sale: 'Sale',
+    rent: 'Rent',
+    listOnSale: 'Show on Sale',
+    listOnRent: 'Show on Rent',
+    onSale: 'Sale',
+    onRent: 'Rent',
+    noProject: 'No project',
+    image: 'Photo',
+    gallery: 'More photos',
+    galleryHint: 'Select several photos at once. On an existing item they are added to the ones already saved.',
+    filesSelected: 'new photos',
+    compressing: 'Compressing photos…',
+    remove: 'Remove',
+    descriptionCs: 'Description (CS)',
+    descriptionEn: 'Description (EN)',
+    empty: 'No properties yet. Add a flat, house, or land plot.',
+    actions: 'Actions',
+    save: 'Save',
+    saving: 'Saving…',
+    cancel: 'Cancel',
+    delete: 'Delete',
+    deleted: 'Property deleted.',
+    confirmDelete: 'Delete this property?',
+    created: 'Property created.',
+    updated: 'Property saved.',
+    statuses: {
+      available: 'Available',
+      reserved: 'Reserved',
+      sold: 'Sold',
+      rented: 'Rented',
+    },
+    errors: {
+      nameRequired: 'Please enter the name.',
+      saveFailed: 'Could not save. Please try again.',
+      forbidden: 'You do not have permission to perform this action.',
+      uploadFailed: 'Image upload failed. Please try again.',
+      sanityWriteRequired: 'Set SANITY_API_TOKEN in dashboard/.env.local to save flats.',
+      sanityUnauthorized: 'Sanity token is invalid or read-only.',
+    },
   },
   inquiries: {
     title: 'Inquiries',
@@ -581,6 +933,7 @@ export const en: Translations = {
       available: 'Available',
       reserved: 'Reserved',
       sold: 'Sold',
+      rented: 'Rented',
     },
   },
 }

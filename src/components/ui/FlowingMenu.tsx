@@ -90,7 +90,7 @@ const MenuItemLink = styled.a<{ $color: string }>`
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
-  cursor: crosshair;
+  cursor: pointer;
 
   &:hover,
   &:focus-visible {

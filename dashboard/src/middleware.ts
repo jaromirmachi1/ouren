@@ -21,6 +21,15 @@ export default auth((req) => {
 
   const isAdmin = pathname === '/admin' || pathname.startsWith('/admin/')
   if (!isAdmin) {
+    // Keep crawler static assets at domain root (built into /site via Vite public/)
+    if (
+      pathname === '/robots.txt' ||
+      pathname === '/sitemap.xml' ||
+      pathname === '/og-image.jpg'
+    ) {
+      return NextResponse.rewrite(new URL(`/site${pathname}`, req.url))
+    }
+
     return NextResponse.rewrite(new URL('/site/index.html', req.url))
   }
 

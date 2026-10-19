@@ -1,16 +1,21 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
-import { soldProjects } from '../../data/projects';
+import { loadSoldProjects } from '../../data/projects-source';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { scrollTriggerDefaults } from '../../styles/animations';
+import type { Project } from '../../types';
+import { shouldUseLightMotion } from '../../utils/performance';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Section = styled.section`
+  position: relative;
   padding: ${({ theme }) => theme.spacing.sectionY} 0;
   overflow: hidden;
+  background: ${({ theme }) => theme.colors.deepBlack};
 `;
 
 const Header = styled.div`
@@ -23,18 +28,19 @@ const Header = styled.div`
 `;
 
 const Title = styled.h2`
-  color: rgba(245, 245, 240, 0.55);
+  color: rgba(245, 245, 240, 0.72);
   font-size: clamp(22px, 3vw, 36px);
   font-weight: ${({ theme }) => theme.typography.weights.light};
   letter-spacing: ${({ theme }) => theme.typography.tracking.tight};
 `;
 
 const Counter = styled.p`
-  color: ${({ theme }) => theme.colors.gold};
+  color: ${({ theme }) => theme.colors.ice};
   font-size: clamp(40px, 6vw, 88px);
   font-weight: ${({ theme }) => theme.typography.weights.extraLight};
   line-height: 0.9;
   text-align: right;
+  font-variant-numeric: tabular-nums;
 `;
 
 const CounterLabel = styled.span`
@@ -46,33 +52,65 @@ const CounterLabel = styled.span`
   text-transform: uppercase;
 `;
 
-const PinWrap = styled.div`
-  position: relative;
+const Scroller = styled.div`
   width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 const Track = styled.div`
   display: flex;
-  gap: clamp(16px, 2vw, 24px);
+  gap: clamp(12px, 1.6vw, 20px);
   width: max-content;
   padding: 0 ${({ theme }) => theme.spacing.pageX};
 `;
 
-const Card = styled.article`
+const Card = styled(Link)`
   position: relative;
-  flex: 0 0 clamp(280px, 42vw, 420px);
-  min-height: 34vh;
+  flex: 0 0 min(78vw, 360px);
+  aspect-ratio: 3 / 4;
   overflow: hidden;
-  border: 0.5px solid rgba(255, 255, 255, 0.08);
   background: ${({ theme }) => theme.colors.card};
+  scroll-snap-align: start;
+  color: inherit;
+
+  @media (min-width: 900px) {
+    flex-basis: min(32vw, 380px);
+  }
+
+  &:hover img,
+  &:focus-visible img {
+    transform: scale(1.04);
+    filter: saturate(0.92);
+  }
+
+  &:active {
+    transform: scale(0.99);
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.ice};
+    outline-offset: 3px;
+  }
 `;
 
 const Image = styled.img`
   width: 100%;
   height: 100%;
-  min-height: 34vh;
   object-fit: cover;
-  filter: saturate(0.7);
+  filter: saturate(0.78);
+  transform: scale(1);
+  transition:
+    transform 280ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 280ms cubic-bezier(0.22, 1, 0.36, 1);
 `;
 
 const Overlay = styled.div`
@@ -89,7 +127,7 @@ const Name = styled.h3`
 
 const Location = styled.p`
   margin-top: 6px;
-  color: ${({ theme }) => theme.colors.gold};
+  color: ${({ theme }) => theme.colors.ice};
   font-size: ${({ theme }) => theme.typography.scale.label};
   letter-spacing: ${({ theme }) => theme.typography.tracking.label};
   text-transform: uppercase;
@@ -98,57 +136,53 @@ const Location = styled.p`
 export function SoldProjects() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
-  const trackRef = useRef<HTMLDivElement>(null);
-  const counterRef = useRef<HTMLParagraphElement>(null);
+  const counterRef = useRef<HTMLSpanElement>(null);
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    loadSoldProjects().then((next) => {
+      if (!cancelled) setProjects(next);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
-    const track = trackRef.current;
     const counter = counterRef.current;
+    if (!section || !counter || !projects.length) return;
 
-    if (!section || !track) {
+    const total = projects.reduce((sum, project) => sum + (project.units || 0), 0);
+
+    if (!shouldUseLightMotion()) {
+      counter.textContent = String(total);
       return;
     }
 
-    const scrollDistance = track.scrollWidth - window.innerWidth;
-
-    const horizontalTween = gsap.to(track, {
-      x: -scrollDistance,
-      ease: 'none',
+    const counterState = { value: 0 };
+    const countTween = gsap.to(counterState, {
+      value: total,
+      duration: 1.4,
+      ease: 'power2.out',
+      snap: { value: 1 },
       scrollTrigger: {
         trigger: section,
-        start: 'top top',
-        end: () => `+=${scrollDistance}`,
-        pin: true,
-        scrub: true,
-        invalidateOnRefresh: true,
-        anticipatePin: 1,
+        ...scrollTriggerDefaults,
+      },
+      onUpdate: () => {
+        counter.textContent = `${Math.round(counterState.value)}`;
       },
     });
 
-    if (counter) {
-      const counterState = { value: 0 };
-
-      gsap.to(counterState, {
-        value: 47,
-        duration: 1.6,
-        ease: 'power2.out',
-        snap: { value: 1 },
-        scrollTrigger: {
-          trigger: section,
-          ...scrollTriggerDefaults,
-        },
-        onUpdate: () => {
-          counter.textContent = `${Math.round(counterState.value)}`;
-        },
-      });
-    }
-
     return () => {
-      horizontalTween.scrollTrigger?.kill();
-      horizontalTween.kill();
+      countTween.scrollTrigger?.kill();
+      countTween.kill();
     };
-  }, []);
+  }, [projects]);
+
+  if (!projects.length) return null;
 
   return (
     <Section id="sold" ref={sectionRef}>
@@ -159,15 +193,16 @@ export function SoldProjects() {
           <CounterLabel>{t.sold.counterLabel}</CounterLabel>
         </Counter>
       </Header>
-      <PinWrap>
-        <Track ref={trackRef}>
-          {soldProjects.map((project, index) => (
-            <Card
-              className="hoverable project-card"
-              data-cursor-label={String(index + 1).padStart(2, '0')}
-              key={project.id}
-            >
-              <Image alt={project.name} loading="lazy" src={project.image} />
+      <Scroller>
+        <Track>
+          {projects.map((project) => (
+            <Card className="hoverable project-card" key={project.id} to={`/projekty/${project.slug}`}>
+              <Image
+                alt={project.name}
+                decoding="async"
+                loading="lazy"
+                src={project.image}
+              />
               <Overlay>
                 <Name>{project.name}</Name>
                 <Location>{project.location}</Location>
@@ -175,7 +210,7 @@ export function SoldProjects() {
             </Card>
           ))}
         </Track>
-      </PinWrap>
+      </Scroller>
     </Section>
   );
 }

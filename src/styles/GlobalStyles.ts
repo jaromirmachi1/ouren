@@ -28,7 +28,7 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     min-width: 320px;
-    min-height: 100vh;
+    min-height: 100dvh;
     background:
       radial-gradient(circle at 50% 18%, rgba(26, 47, 160, 0.28), transparent 36vw),
       ${({ theme }) => theme.colors.deepBlack};
@@ -41,17 +41,8 @@ export const GlobalStyles = createGlobalStyle`
     -moz-osx-font-smoothing: grayscale;
   }
 
-  @media (pointer: fine) {
-    body,
-    a,
-    button,
-    .hoverable {
-      cursor: none;
-    }
-  }
-
   #root {
-    min-height: 100vh;
+    min-height: 100dvh;
     isolation: isolate;
   }
 
@@ -114,7 +105,7 @@ export const GlobalStyles = createGlobalStyle`
   }
 
   .hoverable {
-    cursor: crosshair;
+    cursor: pointer;
   }
 
   .project-card,

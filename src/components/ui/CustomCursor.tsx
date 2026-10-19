@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import styled from 'styled-components';
-import { getPerformanceTier } from '../../utils/performance';
+import { shouldUseHeavyEffects } from '../../utils/performance';
 
 const CursorLayer = styled.div`
   pointer-events: none;
@@ -21,7 +21,7 @@ const Dot = styled.div`
   border-radius: 50%;
   background: ${({ theme }) => theme.colors.white};
   pointer-events: none;
-  will-change: opacity, transform;
+  will-change: transform, opacity;
 `;
 
 const Ring = styled.div`
@@ -35,45 +35,55 @@ const Ring = styled.div`
   place-items: center;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 50%;
-  color: ${({ theme }) => theme.colors.gold};
+  color: ${({ theme }) => theme.colors.ice};
   font-size: 7px;
   font-weight: ${({ theme }) => theme.typography.weights.regular};
   letter-spacing: ${({ theme }) => theme.typography.tracking.label};
   line-height: 1;
   text-transform: uppercase;
   pointer-events: none;
-  will-change: border-color, opacity, transform;
+  will-change: transform, opacity, border-color;
 `;
 
 export function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const [enabled, setEnabled] = useState(false);
   const [label, setLabel] = useState('');
 
   useEffect(() => {
-    const dot = dotRef.current;
-    const ring = ringRef.current;
+    const canUse =
+      shouldUseHeavyEffects() && window.matchMedia('(pointer: fine)').matches;
 
-    if (!dot || !ring || !window.matchMedia('(pointer: fine)').matches) {
+    setEnabled(canUse);
+
+    if (!canUse) {
+      document.documentElement.removeAttribute('data-custom-cursor');
       return;
     }
 
-    const isLowTier = getPerformanceTier() === 'low';
+    document.documentElement.setAttribute('data-custom-cursor', 'true');
+    return () => {
+      document.documentElement.removeAttribute('data-custom-cursor');
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!enabled) return;
+
+    const dot = dotRef.current;
+    const ring = ringRef.current;
+    if (!dot || !ring) return;
+
     const setDotX = gsap.quickSetter(dot, 'x', 'px');
     const setDotY = gsap.quickSetter(dot, 'y', 'px');
-    const setRingX = gsap.quickTo(ring, 'x', { duration: isLowTier ? 0.22 : 0.15, ease: 'power3.out' });
-    const setRingY = gsap.quickTo(ring, 'y', { duration: isLowTier ? 0.22 : 0.15, ease: 'power3.out' });
-    let moveFrame = 0;
-    let lastX = 0;
-    let lastY = 0;
+    const setRingX = gsap.quickTo(ring, 'x', { duration: 0.15, ease: 'power3.out' });
+    const setRingY = gsap.quickTo(ring, 'y', { duration: 0.15, ease: 'power3.out' });
 
     gsap.set([dot, ring], { autoAlpha: 0 });
 
     const getCursorTarget = (target: EventTarget | null) => {
-      if (!(target instanceof HTMLElement)) {
-        return null;
-      }
-
+      if (!(target instanceof HTMLElement)) return null;
       return target.closest<HTMLElement>('a, button, .hoverable, [data-cursor], [data-cursor-label]');
     };
 
@@ -85,22 +95,7 @@ export function CustomCursor() {
     };
 
     const moveCursor = (event: PointerEvent) => {
-      lastX = event.clientX;
-      lastY = event.clientY;
-
-      if (!isLowTier) {
-        applyCursorPosition(lastX, lastY);
-        return;
-      }
-
-      if (moveFrame) {
-        return;
-      }
-
-      moveFrame = requestAnimationFrame(() => {
-        applyCursorPosition(lastX, lastY);
-        moveFrame = 0;
-      });
+      applyCursorPosition(event.clientX, event.clientY);
     };
 
     const showCursor = () => {
@@ -113,17 +108,14 @@ export function CustomCursor() {
 
     const activateCursor = (event: PointerEvent) => {
       const target = getCursorTarget(event.target);
-
-      if (!target) {
-        return;
-      }
+      if (!target) return;
 
       setLabel(target.dataset.cursorLabel ?? '');
-      gsap.to(dot, { autoAlpha: 0, scale: 0, duration: 0.25, ease: 'power3.out' });
+      gsap.to(dot, { autoAlpha: 0, scale: 0.95, duration: 0.2, ease: 'power3.out' });
       gsap.to(ring, {
         borderColor: '#CBDFEE',
-        scale: 2.5,
-        duration: 0.3,
+        scale: 2.2,
+        duration: 0.25,
         ease: 'power3.out',
       });
     };
@@ -131,17 +123,14 @@ export function CustomCursor() {
     const deactivateCursor = (event: PointerEvent) => {
       const target = getCursorTarget(event.target);
       const nextTarget = getCursorTarget(event.relatedTarget);
-
-      if (!target || target === nextTarget) {
-        return;
-      }
+      if (!target || target === nextTarget) return;
 
       setLabel('');
-      gsap.to(dot, { autoAlpha: 1, scale: 1, duration: 0.25, ease: 'power3.out' });
+      gsap.to(dot, { autoAlpha: 1, scale: 1, duration: 0.2, ease: 'power3.out' });
       gsap.to(ring, {
         borderColor: 'rgba(255, 255, 255, 0.5)',
         scale: 1,
-        duration: 0.3,
+        duration: 0.25,
         ease: 'power3.out',
       });
     };
@@ -153,16 +142,15 @@ export function CustomCursor() {
     document.addEventListener('pointerout', deactivateCursor);
 
     return () => {
-      if (moveFrame) {
-        cancelAnimationFrame(moveFrame);
-      }
       window.removeEventListener('pointermove', moveCursor);
       window.removeEventListener('pointerenter', showCursor);
       window.removeEventListener('pointerleave', hideCursor);
       document.removeEventListener('pointerover', activateCursor);
       document.removeEventListener('pointerout', deactivateCursor);
     };
-  }, []);
+  }, [enabled]);
+
+  if (!enabled) return null;
 
   return (
     <CursorLayer aria-hidden="true">

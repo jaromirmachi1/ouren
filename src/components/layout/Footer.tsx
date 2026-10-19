@@ -85,8 +85,8 @@ const SocialLink = styled.a`
   transition: border-color 0.25s ease, color 0.25s ease;
 
   &:hover {
-    border-color: ${({ theme }) => theme.colors.gold};
-    color: ${({ theme }) => theme.colors.gold};
+    border-color: ${({ theme }) => theme.colors.ice};
+    color: ${({ theme }) => theme.colors.ice};
   }
 `;
 
@@ -105,29 +105,42 @@ const Bar = styled.div`
   letter-spacing: 0.08em;
 `;
 
-const LangToggle = styled.button<{ $active?: boolean }>`
-  position: relative;
-  z-index: 2;
-  background: transparent;
-  color: ${({ $active, theme }) => ($active ? theme.colors.gold : 'rgba(245, 245, 240, 0.72)')};
-  font-size: 12px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  pointer-events: auto;
-  transition: color 0.25s ease;
-`;
-
 const LangRow = styled.div`
   display: flex;
-  gap: 12px;
+  align-items: center;
+  gap: 10px;
+`;
+
+const LangDivider = styled.span`
+  color: rgba(245, 245, 240, 0.22);
+  font-size: 10px;
+`;
+
+const LangToggle = styled.button<{ $active?: boolean }>`
+  background: transparent;
+  color: ${({ $active, theme }) =>
+    $active ? theme.colors.ice : 'rgba(245, 245, 240, 0.4)'};
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  transition: color 200ms cubic-bezier(0.23, 1, 0.32, 1);
+
+  &:hover,
+  &:focus-visible {
+    color: ${({ theme }) => theme.colors.ice};
+    outline: none;
+  }
 `;
 
 const FOOTER_NAV: { key: NavKey; to: string }[] = [
-  { key: 'projects', to: '/#projects' },
+  { key: 'sale', to: '/prodej' },
+  { key: 'rent', to: '/pronajem' },
+  { key: 'weBuy', to: '/kupujeme' },
+  { key: 'projects', to: '/projekty' },
   { key: 'sold', to: '/#sold' },
-  { key: 'sellWithUs', to: '/#sell-with-us' },
   { key: 'about', to: '/#about' },
   { key: 'journal', to: '/blog' },
+  { key: 'contact', to: '/#contact' },
 ];
 
 const PORTAL_URL = '/admin';
@@ -175,19 +188,22 @@ export function Footer() {
         <LangRow>
           <LangToggle
             $active={locale === 'cs'}
+            aria-pressed={locale === 'cs'}
             className="hoverable"
             onClick={() => setLocale('cs')}
             type="button"
           >
-            {t.lang.switchToCzech}
+            CZ
           </LangToggle>
+          <LangDivider aria-hidden>/</LangDivider>
           <LangToggle
             $active={locale === 'en'}
+            aria-pressed={locale === 'en'}
             className="hoverable"
             onClick={() => setLocale('en')}
             type="button"
           >
-            {t.lang.switchToEnglish}
+            EN
           </LangToggle>
         </LangRow>
       </Bar>

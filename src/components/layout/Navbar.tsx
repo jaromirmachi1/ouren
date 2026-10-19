@@ -7,38 +7,66 @@ import type { NavKey } from '../../i18n/types';
 import { OurenLogo } from '../ui/OurenLogo';
 
 const LEFT_LINK_KEYS = [
-  { key: 'projects' as const, to: '/#projects' },
-  { key: 'sold' as const, to: '/#sold' },
-  { key: 'about' as const, to: '/#about' },
+  { key: 'sale' as const, to: '/prodej' },
+  { key: 'rent' as const, to: '/pronajem' },
+  { key: 'weBuy' as const, to: '/kupujeme' },
+  { key: 'projects' as const, to: '/projekty' },
 ];
 
 const RIGHT_LINK_KEYS = [
-  { key: 'sellWithUs' as const, to: '/#sell-with-us' },
+  { key: 'about' as const, to: '/#about' },
   { key: 'journal' as const, to: '/blog' },
   { key: 'contact' as const, to: '/#contact' },
 ];
 
 const NAV_LINK_KEYS = [...LEFT_LINK_KEYS, ...RIGHT_LINK_KEYS];
 
-const Header = styled.header`
+const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
+
+const Header = styled.header<{ $scrolled: boolean; $light: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
   z-index: ${({ theme }) => theme.zIndex.nav};
   width: 100%;
-  padding: clamp(16px, 2.5vh, 28px) ${({ theme }) => theme.spacing.pageX};
-  color: ${({ theme }) => theme.colors.white};
+  padding: clamp(20px, 3vh, 36px) ${({ theme }) => theme.spacing.pageX};
+  color: ${({ $light, theme }) => ($light ? theme.colors.brightInk : theme.colors.white)};
+  pointer-events: none;
+  --nav-muted: ${({ $light }) => ($light ? 'rgba(5, 6, 15, 0.62)' : 'rgba(245, 245, 240, 0.74)')};
+  --nav-hover: ${({ $light, theme }) => ($light ? theme.colors.navy : theme.colors.ice)};
+  --nav-active: ${({ $light, theme }) => ($light ? theme.colors.navy : theme.colors.ice)};
+  --nav-dim: ${({ $light }) => ($light ? 'rgba(5, 6, 15, 0.24)' : 'rgba(245, 245, 240, 0.32)')};
+  --nav-line: ${({ $light }) => ($light ? 'rgba(0, 10, 103, 0.35)' : 'rgba(203, 223, 238, 0.35)')};
+  --nav-mark: ${({ $light, theme }) => ($light ? theme.colors.navy : theme.colors.ice)};
+
+  &::before {
+    position: absolute;
+    inset: 0 0 auto;
+    height: ${({ $light }) => ($light ? '168px' : '140px')};
+    background: ${({ $light, $scrolled, theme }) =>
+      $light
+        ? `linear-gradient(180deg, ${theme.colors.brightBg} 0%, ${theme.colors.brightBg} 68%, transparent 100%)`
+        : `linear-gradient(180deg, rgba(5, 6, 15, ${$scrolled ? 0.72 : 0.42}) 0%, transparent 100%)`};
+    content: '';
+    pointer-events: none;
+    transition: background 280ms ${EASE};
+  }
 `;
 
 const Bar = styled.div`
   position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  min-height: clamp(72px, 10vh, 96px);
-  padding: 0;
+  min-height: clamp(72px, 9vh, 96px);
+  pointer-events: none;
 
-  @media (max-width: 900px) {
+  > * {
+    pointer-events: auto;
+  }
+
+  @media (max-width: 980px) {
     grid-template-columns: 1fr auto;
     min-height: 64px;
   }
@@ -46,18 +74,27 @@ const Bar = styled.div`
 
 const SideNav = styled.nav<{ $align: 'left' | 'right' }>`
   display: flex;
-  align-items: center;
-  gap: clamp(28px, 4vw, 56px);
+  align-items: baseline;
+  gap: clamp(16px, 1.8vw, 32px);
   justify-content: ${({ $align }) => ($align === 'left' ? 'flex-start' : 'flex-end')};
   grid-column: ${({ $align }) => ($align === 'left' ? 1 : 3)};
   grid-row: 1;
 
-  @media (max-width: 900px) {
+  &:hover a {
+    color: var(--nav-dim);
+  }
+
+  &:hover a:hover,
+  &:hover a:focus-visible {
+    color: var(--nav-hover);
+  }
+
+  @media (max-width: 980px) {
     display: none;
   }
 `;
 
-const LogoWrap = styled(Link)`
+const LogoWrap = styled(Link)<{ $light?: boolean }>`
   position: relative;
   z-index: 2;
   display: inline-flex;
@@ -65,31 +102,46 @@ const LogoWrap = styled(Link)`
   grid-row: 1;
   justify-self: center;
   align-items: center;
+  transition: opacity 220ms ${EASE}, transform 160ms ${EASE};
 
   img {
-    height: clamp(64px, 9vw, 96px);
+    height: clamp(64px, 8.5vw, 96px);
     width: auto;
+    filter: ${({ $light }) => ($light ? 'brightness(0)' : 'none')};
   }
 
-  @media (max-width: 900px) {
+  &:hover {
+    opacity: 0.82;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  @media (max-width: 980px) {
     grid-column: 1 / -1;
     justify-self: center;
+
+    img {
+      height: 56px;
+    }
   }
 `;
 
-const StyledNavLink = styled(NavLink)`
+const StyledNavLink = styled(NavLink)<{ $active?: boolean; $emphasis?: boolean }>`
   position: relative;
   display: inline-flex;
-  padding: 8px 0;
-  color: ${({ theme }) => theme.colors.white};
-  font-size: 13px;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 0;
+  color: ${({ $active }) => ($active ? 'var(--nav-active)' : 'var(--nav-muted)')};
+  font-size: 13.5px;
   font-weight: ${({ theme }) => theme.typography.weights.regular};
-  letter-spacing: ${({ theme }) => theme.typography.tracking.nav};
+  letter-spacing: 0.01em;
   line-height: 1;
-  text-transform: uppercase;
-  text-shadow: 0 1px 16px rgba(0, 0, 0, 0.45);
-  transition: color 0.25s ease, opacity 0.25s ease;
+  text-transform: none;
   white-space: nowrap;
+  transition: color 200ms ${EASE};
 
   &::after {
     position: absolute;
@@ -97,42 +149,94 @@ const StyledNavLink = styled(NavLink)`
     bottom: 0;
     left: 0;
     height: 1px;
-    background: ${({ theme }) => theme.colors.gold};
+    background: var(--nav-mark);
     content: '';
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.35s ease;
-  }
-
-  &:hover,
-  &:focus-visible {
-    color: ${({ theme }) => theme.colors.white};
-    opacity: 0.85;
+    opacity: ${({ $active }) => ($active ? 0.9 : 0)};
+    transform: scaleX(${({ $active }) => ($active ? 1 : 0.35)});
+    transform-origin: center;
+    transition:
+      opacity 200ms ${EASE},
+      transform 200ms ${EASE};
   }
 
   &:hover::after,
   &:focus-visible::after {
+    opacity: 0.9;
     transform: scaleX(1);
+  }
+
+  &:focus-visible {
+    outline: none;
+    color: var(--nav-hover);
+  }
+
+  ${({ $emphasis }) =>
+    $emphasis
+      ? `
+    margin-left: 4px;
+    padding-left: 18px;
+    color: inherit;
+
+    &::before {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 1px;
+      height: 12px;
+      background: var(--nav-line);
+      content: '';
+      transform: translateY(-50%);
+    }
+  `
+      : ''}
+`;
+
+const LinkArrow = styled.span`
+  display: inline-grid;
+  place-items: center;
+  width: 10px;
+  height: 10px;
+
+  svg {
+    width: 100%;
+    height: 100%;
+    transition: transform 200ms ${EASE};
+  }
+
+  ${StyledNavLink}:hover & svg,
+  ${StyledNavLink}:focus-visible & svg {
+    transform: translate(1.5px, -1.5px);
   }
 `;
 
-const LangRow = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 10px;
+const LangDivider = styled.span`
+  color: rgba(245, 245, 240, 0.22);
+  font-size: 10px;
+  letter-spacing: 0;
 `;
 
 const LangButton = styled.button<{ $active?: boolean }>`
   background: transparent;
-  color: ${({ $active, theme }) => ($active ? theme.colors.white : 'rgba(245, 245, 240, 0.88)')};
-  font-size: 11px;
+  color: ${({ $active, theme }) =>
+    $active ? theme.colors.white : 'rgba(245, 245, 240, 0.32)'};
+  font-size: 10px;
   font-weight: ${({ theme }) => theme.typography.weights.regular};
-  letter-spacing: 0.16em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+  transition: color 200ms ${EASE}, transform 140ms ${EASE};
+
+  &:hover,
+  &:focus-visible {
+    color: ${({ theme }) => theme.colors.ice};
+    outline: none;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
 `;
 
-const MenuButton = styled.button`
+const MenuButton = styled.button<{ $open: boolean }>`
   position: relative;
   z-index: 3;
   display: none;
@@ -140,42 +244,53 @@ const MenuButton = styled.button`
   height: 44px;
   place-items: center;
   background: transparent;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ $open, theme }) => ($open ? theme.colors.white : 'inherit')};
   grid-column: 2;
   grid-row: 1;
   justify-self: end;
+  transition: opacity 200ms ${EASE}, transform 140ms ${EASE};
 
-  @media (max-width: 900px) {
+  &:hover,
+  &:focus-visible {
+    opacity: 0.7;
+    outline: none;
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  @media (max-width: 980px) {
     display: grid;
   }
 `;
 
 const MenuLines = styled.span<{ $open: boolean }>`
   position: relative;
-  width: 24px;
-  height: 14px;
+  width: 22px;
+  height: 10px;
 
   &::before,
   &::after {
     position: absolute;
     left: 0;
-    width: 24px;
+    width: 22px;
     height: 1px;
     background: currentColor;
     content: '';
     transition:
-      top 0.3s ease,
-      transform 0.3s ease;
+      top 220ms ${EASE},
+      transform 220ms ${EASE};
   }
 
   &::before {
-    top: ${({ $open }) => ($open ? '7px' : '2px')};
-    transform: ${({ $open }) => ($open ? 'rotate(45deg)' : 'rotate(0)')};
+    top: ${({ $open }) => ($open ? '4.5px' : '0')};
+    transform: ${({ $open }) => ($open ? 'rotate(45deg)' : 'none')};
   }
 
   &::after {
-    top: ${({ $open }) => ($open ? '7px' : '12px')};
-    transform: ${({ $open }) => ($open ? 'rotate(-45deg)' : 'rotate(0)')};
+    top: ${({ $open }) => ($open ? '4.5px' : '10px')};
+    transform: ${({ $open }) => ($open ? 'rotate(-45deg)' : 'none')};
   }
 `;
 
@@ -186,15 +301,18 @@ const MobileMenu = styled.div<{ $open: boolean }>`
   display: none;
   visibility: hidden;
   align-items: end;
-  padding: 120px ${({ theme }) => theme.spacing.pageX} 48px;
+  padding: 140px ${({ theme }) => theme.spacing.pageX} 56px;
   background:
-    radial-gradient(circle at 50% 18%, rgba(26, 47, 160, 0.52), transparent 52vw),
-    rgba(5, 6, 15, 0.96);
+    radial-gradient(circle at 70% 12%, rgba(26, 47, 160, 0.38), transparent 42vw),
+    rgba(5, 6, 15, 0.97);
+  backdrop-filter: blur(24px);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.35s ease, visibility 0.35s ease;
+  transition:
+    opacity 320ms ${EASE},
+    visibility 320ms ${EASE};
 
-  @media (max-width: 900px) {
+  @media (max-width: 980px) {
     display: flex;
     visibility: ${({ $open }) => ($open ? 'visible' : 'hidden')};
     opacity: ${({ $open }) => ($open ? 1 : 0)};
@@ -205,79 +323,194 @@ const MobileMenu = styled.div<{ $open: boolean }>`
 const MobileNav = styled.nav`
   display: grid;
   width: 100%;
-  gap: 22px;
+  gap: 20px;
 `;
 
 const MobileNavLink = styled(NavLink)`
   color: ${({ theme }) => theme.colors.white};
-  font-size: clamp(38px, 13vw, 72px);
+  font-size: clamp(40px, 12vw, 68px);
   font-weight: ${({ theme }) => theme.typography.weights.extraLight};
-  letter-spacing: ${({ theme }) => theme.typography.tracking.tight};
-  line-height: 0.96;
-  text-transform: uppercase;
+  letter-spacing: -0.03em;
+  line-height: 0.94;
+  text-transform: none;
   transform: translateY(28px);
   opacity: 0;
+  transition: color 200ms ${EASE};
 
   span {
     display: block;
-    color: ${({ theme }) => theme.colors.gold};
-    font-size: ${({ theme }) => theme.typography.scale.label};
-    font-weight: ${({ theme }) => theme.typography.weights.regular};
-    letter-spacing: ${({ theme }) => theme.typography.tracking.label};
-    line-height: 1;
     margin-bottom: 10px;
+    color: rgba(203, 223, 238, 0.7);
+    font-size: 10px;
+    font-weight: ${({ theme }) => theme.typography.weights.regular};
+    letter-spacing: 0.22em;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: ${({ theme }) => theme.colors.ice};
+    outline: none;
   }
 `;
 
+const MobileLangRow = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+`;
+
 type NavItem = { key: NavKey; to: string };
+
+function sectionIdFromPath(to: string) {
+  if (to.startsWith('/#')) return to.slice(2);
+  if (to === '/blog') return 'blog';
+  if (to === '/projekty' || to === '/projects') return 'projects';
+  if (to === '/prodej') return 'sale';
+  if (to === '/pronajem') return 'rent';
+  if (to === '/kupujeme') return 'weBuy';
+  return '';
+}
 
 function NavLinks({
   links,
   getNavLinkProps,
   labels,
+  activeId,
 }: {
   links: readonly NavItem[];
-  getNavLinkProps: (to: string) => ReturnType<typeof Object>;
+  getNavLinkProps: (to: string) => {
+    to: string;
+    onClick?: (event: MouseEvent<HTMLAnchorElement>) => void;
+  };
   labels: Record<NavKey, string>;
+  activeId: string;
 }) {
   return (
     <>
-      {links.map((link) => (
-        <StyledNavLink className="hoverable" key={link.to} {...getNavLinkProps(link.to)}>
-          {labels[link.key]}
-        </StyledNavLink>
-      ))}
+      {links.map((link) => {
+        const sectionId = sectionIdFromPath(link.to);
+        const isActive =
+          activeId === sectionId ||
+          (link.to === '/blog' && activeId === 'blog') ||
+          (link.to === '/projekty' && activeId === 'projects') ||
+          (link.to === '/prodej' && activeId === 'sale') ||
+          (link.to === '/pronajem' && activeId === 'rent') ||
+          (link.to === '/kupujeme' && activeId === 'weBuy');
+        const linkProps = getNavLinkProps(link.to);
+        const isContact = link.key === 'contact';
+
+        return (
+          <StyledNavLink
+            $active={isActive}
+            $emphasis={isContact}
+            className="hoverable"
+            key={link.to}
+            to={linkProps.to}
+            onClick={linkProps.onClick}
+          >
+            {labels[link.key]}
+            {isContact ? (
+              <LinkArrow aria-hidden>
+                <svg fill="none" viewBox="0 0 10 10">
+                  <path
+                    d="M2 8L8 2M8 2H3.5M8 2V6.5"
+                    stroke="currentColor"
+                    strokeLinecap="square"
+                    strokeWidth="1"
+                  />
+                </svg>
+              </LinkArrow>
+            ) : null}
+          </StyledNavLink>
+        );
+      })}
     </>
   );
 }
 
-export function Navbar() {
+export function Navbar({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
   const { locale, setLocale, t } = useLanguage();
   const mobileMenuRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeId, setActiveId] = useState('');
   const location = useLocation();
+  const isLight = tone === 'light';
 
   useEffect(() => {
     setIsOpen(false);
   }, [location.pathname]);
 
   useEffect(() => {
-    const menu = mobileMenuRef.current;
+    if (location.pathname.startsWith('/blog')) {
+      setActiveId('blog');
+    } else if (location.pathname.startsWith('/projekty') || location.pathname.startsWith('/projects')) {
+      setActiveId('projects');
+    } else if (location.pathname.startsWith('/prodej')) {
+      setActiveId('sale');
+    } else if (location.pathname.startsWith('/pronajem')) {
+      setActiveId('rent');
+    } else if (location.pathname.startsWith('/kupujeme')) {
+      setActiveId('weBuy');
+    }
 
-    if (!menu) {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    if (location.pathname !== '/') {
       return;
     }
+
+    const sectionIds = ['projects', 'sold', 'sell-with-us', 'about', 'contact'];
+    const elements = sectionIds
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => Boolean(el));
+
+    if (!elements.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
+
+        if (visible[0]?.target.id) {
+          setActiveId(visible[0].target.id);
+        }
+      },
+      {
+        rootMargin: '-28% 0px -48% 0px',
+        threshold: [0.08, 0.2, 0.4],
+      },
+    );
+
+    elements.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const menu = mobileMenuRef.current;
+    if (!menu) return;
 
     document.body.style.overflow = isOpen ? 'hidden' : '';
 
     if (isOpen) {
       gsap.fromTo(
         menu.querySelectorAll('a'),
-        { autoAlpha: 0, y: 28 },
-        { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power3.out', stagger: 0.08 },
+        { autoAlpha: 0, y: 32 },
+        { autoAlpha: 1, y: 0, duration: 0.65, ease: 'power3.out', stagger: 0.07 },
       );
     } else {
-      gsap.set(menu.querySelectorAll('a'), { autoAlpha: 0, y: 28 });
+      gsap.set(menu.querySelectorAll('a'), { autoAlpha: 0, y: 32 });
     }
 
     return () => {
@@ -287,65 +520,57 @@ export function Navbar() {
 
   useEffect(() => {
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') {
-        setIsOpen(false);
-      }
+      if (event.key === 'Escape') setIsOpen(false);
     };
-
     window.addEventListener('keydown', closeOnEscape);
-
-    return () => {
-      window.removeEventListener('keydown', closeOnEscape);
-    };
+    return () => window.removeEventListener('keydown', closeOnEscape);
   }, []);
 
   const closeMenu = () => setIsOpen(false);
 
   const getNavLinkProps = (to: string) => {
-    const linkProps = { to, isActive: () => false };
-
     if (to.startsWith('/#')) {
       return {
-        ...linkProps,
+        to,
         onClick: (event: MouseEvent<HTMLAnchorElement>) => {
-          if (location.pathname !== '/') {
-            return;
-          }
+          if (location.pathname !== '/') return;
           event.preventDefault();
-          const id = to.replace('/#', '');
-          document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+          document.getElementById(to.replace('/#', ''))?.scrollIntoView({ behavior: 'smooth' });
           closeMenu();
         },
       };
     }
 
-    return linkProps;
+    return { to };
   };
 
   return (
-    <Header>
+    <Header $light={isLight} $scrolled={scrolled}>
       <Bar>
         <SideNav $align="left" aria-label="Primary navigation left">
-          <NavLinks getNavLinkProps={getNavLinkProps} labels={t.nav} links={LEFT_LINK_KEYS} />
+          <NavLinks
+            activeId={activeId}
+            getNavLinkProps={getNavLinkProps}
+            labels={t.nav}
+            links={LEFT_LINK_KEYS}
+          />
         </SideNav>
 
-        <LogoWrap aria-label={t.common.homeLabel} className="hoverable" to="/">
+        <LogoWrap $light={isLight} aria-label={t.common.homeLabel} className="hoverable" to="/">
           <OurenLogo />
         </LogoWrap>
 
         <SideNav $align="right" aria-label="Primary navigation right">
-          <NavLinks getNavLinkProps={getNavLinkProps} labels={t.nav} links={RIGHT_LINK_KEYS} />
-          <LangRow>
-            <LangButton $active={locale === 'cs'} className="hoverable" type="button" onClick={() => setLocale('cs')}>
-              CZ
-            </LangButton>
-            <LangButton $active={locale === 'en'} className="hoverable" type="button" onClick={() => setLocale('en')}>
-              EN
-            </LangButton>
-          </LangRow>
+          <NavLinks
+            activeId={activeId}
+            getNavLinkProps={getNavLinkProps}
+            labels={t.nav}
+            links={RIGHT_LINK_KEYS}
+          />
         </SideNav>
 
         <MenuButton
+          $open={isOpen}
           aria-controls="mobile-menu"
           aria-expanded={isOpen}
           aria-label={isOpen ? t.common.closeMenu : t.common.openMenu}
@@ -359,25 +584,51 @@ export function Navbar() {
 
       <MobileMenu $open={isOpen} id="mobile-menu" ref={mobileMenuRef}>
         <MobileNav aria-label="Mobile navigation">
-          {NAV_LINK_KEYS.map((link, index) => (
-            <MobileNavLink
+          {NAV_LINK_KEYS.map((link, index) => {
+            const linkProps = getNavLinkProps(link.to);
+
+            return (
+              <MobileNavLink
+                className="hoverable"
+                key={link.to}
+                to={linkProps.to}
+                onClick={(event) => {
+                  linkProps.onClick?.(event);
+                  closeMenu();
+                }}
+              >
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                {t.nav[link.key]}
+              </MobileNavLink>
+            );
+          })}
+          <MobileLangRow>
+            <LangButton
+              $active={locale === 'cs'}
+              aria-pressed={locale === 'cs'}
               className="hoverable"
-              key={link.to}
-              onClick={closeMenu}
-              {...getNavLinkProps(link.to)}
+              type="button"
+              onClick={() => {
+                setLocale('cs');
+                closeMenu();
+              }}
             >
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              {t.nav[link.key]}
-            </MobileNavLink>
-          ))}
-          <LangRow>
-            <LangButton $active={locale === 'cs'} className="hoverable" type="button" onClick={() => { setLocale('cs'); closeMenu(); }}>
               CZ
             </LangButton>
-            <LangButton $active={locale === 'en'} className="hoverable" type="button" onClick={() => { setLocale('en'); closeMenu(); }}>
+            <LangDivider aria-hidden>/</LangDivider>
+            <LangButton
+              $active={locale === 'en'}
+              aria-pressed={locale === 'en'}
+              className="hoverable"
+              type="button"
+              onClick={() => {
+                setLocale('en');
+                closeMenu();
+              }}
+            >
               EN
             </LangButton>
-          </LangRow>
+          </MobileLangRow>
         </MobileNav>
       </MobileMenu>
     </Header>

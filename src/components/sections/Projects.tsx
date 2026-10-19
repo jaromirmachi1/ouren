@@ -1,9 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import { activeProjects } from '../../data/projects';
+import { loadActiveProjects } from '../../data/projects-source';
 import { useLanguage } from '../../i18n/LanguageContext';
+import type { Project } from '../../types';
 import { refreshScrollTriggers, revealOnScroll } from '../../utils/scrollReveal';
-import { SplitText } from '../ui/SplitText';
 import { ProjectCard } from './ProjectCard';
 
 const Section = styled.section`
@@ -16,57 +16,67 @@ const Title = styled.h2`
   font-weight: ${({ theme }) => theme.typography.weights.light};
 `;
 
-const Grid = styled.div`
+const Stack = styled.div`
   display: grid;
   gap: clamp(20px, 3vw, 32px);
 `;
 
-const GridRest = styled.div`
+const Rest = styled.div`
   display: grid;
   gap: clamp(20px, 3vw, 32px);
 
   @media (min-width: 900px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: 1.2fr 0.8fr;
+
+    > :nth-child(3),
+    > :nth-child(6) {
+      grid-column: 1 / -1;
+      min-height: 48vh;
+    }
   }
 `;
 
 export function Projects() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
-  const [featured, ...rest] = activeProjects;
+  const [projects, setProjects] = useState<Project[]>([]);
+
+  useEffect(() => {
+    let cancelled = false;
+    loadActiveProjects().then((next) => {
+      if (!cancelled) setProjects(next);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   useEffect(() => {
     const section = sectionRef.current;
-
-    if (!section) {
-      return;
-    }
+    if (!section || !projects.length) return;
 
     const cards = section.querySelectorAll('.project-card');
-    const context = revealOnScroll(section, cards);
-
+    const context = revealOnScroll(section, cards, { y: 32, duration: 0.7, stagger: 0.08 });
     refreshScrollTriggers();
 
     return () => {
       context.revert();
     };
-  }, []);
+  }, [projects]);
+
+  const [featured, ...rest] = projects;
 
   return (
     <Section id="projects" ref={sectionRef}>
-      <Title>
-        <SplitText as="span" triggerOnScroll splitBy="words">
-          {t.projects.title}
-        </SplitText>
-      </Title>
-      <Grid>
-        {featured && <ProjectCard featured index={0} project={featured} />}
-        <GridRest>
+      <Title>{t.projects.title}</Title>
+      <Stack>
+        {featured ? <ProjectCard featured index={0} project={featured} /> : null}
+        <Rest>
           {rest.map((project, index) => (
             <ProjectCard index={index + 1} key={project.id} project={project} />
           ))}
-        </GridRest>
-      </Grid>
+        </Rest>
+      </Stack>
     </Section>
   );
 }

@@ -1,3 +1,14 @@
+export interface Unit {
+  id: string;
+  number: string;
+  floor: number;
+  layout: string;
+  area: number;
+  price: number;
+  status: 'available' | 'reserved' | 'sold' | 'rented';
+  terrace?: number;
+}
+
 export interface Project {
   id: string;
   name: string;
@@ -6,10 +17,17 @@ export interface Project {
   status: 'available' | 'reserved' | 'sold' | 'inProgress';
   price: string;
   units: number;
+  areaSqm?: number;
   image: string;
   year: number;
   slug: string;
   websiteUrl?: string;
+  description?: {
+    cs: string;
+    en: string;
+  };
+  gallery?: string[];
+  inventory?: Unit[];
 }
 
 export type PropertyType = 'apartment' | 'house' | 'land' | 'commercial';

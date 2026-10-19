@@ -8,6 +8,7 @@ import { useLanguage } from '../../i18n/LanguageContext';
 import type { SellFormValues } from '../../types';
 import { GradientBlob } from '../ui/GradientBlob';
 import { MagneticButton } from '../ui/MagneticButton';
+import { shouldUseHeavyEffects } from '../../utils/performance';
 
 const Section = styled.section`
   position: relative;
@@ -50,7 +51,7 @@ const Field = styled.label`
 `;
 
 const FieldLabel = styled.span<{ $active?: boolean }>`
-  color: ${({ $active, theme }) => ($active ? theme.colors.gold : 'rgba(245,245,240,0.55)')};
+  color: ${({ $active, theme }) => ($active ? theme.colors.ice : 'rgba(245,245,240,0.55)')};
   font-size: ${({ theme }) => theme.typography.scale.label};
   letter-spacing: ${({ theme }) => theme.typography.tracking.label};
   text-transform: uppercase;
@@ -68,7 +69,7 @@ const Input = styled.input`
   outline: none;
 
   &:focus {
-    border-bottom-color: ${({ theme }) => theme.colors.gold};
+    border-bottom-color: ${({ theme }) => theme.colors.ice};
   }
 `;
 
@@ -82,7 +83,7 @@ const Select = styled.select`
   outline: none;
 
   &:focus {
-    border-bottom-color: ${({ theme }) => theme.colors.gold};
+    border-bottom-color: ${({ theme }) => theme.colors.ice};
   }
 
   option {
@@ -102,7 +103,7 @@ const Textarea = styled.textarea`
   resize: vertical;
 
   &:focus {
-    border-bottom-color: ${({ theme }) => theme.colors.gold};
+    border-bottom-color: ${({ theme }) => theme.colors.ice};
   }
 `;
 
@@ -112,7 +113,7 @@ const ErrorText = styled.span`
 `;
 
 const Success = styled.p`
-  color: ${({ theme }) => theme.colors.gold};
+  color: ${({ theme }) => theme.colors.ice};
   font-size: 14px;
   letter-spacing: 0.08em;
 `;
@@ -185,7 +186,15 @@ export function SellWithUs() {
 
   return (
     <Section id="sell-with-us" ref={sectionRef}>
-      <GradientBlob color="rgba(26, 47, 160, 0.55)" left="72%" opacity={0.5} size="clamp(280px, 40vw, 560px)" top="12%" />
+      {shouldUseHeavyEffects() ? (
+        <GradientBlob
+          color="rgba(26, 47, 160, 0.55)"
+          left="72%"
+          opacity={0.5}
+          size="clamp(280px, 40vw, 560px)"
+          top="12%"
+        />
+      ) : null}
       <Inner>
         <Headline>{t.sell.headline}</Headline>
         <Form noValidate onSubmit={handleSubmit(onSubmit)}>

@@ -1,10 +1,12 @@
 export type Locale = 'cs' | 'en';
 
 export type NavKey =
+  | 'sale'
+  | 'rent'
+  | 'weBuy'
   | 'projects'
   | 'sold'
   | 'about'
-  | 'sellWithUs'
   | 'journal'
   | 'contact';
 
@@ -12,7 +14,7 @@ export type PropertyTypeKey = 'flats' | 'houses' | 'commercial' | 'others';
 
 export type BlogCategoryKey = 'market' | 'design' | 'investment' | 'lifestyle';
 
-export type ProjectStatusKey = 'available' | 'reserved' | 'sold' | 'inProgress';
+export type ProjectStatusKey = 'available' | 'reserved' | 'sold' | 'inProgress' | 'rented';
 
 export type Translations = {
   meta: {
@@ -20,12 +22,21 @@ export type Translations = {
     homeDescription: string;
     blogTitle: string;
     blogDescription: string;
+    projectsTitle: string;
+    projectsDescription: string;
+    saleTitle: string;
+    saleDescription: string;
+    rentTitle: string;
+    rentDescription: string;
+    weBuyTitle: string;
+    weBuyDescription: string;
     siteName: string;
   };
   common: {
     loading: string;
     readMore: string;
     backToJournal: string;
+    backToProjects: string;
     minRead: string;
     units: string;
     from: string;
@@ -33,6 +44,8 @@ export type Translations = {
     openMenu: string;
     closeMenu: string;
     homeLabel: string;
+    viewProject: string;
+    inquire: string;
   };
   lang: {
     switchToEnglish: string;
@@ -41,15 +54,68 @@ export type Translations = {
   };
   nav: Record<NavKey, string>;
   hero: {
-    lines: [string, string, string];
-    subline: string;
+    brand: string;
+    headline: string;
+    support: string;
+    cta: string;
   };
   propertyMenu: {
-    eyebrow: string;
+    title: string;
     types: Record<PropertyTypeKey, string>;
   };
   projects: {
     title: string;
+    pageTitle: string;
+    pageLead: string;
+    allProjects: string;
+    availableUnits: string;
+    inventoryTitle: string;
+    filterAll: string;
+    filterAvailable: string;
+    filterReserved: string;
+    filterSold: string;
+    filterRented: string;
+    table: {
+      unit: string;
+      floor: string;
+      layout: string;
+      area: string;
+      terrace: string;
+      price: string;
+      status: string;
+    };
+    noUnits: string;
+    externalSite: string;
+  };
+  listings: {
+    saleTitle: string;
+    saleLead: string;
+    rentTitle: string;
+    rentLead: string;
+    weBuyTitle: string;
+    weBuyLead: string;
+    countSale: string;
+    countRent: string;
+    backToSale: string;
+    backToRent: string;
+    empty: string;
+    priceOnRequest: string;
+    galleryPrev: string;
+    galleryNext: string;
+    specs: {
+      status: string;
+      layout: string;
+      area: string;
+      landArea: string;
+      price: string;
+      year: string;
+    };
+    kinds: {
+      apartment: string;
+      house: string;
+      land: string;
+      commercial: string;
+    };
   };
   sold: {
     title: string;
