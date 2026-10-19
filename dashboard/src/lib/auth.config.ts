@@ -1,19 +1,19 @@
 import type { NextAuthConfig } from 'next-auth'
+import { adminPath } from './admin-path'
 import { DEFAULT_PORTAL_ROLE, type PortalRole } from './roles'
 
 export const authConfig = {
-  // Next.js already mounts the app at /admin — Auth.js path is relative to that
-  basePath: '/api/auth',
+  basePath: adminPath('/api/auth'),
   trustHost: true,
   pages: {
-    signIn: '/login',
+    signIn: adminPath('/login'),
   },
   session: {
     strategy: 'jwt',
   },
   providers: [],
   callbacks: {
-    // Route protection is handled in middleware.ts so redirects keep /admin basePath
+    // Route protection is handled in middleware.ts
     authorized() {
       return true
     },

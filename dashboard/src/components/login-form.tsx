@@ -22,7 +22,7 @@ export function LoginForm() {
     setPending(true)
     setError('')
 
-    const callbackUrl = searchParams.get('callbackUrl') || '/'
+    const callbackUrl = searchParams.get('callbackUrl') || '/admin'
     const result = await signIn('credentials', {
       email,
       password,

@@ -41,10 +41,10 @@ function slugify(value: string) {
 }
 
 function refresh() {
-  revalidatePath('/projects')
-  revalidatePath('/')
-  revalidatePath('/customers')
-  revalidatePath('/units')
+  revalidatePath('/admin/projects')
+  revalidatePath('/admin')
+  revalidatePath('/admin/customers')
+  revalidatePath('/admin/units')
 }
 
 function readString(formData: FormData, key: string) {

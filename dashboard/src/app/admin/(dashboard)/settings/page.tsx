@@ -15,7 +15,7 @@ export default async function SettingsPage() {
       canManageRoles={can(role, 'manageRoles')}
       signOutAction={async () => {
         'use server'
-        await signOut({ redirectTo: '/login' })
+        await signOut({ redirectTo: '/admin/login' })
       }}
     />
   )

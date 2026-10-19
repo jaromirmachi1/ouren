@@ -29,7 +29,7 @@ export async function updateUserRole(email: string, role: string): Promise<RoleA
 
   try {
     await setRoleOverride(normalizedEmail, role as PortalRole)
-    revalidatePath('/settings')
+    revalidatePath('/admin/settings')
     return { ok: true }
   } catch {
     return { ok: false, error: 'saveFailed' }

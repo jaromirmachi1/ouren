@@ -26,6 +26,7 @@ import {
   SidebarRail,
 } from '@/components/ui/sidebar'
 import { useLanguage } from '@/components/language-provider'
+import { ADMIN_BASE, adminPath } from '@/lib/admin-path'
 
 export function AppSidebar({
   signOutAction,
@@ -36,18 +37,18 @@ export function AppSidebar({
   const { t } = useLanguage()
 
   const nav = [
-    { title: t.nav.overview, href: '/', icon: LayoutDashboard },
-    { title: t.nav.customers, href: '/customers', icon: Users },
-    { title: t.nav.projects, href: '/projects', icon: Building2 },
-    { title: t.nav.units, href: '/units', icon: FileText },
-    { title: t.nav.inquiries, href: '/inquiries', icon: Inbox },
-    { title: t.nav.settings, href: '/settings', icon: Settings },
+    { title: t.nav.overview, href: ADMIN_BASE, icon: LayoutDashboard },
+    { title: t.nav.customers, href: adminPath('/customers'), icon: Users },
+    { title: t.nav.projects, href: adminPath('/projects'), icon: Building2 },
+    { title: t.nav.units, href: adminPath('/units'), icon: FileText },
+    { title: t.nav.inquiries, href: adminPath('/inquiries'), icon: Inbox },
+    { title: t.nav.settings, href: adminPath('/settings'), icon: Settings },
   ]
 
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border px-4 py-4">
-        <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
+        <Link href={ADMIN_BASE} className="flex items-center gap-2 font-semibold tracking-tight">
           <span className="grid size-8 place-items-center rounded-md bg-primary text-xs text-primary-foreground">
             O
           </span>
@@ -60,7 +61,10 @@ export function AppSidebar({
           <SidebarGroupContent>
             <SidebarMenu>
               {nav.map((item) => {
-                const active = item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)
+                const active =
+                  item.href === ADMIN_BASE
+                    ? pathname === ADMIN_BASE
+                    : pathname.startsWith(item.href)
                 return (
                   <SidebarMenuItem key={item.href}>
                     <SidebarMenuButton

@@ -154,7 +154,7 @@ export async function createUnit(formData: FormData): Promise<UnitActionResult> 
       ...documentFrom(fields, imageRef),
       ...(gallery.length ? { gallery } : {}),
     })
-    revalidatePath('/units')
+    revalidatePath('/admin/units')
     return { ok: true }
   } catch (error) {
     if (isUnauthorizedError(error)) return { ok: false, error: 'sanityUnauthorized' }
@@ -205,7 +205,7 @@ export async function updateUnit(formData: FormData): Promise<UnitActionResult> 
         ...(gallery.length ? [] : ['gallery']),
       ])
       .commit()
-    revalidatePath('/units')
+    revalidatePath('/admin/units')
     return { ok: true }
   } catch (error) {
     if (isUnauthorizedError(error)) return { ok: false, error: 'sanityUnauthorized' }
@@ -223,7 +223,7 @@ export async function deleteUnit(id: string): Promise<UnitActionResult> {
   if (!sanityWriteClient || !id) return { ok: false, error: 'saveFailed' }
   try {
     await sanityWriteClient.delete(id)
-    revalidatePath('/units')
+    revalidatePath('/admin/units')
     return { ok: true }
   } catch {
     return { ok: false, error: 'saveFailed' }

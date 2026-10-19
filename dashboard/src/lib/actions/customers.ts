@@ -35,8 +35,8 @@ function slugify(value: string) {
 }
 
 function refresh() {
-  revalidatePath('/customers')
-  revalidatePath('/')
+  revalidatePath('/admin/customers')
+  revalidatePath('/admin')
 }
 
 function normalizeEmail(email?: string) {

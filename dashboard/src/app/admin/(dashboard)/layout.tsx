@@ -5,7 +5,7 @@ import { signOut } from '@/lib/auth'
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   async function signOutAction() {
     'use server'
-    await signOut({ redirectTo: '/login' })
+    await signOut({ redirectTo: '/admin/login' })
   }
 
   return (

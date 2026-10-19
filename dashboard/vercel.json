@@ -2,15 +2,5 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "npm install --prefix .. && npm install",
   "buildCommand": "npm run build",
-  "framework": "nextjs",
-  "rewrites": [
-    { "source": "/robots.txt", "destination": "/site/robots.txt" },
-    { "source": "/sitemap.xml", "destination": "/site/sitemap.xml" },
-    { "source": "/og-image.jpg", "destination": "/site/og-image.jpg" },
-    { "source": "/", "destination": "/site/index.html" },
-    {
-      "source": "/((?!admin(?:/|$)|_next(?:/|$)|site(?:/|$)).*)",
-      "destination": "/site/index.html"
-    }
-  ]
+  "framework": "nextjs"
 }

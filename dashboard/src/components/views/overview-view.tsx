@@ -24,10 +24,10 @@ export function OverviewView({ stats, customers, inquiries, projects }: Props) {
   const { locale, t } = useLanguage()
 
   const cards = [
-    { label: t.overview.projects, value: stats.projects, icon: Building2, href: '/projects' },
-    { label: t.overview.availableUnits, value: stats.availableUnits, icon: Home, href: '/units' },
-    { label: t.overview.customers, value: stats.customers, icon: Users, href: '/customers' },
-    { label: t.overview.newInquiries, value: stats.newInquiries, icon: Inbox, href: '/inquiries' },
+    { label: t.overview.projects, value: stats.projects, icon: Building2, href: '/admin/projects' },
+    { label: t.overview.availableUnits, value: stats.availableUnits, icon: Home, href: '/admin/units' },
+    { label: t.overview.customers, value: stats.customers, icon: Users, href: '/admin/customers' },
+    { label: t.overview.newInquiries, value: stats.newInquiries, icon: Inbox, href: '/admin/inquiries' },
   ]
 
   return (
