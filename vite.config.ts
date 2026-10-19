@@ -34,6 +34,8 @@ function rewriteRedirectLocation(location: string) {
 
 export default defineConfig({
   base: unifiedDeploy ? '/site/' : '/',
+  // Portal uses NEXT_PUBLIC_*; marketing Vite needs the same Sanity ids on Vercel.
+  envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
   plugins: [react()],
   build: {
     outDir: unifiedDeploy ? 'dashboard/public/site' : 'dist',

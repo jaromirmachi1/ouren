@@ -28,9 +28,16 @@ export type SanityProject = {
   descriptionEn?: string;
 };
 
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID as string | undefined;
-const dataset = (import.meta.env.VITE_SANITY_DATASET as string | undefined) || 'production';
-const apiVersion = (import.meta.env.VITE_SANITY_API_VERSION as string | undefined) || '2025-01-01';
+const projectId = (import.meta.env.VITE_SANITY_PROJECT_ID ||
+  import.meta.env.NEXT_PUBLIC_SANITY_PROJECT_ID) as string | undefined;
+const dataset =
+  (import.meta.env.VITE_SANITY_DATASET as string | undefined) ||
+  (import.meta.env.NEXT_PUBLIC_SANITY_DATASET as string | undefined) ||
+  'production';
+const apiVersion =
+  (import.meta.env.VITE_SANITY_API_VERSION as string | undefined) ||
+  (import.meta.env.NEXT_PUBLIC_SANITY_API_VERSION as string | undefined) ||
+  '2025-01-01';
 
 const PLACEHOLDER_IMAGE =
   'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80';
@@ -145,9 +152,7 @@ export async function fetchRemoteProjects(): Promise<MappedProject[] | null> {
     const response = await fetch(url.toString());
     if (!response.ok) return null;
     const json = (await response.json()) as { result?: SanityProject[] };
-    const rows = json.result ?? [];
-    if (!rows.length) return null;
-    return rows.map(mapSanityProject);
+    return (json.result ?? []).map(mapSanityProject);
   } catch {
     return null;
   }
@@ -159,25 +164,24 @@ function isResidential(project: { channels?: ProjectChannel[] }) {
 
 export async function loadActiveProjects(): Promise<Project[]> {
   const remote = await fetchRemoteProjects();
-  if (!remote) return staticActiveProjects;
+  // null = Sanity unavailable → local fixtures; [] = live CMS with nothing published
+  if (remote === null) return staticActiveProjects;
   return remote.filter((project) => isResidential(project) && project.status !== 'sold');
 }
 
 export async function loadSoldProjects(): Promise<Project[]> {
   const remote = await fetchRemoteProjects();
-  if (!remote) return staticSoldProjects;
-  const sold = remote.filter((project) => isResidential(project) && project.status === 'sold');
-  return sold.length ? sold : staticSoldProjects;
+  if (remote === null) return staticSoldProjects;
+  return remote.filter((project) => isResidential(project) && project.status === 'sold');
 }
 
 export async function loadProjectBySlug(slug: string): Promise<Project | undefined> {
   const remote = await fetchRemoteProjects();
-  const fromStatic =
-    staticActiveProjects.find((project) => project.slug === slug) ??
-    staticSoldProjects.find((project) => project.slug === slug);
-
-  if (!remote) return fromStatic;
-  return (
-    remote.find((project) => isResidential(project) && project.slug === slug) ?? fromStatic
-  );
+  if (remote === null) {
+    return (
+      staticActiveProjects.find((project) => project.slug === slug) ??
+      staticSoldProjects.find((project) => project.slug === slug)
+    );
+  }
+  return remote.find((project) => isResidential(project) && project.slug === slug);
 }
