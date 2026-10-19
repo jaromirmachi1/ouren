@@ -5,6 +5,10 @@ import { authConfig } from '@/lib/auth.config'
 
 const { auth } = NextAuth(authConfig)
 
+/** Public marketing files live under /site after the unified Vite build. */
+const SITE_STATIC =
+  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|txt|xml|pdf|woff2?|ttf|eot|mp4|webm|json|map)$/i
+
 function stripAdminPath(pathname: string) {
   if (pathname === ADMIN_BASE || pathname.startsWith(`${ADMIN_BASE}/`)) {
     return pathname.slice(ADMIN_BASE.length) || '/'
@@ -21,11 +25,8 @@ export default auth((req) => {
 
   const isAdmin = pathname === ADMIN_BASE || pathname.startsWith(`${ADMIN_BASE}/`)
   if (!isAdmin) {
-    if (
-      pathname === '/robots.txt' ||
-      pathname === '/sitemap.xml' ||
-      pathname === '/og-image.jpg'
-    ) {
+    // /ouren-logo.png → /site/ouren-logo.png (do not SPA-fallback assets)
+    if (SITE_STATIC.test(pathname)) {
       return NextResponse.rewrite(new URL(`/site${pathname}`, req.url))
     }
 

@@ -11,6 +11,8 @@ const LogoImage = styled.img<{ $height: number }>`
   height: ${({ $height }) => $height}px;
 `;
 
+const logoSrc = `${import.meta.env.BASE_URL.replace(/\/?$/, '/')}ouren-logo.png`;
+
 export function OurenLogo({ height = 36, className }: OurenLogoProps) {
   return (
     <LogoImage
@@ -18,7 +20,7 @@ export function OurenLogo({ height = 36, className }: OurenLogoProps) {
       alt="Ouren"
       className={className}
       decoding="async"
-      src="/ouren-logo.png"
+      src={logoSrc}
     />
   );
 }
