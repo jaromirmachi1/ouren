@@ -3,6 +3,7 @@ import { Link, NavLink, useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import styled from 'styled-components';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { prefersReducedMotion } from '../../utils/performance';
 import type { NavKey } from '../../i18n/types';
 import { OurenLogo } from '../ui/OurenLogo';
 
@@ -55,7 +56,7 @@ const Header = styled.header<{ $scrolled: boolean; $light: boolean }>`
 
 const Bar = styled.div`
   position: relative;
-  z-index: 1;
+  z-index: 2;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -297,11 +298,17 @@ const MenuLines = styled.span<{ $open: boolean }>`
 const MobileMenu = styled.div<{ $open: boolean }>`
   position: fixed;
   inset: 0;
-  z-index: ${({ theme }) => theme.zIndex.nav - 1};
+  z-index: 1;
   display: none;
   visibility: hidden;
-  align-items: end;
-  padding: 140px ${({ theme }) => theme.spacing.pageX} 56px;
+  flex-direction: column;
+  justify-content: safe flex-end;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding:
+    calc(112px + env(safe-area-inset-top, 0px))
+    ${({ theme }) => theme.spacing.pageX}
+    calc(28px + env(safe-area-inset-bottom, 0px));
   background:
     radial-gradient(circle at 70% 12%, rgba(26, 47, 160, 0.38), transparent 42vw),
     rgba(5, 6, 15, 0.97);
@@ -323,29 +330,30 @@ const MobileMenu = styled.div<{ $open: boolean }>`
 const MobileNav = styled.nav`
   display: grid;
   width: 100%;
-  gap: 20px;
+  gap: clamp(8px, 1.4vh, 16px);
 `;
 
 const MobileNavLink = styled(NavLink)`
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  align-items: baseline;
+  column-gap: 12px;
   color: ${({ theme }) => theme.colors.white};
-  font-size: clamp(40px, 12vw, 68px);
+  font-size: clamp(34px, 9vw, 52px);
   font-weight: ${({ theme }) => theme.typography.weights.extraLight};
   letter-spacing: -0.03em;
-  line-height: 0.94;
+  line-height: 0.96;
   text-transform: none;
-  transform: translateY(28px);
+  transform: translateY(16px);
   opacity: 0;
   transition: color 200ms ${EASE};
 
   span {
-    display: block;
-    margin-bottom: 10px;
-    color: rgba(203, 223, 238, 0.7);
-    font-size: 10px;
+    color: rgba(203, 223, 238, 0.55);
+    font-size: 11px;
     font-weight: ${({ theme }) => theme.typography.weights.regular};
-    letter-spacing: 0.22em;
+    letter-spacing: 0.14em;
     line-height: 1;
-    text-transform: uppercase;
   }
 
   &:hover,
@@ -503,14 +511,18 @@ export function Navbar({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
 
     document.body.style.overflow = isOpen ? 'hidden' : '';
 
-    if (isOpen) {
+    const links = menu.querySelectorAll('a');
+
+    if (isOpen && prefersReducedMotion()) {
+      gsap.set(links, { autoAlpha: 1, y: 0 });
+    } else if (isOpen) {
       gsap.fromTo(
-        menu.querySelectorAll('a'),
-        { autoAlpha: 0, y: 32 },
-        { autoAlpha: 1, y: 0, duration: 0.65, ease: 'power3.out', stagger: 0.07 },
+        links,
+        { autoAlpha: 0, y: 16 },
+        { autoAlpha: 1, y: 0, duration: 0.45, ease: 'power3.out', stagger: 0.05 },
       );
     } else {
-      gsap.set(menu.querySelectorAll('a'), { autoAlpha: 0, y: 32 });
+      gsap.set(links, { autoAlpha: 0, y: 16 });
     }
 
     return () => {
@@ -556,7 +568,7 @@ export function Navbar({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
           />
         </SideNav>
 
-        <LogoWrap $light={isLight} aria-label={t.common.homeLabel} className="hoverable" to="/">
+        <LogoWrap $light={isLight && !isOpen} aria-label={t.common.homeLabel} className="hoverable" to="/">
           <OurenLogo />
         </LogoWrap>
 

@@ -56,11 +56,11 @@ export function Contact() {
           <Copy>{t.contact.copy}</Copy>
         </div>
         <Details>
-          <Link className="hoverable" href="mailto:hello@ouren.cz">
-            hello@ouren.cz
+          <Link className="hoverable" href="mailto:info@ouren.cz">
+            info@ouren.cz
           </Link>
-          <Link className="hoverable" href="tel:+420123456789">
-            +420 123 456 789
+          <Link className="hoverable" href="tel:+420722033055">
+            +420 722 033 055
           </Link>
           <Copy>{t.contact.locations}</Copy>
         </Details>

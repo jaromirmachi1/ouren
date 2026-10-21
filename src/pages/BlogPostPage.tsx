@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import gsap from 'gsap';
 import styled from 'styled-components';
-import { Footer } from '../components/layout/Footer';
 import { GradientBlob } from '../components/ui/GradientBlob';
 import { getBlogPost } from '../data/blog';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -159,7 +158,6 @@ export default function BlogPostPage() {
           <Paragraph key={paragraph.slice(0, 24)}>{paragraph}</Paragraph>
         ))}
       </Article>
-      <Footer />
     </Page>
   );
 }

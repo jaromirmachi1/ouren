@@ -15,8 +15,9 @@ export const cs: Translations = {
     saleDescription: 'Byty, domy a komerční nemovitosti k prodeji s Ouren.',
     rentTitle: 'Pronájem | Ouren',
     rentDescription: 'Byty, domy a komerční prostory k pronájmu s Ouren.',
-    weBuyTitle: 'Kupujeme | Ouren',
-    weBuyDescription: 'Prodáte nemovitost Ouren — přímý výkup bez zbytečných průtahů.',
+    weBuyTitle: 'Prodáte s námi | Ouren',
+    weBuyDescription:
+      'Výkup nemovitosti nebo prodej s Ouren — nezávazně posoudíme, která cesta dává větší smysl.',
     siteName: 'Ouren Real Estate',
   },
   common: {
@@ -42,7 +43,7 @@ export const cs: Translations = {
   nav: {
     sale: 'Prodej',
     rent: 'Pronájem',
-    weBuy: 'Kupujeme',
+    weBuy: 'Prodáte s námi',
     projects: 'Rezidenční projekty',
     sold: 'Dokončené',
     about: 'O nás',
@@ -93,8 +94,8 @@ export const cs: Translations = {
     saleLead: 'Vybrané byty, domy a komerční nemovitosti připravené k prodeji.',
     rentTitle: 'Pronájem',
     rentLead: 'Rezidence a komerční prostory k pronájmu — jasné podmínky, silné lokality.',
-    weBuyTitle: 'Kupujeme',
-    weBuyLead: 'Vy prodáváte, my kupujeme — přímý výkup bez prostředníků a zbytečných poplatků.',
+    weBuyTitle: 'Prodáte s námi',
+    weBuyLead: 'Rychlý výkup, nebo plný prodej s naším zastoupením — otevřeně doporučíme, co sedí vaší situaci.',
     countSale: 'nemovitostí k prodeji',
     countRent: 'nemovitostí k pronájmu',
     backToSale: 'Vše k prodeji',
@@ -147,6 +148,125 @@ export const cs: Translations = {
       estimatedValue: 'Zadejte odhadovanou hodnotu',
       message: 'Napište krátkou zprávu',
     },
+  },
+  weBuyPage: {
+    title: 'Prodáte s námi',
+    lead: 'Vy prodáváte — my buď nemovitost vykoupíme, nebo ji za vás dovedeme na trh. Nezávazně posoudíme, která cesta dává větší smysl.',
+    ctaBuy: 'Chci výkup',
+    ctaList: 'Chci prodat s Ouren',
+    pathsTitle: 'Dvě cesty. Jedno rozhodnutí až podle čísel.',
+    pathsLead: 'Než něco slíbíme, porovnáme rychlost, jistotu a reálný výnos — a řekneme vám to rovnou.',
+    buyPath: {
+      title: 'Výkup',
+      summary: 'Přímý odkup Ouren. Méně nejistoty, kratší čas, méně starostí.',
+      points: [
+        'Uzavření typicky ve dnech až týdnech',
+        'Bez prohlídek a inzerce',
+        'Stav nemovitosti řešíme my',
+        'Cena pod trhem výměnou za jistotu a rychlost',
+      ],
+    },
+    listPath: {
+      title: 'Prodej s Ouren',
+      summary: 'Tržní zastoupení s editorialní prezentací a diskrétním vedením.',
+      points: [
+        'Cíl: maximální tržní hodnota',
+        'Příprava, foto, inzerce, prohlídky',
+        'Jednání s kupujícími za vás',
+        'Delší horizont, vyšší potenciální výnos',
+      ],
+    },
+    fitsTitle: 'Kdy která cesta sedí',
+    fitsBuy: {
+      title: 'Výkup dává smysl, když',
+      items: [
+        'Potřebujete rychle a jistě uzavřít',
+        'Řešíte dědictví, rozvod nebo složitější vlastnictví',
+        'Nechcete investovat do oprav a prohlídek',
+      ],
+    },
+    fitsList: {
+      title: 'Prodej s Ouren dává smysl, když',
+      items: [
+        'Chcete vytěžit maximum z lokality a prezentace',
+        'Máte čas na řádný tržní prodej',
+        'Hledáte partnera, ne jen inzerát',
+      ],
+    },
+    stepsTitle: 'Jak to probíhá',
+    steps: [
+      {
+        title: 'Napište nám',
+        body: 'Krátký formulář — lokalita, kontakt a co preferujete. Bez závazku.',
+      },
+      {
+        title: 'Ozveme se do 24 hodin',
+        body: 'Upřesníme situaci a domluvíme další krok způsobem, který vám vyhovuje.',
+      },
+      {
+        title: 'Posoudíme nemovitost',
+        body: 'Lokalita, stav, dokumenty a reálné možnosti na trhu i pro výkup.',
+      },
+      {
+        title: 'Navrhneme cestu',
+        body: 'Konkrétní doporučení: výkup, prodej s Ouren, nebo kombinace. Rozhodnutí zůstává na vás.',
+      },
+    ],
+    proofTitle: 'Důvěra je v uzavřených případech',
+    proofLead: 'Stejný tým, který vede developerské projekty, řeší i soukromé prodeje a výkupy.',
+    proofItems: [
+      { value: '24 h', label: 'první odpověď' },
+      { value: 'CZ + EU', label: 'působnost' },
+      { value: '1 partner', label: 'od první zprávy po podpis' },
+    ],
+    formTitle: 'Nezávazná poptávka',
+    formLead: 'Stačí lokalita a telefon. Zbytek doplníme spolu.',
+    formNote: 'Odesláním nevzniká závazek prodat ani přijmout nabídku.',
+    intents: {
+      buy: 'Výkup',
+      list: 'Prodej s Ouren',
+      unsure: 'Nevím — poradit',
+    },
+    fields: {
+      intent: 'Co hledáte',
+      location: 'Město / lokalita',
+      phone: 'Telefon',
+      name: 'Jméno',
+      propertyType: 'Typ nemovitosti',
+      message: 'Stručně o situaci (volitelné)',
+    },
+    propertyTypes: {
+      apartment: 'Byt',
+      house: 'Dům',
+      land: 'Pozemek',
+      commercial: 'Komerční',
+    },
+    submit: 'Poslat poptávku',
+    success: 'Děkujeme. Ozveme se do 24 hodin.',
+    validation: {
+      location: 'Zadejte lokalitu',
+      phone: 'Zadejte telefon',
+      name: 'Zadejte jméno',
+    },
+    faqTitle: 'Časté otázky',
+    faq: [
+      {
+        q: 'Je vyplnění formuláře závazné?',
+        a: 'Ne. Jde jen o nezávazné posouzení. Žádná smlouva ani exkluzivita nevzniká odesláním.',
+      },
+      {
+        q: 'Proč je výkup často pod tržní cenou?',
+        a: 'Platíte rychlostí a jistotou: bez prohlídek, oprav a rizika, že se prodej protáhne. Pokud dává smysl jít na trh, řekneme vám to otevřeně.',
+      },
+      {
+        q: 'Můžete řešit i složitější případy?',
+        a: 'Ano — dědictví, spoluvlastnictví, zástavy nebo nemovitosti vyžadující rekonstrukci posuzujeme individuálně.',
+      },
+      {
+        q: 'Jak rychle se ozvete?',
+        a: 'Zpravidla do 24 hodin v pracovní dny. Urgenci napište do zprávy — přizpůsobíme tempo.',
+      },
+    ],
   },
   about: {
     eyebrow: 'O Ouren',

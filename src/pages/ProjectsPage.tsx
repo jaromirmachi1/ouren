@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { Footer } from '../components/layout/Footer';
 import { BrightProjectCard } from '../components/projects/BrightProjectCard';
 import { loadActiveProjects, loadSoldProjects } from '../data/projects-source';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -53,22 +52,6 @@ const Grid = styled.div`
   }
 `;
 
-const BrightFooter = styled.div`
-  footer {
-    background: ${({ theme }) => theme.colors.brightBg};
-    color: ${({ theme }) => theme.colors.brightInk};
-  }
-
-  footer a,
-  footer button {
-    color: ${({ theme }) => theme.colors.brightInk};
-  }
-
-  footer p {
-    color: ${({ theme }) => theme.colors.brightMuted};
-  }
-`;
-
 export default function ProjectsPage() {
   const { locale, t } = useLanguage();
   const [active, setActive] = useState<Project[]>([]);
@@ -117,9 +100,6 @@ export default function ProjectsPage() {
           </Grid>
         </Block>
       ) : null}
-      <BrightFooter>
-        <Footer />
-      </BrightFooter>
     </Page>
   );
 }

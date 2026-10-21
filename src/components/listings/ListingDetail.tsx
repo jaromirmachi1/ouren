@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { Footer } from '../layout/Footer';
 import type { Listing } from '../../data/listings';
 import { useLanguage } from '../../i18n/LanguageContext';
 
@@ -77,6 +76,31 @@ const Header = styled.header`
   gap: 12px;
 `;
 
+const StatusBanner = styled.p<{ $closed?: boolean }>`
+  display: inline-grid;
+  gap: 8px;
+  justify-items: start;
+  width: fit-content;
+  margin: 0;
+  padding: ${({ $closed }) => ($closed ? '10px 14px' : '0')};
+  border: ${({ $closed }) =>
+    $closed ? '1px solid rgba(0, 10, 103, 0.22)' : '1px solid transparent'};
+  background: ${({ $closed }) => ($closed ? 'rgba(0, 10, 103, 0.04)' : 'transparent')};
+  color: ${({ theme }) => theme.colors.navy};
+  font-size: 12px;
+  font-weight: ${({ theme }) => theme.typography.weights.light};
+  letter-spacing: 0.22em;
+  text-indent: 0.22em;
+  text-transform: uppercase;
+`;
+
+const StatusRule = styled.span`
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: ${({ theme }) => theme.colors.navy};
+`;
+
 const Title = styled.h1`
   font-size: clamp(34px, 3.2vw, 52px);
   font-weight: ${({ theme }) => theme.typography.weights.extraLight};
@@ -90,6 +114,28 @@ const Location = styled.p`
   font-size: 13px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
+`;
+
+const ClosedFact = styled.div`
+  display: grid;
+  gap: 8px;
+  padding-top: 16px;
+
+  dt {
+    color: rgba(5, 6, 15, 0.78);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  dd {
+    color: ${({ theme }) => theme.colors.navy};
+    font-size: clamp(18px, 1.6vw, 24px);
+    font-weight: ${({ theme }) => theme.typography.weights.light};
+    letter-spacing: 0.2em;
+    text-indent: 0.2em;
+    text-transform: uppercase;
+  }
 `;
 
 const Facts = styled.dl`
@@ -180,22 +226,6 @@ const Shot = styled.img`
   background: ${({ theme }) => theme.colors.brightSurface};
 `;
 
-const BrightFooter = styled.div`
-  footer {
-    background: ${({ theme }) => theme.colors.brightBg};
-    color: ${({ theme }) => theme.colors.brightInk};
-  }
-
-  footer a,
-  footer button {
-    color: ${({ theme }) => theme.colors.brightInk};
-  }
-
-  footer p {
-    color: ${({ theme }) => theme.colors.brightMuted};
-  }
-`;
-
 function formatPrice(value: number, offer: Listing['offer'], locale: string, onRequest: string) {
   if (!value) return onRequest;
   const formatted = new Intl.NumberFormat(locale === 'cs' ? 'cs-CZ' : 'en-GB').format(value);
@@ -222,7 +252,11 @@ type ListingDetailProps = {
 export function ListingDetail({ listing, backTo, backLabel }: ListingDetailProps) {
   const { locale, t } = useLanguage();
   const description = listing.description[locale] ?? listing.description.cs;
-  const price = formatPrice(listing.price, listing.offer, locale, t.listings.priceOnRequest);
+  const closed = listing.status === 'sold' || listing.status === 'rented';
+  const statusLabel = t.status[listing.status];
+  const price = closed
+    ? statusLabel
+    : formatPrice(listing.price, listing.offer, locale, t.listings.priceOnRequest);
   const photos = uniquePhotos(listing.image, listing.gallery);
   const localeTag = locale === 'cs' ? 'cs-CZ' : 'en-GB';
   const area = listing.area ? `${listing.area.toLocaleString(localeTag)} m²` : '—';
@@ -230,6 +264,7 @@ export function ListingDetail({ listing, backTo, backLabel }: ListingDetailProps
     listing.landArea && listing.landArea > 0
       ? `${listing.landArea.toLocaleString(localeTag)} m²`
       : null;
+  const PriceFact = closed ? ClosedFact : Fact;
 
   return (
     <Page>
@@ -240,13 +275,17 @@ export function ListingDetail({ listing, backTo, backLabel }: ListingDetailProps
               ← {backLabel}
             </BackLink>
             <Header>
+              <StatusBanner $closed={closed}>
+                {closed ? <StatusRule aria-hidden="true" /> : null}
+                {statusLabel}
+              </StatusBanner>
               <Title>{listing.title}</Title>
               <Location>{listing.location}</Location>
             </Header>
             <Facts>
               <Fact>
                 <dt>{t.listings.specs.status}</dt>
-                <dd>{t.status[listing.status]}</dd>
+                <dd>{statusLabel}</dd>
               </Fact>
               <Fact>
                 <dt>{t.listings.specs.layout}</dt>
@@ -264,10 +303,10 @@ export function ListingDetail({ listing, backTo, backLabel }: ListingDetailProps
                   <dd>{land}</dd>
                 </Fact>
               ) : null}
-              <Fact>
+              <PriceFact>
                 <dt>{t.listings.specs.price}</dt>
                 <dd>{price}</dd>
-              </Fact>
+              </PriceFact>
             </Facts>
             {description ? (
               <Story>
@@ -292,9 +331,6 @@ export function ListingDetail({ listing, backTo, backLabel }: ListingDetailProps
           ))}
         </Reel>
       </Stage>
-      <BrightFooter>
-        <Footer />
-      </BrightFooter>
     </Page>
   );
 }

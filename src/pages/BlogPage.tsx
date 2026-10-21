@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import styled from 'styled-components';
 import { BlogCard } from '../components/blog/BlogCard';
-import { Footer } from '../components/layout/Footer';
 import { GradientBlob } from '../components/ui/GradientBlob';
 import { blogPosts } from '../data/blog';
 import { PageMeta } from '../seo/PageMeta';
@@ -142,7 +141,6 @@ export default function BlogPage() {
           ))}
         </Grid>
       </Content>
-      <Footer />
     </Page>
   );
 }

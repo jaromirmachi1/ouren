@@ -15,8 +15,9 @@ export const en: Translations = {
     saleDescription: 'Apartments, houses, and commercial properties for sale with Ouren.',
     rentTitle: 'For rent | Ouren',
     rentDescription: 'Apartments, houses, and commercial spaces for rent with Ouren.',
-    weBuyTitle: 'We buy | Ouren',
-    weBuyDescription: 'Sell your property to Ouren — direct purchase without unnecessary delays.',
+    weBuyTitle: 'Sell with us | Ouren',
+    weBuyDescription:
+      'Cash buyout or a full listing with Ouren — we assess which path fits, with no obligation.',
     siteName: 'Ouren Real Estate',
   },
   common: {
@@ -42,7 +43,7 @@ export const en: Translations = {
   nav: {
     sale: 'Sale',
     rent: 'Rent',
-    weBuy: 'We buy',
+    weBuy: 'Sell with us',
     projects: 'Residential projects',
     sold: 'Completed',
     about: 'About',
@@ -93,8 +94,8 @@ export const en: Translations = {
     saleLead: 'Selected apartments, houses, and commercial properties ready for purchase.',
     rentTitle: 'Rent',
     rentLead: 'Residences and commercial spaces for rent — clear terms, strong locations.',
-    weBuyTitle: 'We buy',
-    weBuyLead: 'You sell, we buy — direct acquisition without middlemen or unnecessary fees.',
+    weBuyTitle: 'Sell with us',
+    weBuyLead: 'A direct buyout, or a full market sale with Ouren — we say plainly which path fits.',
     countSale: 'properties for sale',
     countRent: 'properties for rent',
     backToSale: 'All for sale',
@@ -147,6 +148,125 @@ export const en: Translations = {
       estimatedValue: 'Estimated value is required',
       message: 'Please add a short message',
     },
+  },
+  weBuyPage: {
+    title: 'Sell with us',
+    lead: 'You sell — we either buy the property outright, or take it to market for you. No obligation; we assess which path makes sense.',
+    ctaBuy: 'I want a buyout',
+    ctaList: 'I want to list with Ouren',
+    pathsTitle: 'Two paths. One decision — after the numbers.',
+    pathsLead: 'Before we promise anything, we compare speed, certainty, and real net outcome — and tell you straight.',
+    buyPath: {
+      title: 'Buyout',
+      summary: 'Direct purchase by Ouren. Less uncertainty, shorter timeline, fewer moving parts.',
+      points: [
+        'Close typically in days to weeks',
+        'No viewings or public listing',
+        'Condition and prep handled by us',
+        'Price below market in exchange for speed and certainty',
+      ],
+    },
+    listPath: {
+      title: 'List with Ouren',
+      summary: 'Full market representation with editorial presentation and discreet negotiation.',
+      points: [
+        'Aim: strongest achievable market value',
+        'Prep, photography, listing, viewings',
+        'We lead buyer conversations',
+        'Longer horizon, higher upside potential',
+      ],
+    },
+    fitsTitle: 'When each path fits',
+    fitsBuy: {
+      title: 'A buyout fits when',
+      items: [
+        'You need a fast, certain close',
+        'You are resolving inheritance, divorce, or complex ownership',
+        'You do not want repairs and open houses',
+      ],
+    },
+    fitsList: {
+      title: 'Listing with Ouren fits when',
+      items: [
+        'You want to maximise location and presentation',
+        'You can allow a proper market timeline',
+        'You want a partner, not just an advert',
+      ],
+    },
+    stepsTitle: 'How it works',
+    steps: [
+      {
+        title: 'Tell us briefly',
+        body: 'A short form — location, phone, and preference. No commitment.',
+      },
+      {
+        title: 'We reply within 24 hours',
+        body: 'We clarify the situation and agree the next step in a way that suits you.',
+      },
+      {
+        title: 'We assess the property',
+        body: 'Location, condition, documents, and realistic options for buyout or listing.',
+      },
+      {
+        title: 'We recommend a path',
+        body: 'A clear recommendation: buyout, list with Ouren, or a mix. The decision stays yours.',
+      },
+    ],
+    proofTitle: 'Trust sits in closed work',
+    proofLead: 'The same team behind our developments also handles private sales and buyouts.',
+    proofItems: [
+      { value: '24 h', label: 'first reply' },
+      { value: 'CZ + EU', label: 'coverage' },
+      { value: '1 partner', label: 'from first note to signing' },
+    ],
+    formTitle: 'No-obligation inquiry',
+    formLead: 'Location and phone are enough. We fill in the rest together.',
+    formNote: 'Submitting does not commit you to sell or accept an offer.',
+    intents: {
+      buy: 'Buyout',
+      list: 'List with Ouren',
+      unsure: 'Not sure — advise me',
+    },
+    fields: {
+      intent: 'What you need',
+      location: 'City / area',
+      phone: 'Phone',
+      name: 'Name',
+      propertyType: 'Property type',
+      message: 'Brief context (optional)',
+    },
+    propertyTypes: {
+      apartment: 'Apartment',
+      house: 'House',
+      land: 'Land',
+      commercial: 'Commercial',
+    },
+    submit: 'Send inquiry',
+    success: 'Thank you. We will reply within 24 hours.',
+    validation: {
+      location: 'Enter a location',
+      phone: 'Enter a phone number',
+      name: 'Enter your name',
+    },
+    faqTitle: 'Questions sellers ask first',
+    faq: [
+      {
+        q: 'Is the form binding?',
+        a: 'No. It is only a no-obligation assessment. No contract or exclusivity starts on submit.',
+      },
+      {
+        q: 'Why is a buyout often below market?',
+        a: 'You are paying for speed and certainty: no viewings, repairs, or open-ended timeline. If the open market is better for you, we say so.',
+      },
+      {
+        q: 'Can you handle complex cases?',
+        a: 'Yes — inheritance, co-ownership, liens, or properties needing renovation are reviewed case by case.',
+      },
+      {
+        q: 'How fast do you reply?',
+        a: 'Usually within 24 hours on business days. Note urgency in the message and we adjust.',
+      },
+    ],
   },
   about: {
     eyebrow: 'About Ouren',

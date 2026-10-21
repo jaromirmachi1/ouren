@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { Footer } from "./components/layout/Footer";
 import { Navbar } from "./components/layout/Navbar";
 import { ErrorBoundary } from "./components/ui/ErrorBoundary";
 import { PageTransition } from "./components/ui/PageTransition";
@@ -88,6 +89,7 @@ function AppShell() {
             </Suspense>
           </PageTransition>
         </MainStack>
+        <Footer />
       </SiteContent>
     </ErrorBoundary>
   );

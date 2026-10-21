@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { Footer } from '../layout/Footer';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { ListingCard } from './ListingCard';
 import type { Listing } from '../../data/listings';
@@ -64,22 +63,6 @@ const Empty = styled.p`
   line-height: 1.55;
 `;
 
-const BrightFooter = styled.div`
-  footer {
-    background: ${({ theme }) => theme.colors.brightBg};
-    color: ${({ theme }) => theme.colors.brightInk};
-  }
-
-  footer a,
-  footer button {
-    color: ${({ theme }) => theme.colors.brightInk};
-  }
-
-  footer p {
-    color: ${({ theme }) => theme.colors.brightMuted};
-  }
-`;
-
 type ListingCatalogProps = {
   title: string;
   lead?: string;
@@ -87,6 +70,17 @@ type ListingCatalogProps = {
   listings: Listing[];
   basePath: '/prodej' | '/pronajem';
 };
+
+const STATUS_ORDER: Record<Listing['status'], number> = {
+  available: 0,
+  reserved: 1,
+  rented: 2,
+  sold: 3,
+};
+
+function sortListings(listings: Listing[]) {
+  return [...listings].sort((a, b) => STATUS_ORDER[a.status] - STATUS_ORDER[b.status]);
+}
 
 export function ListingCatalog({
   title,
@@ -96,6 +90,7 @@ export function ListingCatalog({
   basePath,
 }: ListingCatalogProps) {
   const { t } = useLanguage();
+  const ordered = sortListings(listings);
 
   return (
     <Page>
@@ -104,22 +99,19 @@ export function ListingCatalog({
         {lead ? <Lead>{lead}</Lead> : null}
         {countLabel ? (
           <Count>
-            {listings.length} {countLabel}
+            {ordered.length} {countLabel}
           </Count>
         ) : null}
       </Hero>
-      {listings.length === 0 ? (
+      {ordered.length === 0 ? (
         <Empty>{t.listings.empty}</Empty>
       ) : (
         <Grid>
-          {listings.map((listing) => (
+          {ordered.map((listing) => (
             <ListingCard basePath={basePath} key={listing.id} listing={listing} />
           ))}
         </Grid>
       )}
-      <BrightFooter>
-        <Footer />
-      </BrightFooter>
     </Page>
   );
 }

@@ -9,7 +9,8 @@ export function organizationJsonLd() {
     url: SITE_URL,
     logo: absoluteUrl(DEFAULT_OG_IMAGE),
     image: absoluteUrl(DEFAULT_OG_IMAGE),
-    email: 'hello@ouren.cz',
+    email: 'info@ouren.cz',
+    telephone: '+420722033055',
     description: DEFAULT_DESCRIPTION,
     areaServed: [
       { '@type': 'Country', name: 'Czech Republic' },

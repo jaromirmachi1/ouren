@@ -147,6 +147,63 @@ export type Translations = {
       message: string;
     };
   };
+  weBuyPage: {
+    title: string;
+    lead: string;
+    ctaBuy: string;
+    ctaList: string;
+    pathsTitle: string;
+    pathsLead: string;
+    buyPath: {
+      title: string;
+      summary: string;
+      points: [string, string, string, string];
+    };
+    listPath: {
+      title: string;
+      summary: string;
+      points: [string, string, string, string];
+    };
+    fitsTitle: string;
+    fitsBuy: { title: string; items: [string, string, string] };
+    fitsList: { title: string; items: [string, string, string] };
+    stepsTitle: string;
+    steps: [{ title: string; body: string }, { title: string; body: string }, { title: string; body: string }, { title: string; body: string }];
+    proofTitle: string;
+    proofLead: string;
+    proofItems: [{ value: string; label: string }, { value: string; label: string }, { value: string; label: string }];
+    formTitle: string;
+    formLead: string;
+    formNote: string;
+    intents: {
+      buy: string;
+      list: string;
+      unsure: string;
+    };
+    fields: {
+      intent: string;
+      location: string;
+      phone: string;
+      name: string;
+      propertyType: string;
+      message: string;
+    };
+    propertyTypes: {
+      apartment: string;
+      house: string;
+      land: string;
+      commercial: string;
+    };
+    submit: string;
+    success: string;
+    validation: {
+      location: string;
+      phone: string;
+      name: string;
+    };
+    faqTitle: string;
+    faq: [{ q: string; a: string }, { q: string; a: string }, { q: string; a: string }, { q: string; a: string }];
+  };
   about: {
     eyebrow: string;
     headline: string;

@@ -41,6 +41,17 @@ export type SellFormValues = {
   message: string;
 };
 
+export type WeBuyIntent = 'buy' | 'list' | 'unsure';
+
+export type WeBuyFormValues = {
+  intent: WeBuyIntent;
+  location: string;
+  phone: string;
+  name: string;
+  propertyType: PropertyType;
+  message: string;
+};
+
 export interface BlogPost {
   id: string;
   slug: string;

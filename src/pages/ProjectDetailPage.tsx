@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { Footer } from '../components/layout/Footer';
 import { PropertyGallery } from '../components/listings/PropertyGallery';
 import { UnitInventory } from '../components/projects/UnitInventory';
 import { loadProjectBySlug } from '../data/projects-source';
@@ -175,22 +174,6 @@ const InventoryTitle = styled.h2`
   letter-spacing: -0.02em;
 `;
 
-const BrightFooter = styled.div`
-  footer {
-    background: ${({ theme }) => theme.colors.brightBg};
-    color: ${({ theme }) => theme.colors.brightInk};
-  }
-
-  footer a,
-  footer button {
-    color: ${({ theme }) => theme.colors.brightInk};
-  }
-
-  footer p {
-    color: ${({ theme }) => theme.colors.brightMuted};
-  }
-`;
-
 export default function ProjectDetailPage() {
   const { locale, t } = useLanguage();
   const { slug } = useParams<{ slug: string }>();
@@ -301,9 +284,6 @@ export default function ProjectDetailPage() {
         <InventoryTitle>{t.projects.inventoryTitle}</InventoryTitle>
         <UnitInventory units={project.inventory ?? []} />
       </InventoryBlock>
-      <BrightFooter>
-        <Footer />
-      </BrightFooter>
     </Page>
   );
 }

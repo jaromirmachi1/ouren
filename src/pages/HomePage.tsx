@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLanguage } from '../i18n/LanguageContext';
 import { refreshScrollTriggers } from '../utils/scrollReveal';
-import { Footer } from '../components/layout/Footer';
 import { About } from '../components/sections/About';
 import { Contact } from '../components/sections/Contact';
 import { Hero } from '../components/sections/Hero';
@@ -63,7 +62,6 @@ export default function HomePage() {
       <SellWithUs />
       <About />
       <Contact />
-      <Footer />
     </Page>
   );
 }

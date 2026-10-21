@@ -2,32 +2,13 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useLanguage } from '../../i18n/LanguageContext';
 import type { NavKey } from '../../i18n/types';
-import { OurenLogo } from '../ui/OurenLogo';
 
 const FooterWrap = styled.footer`
-  position: relative;
-  padding: clamp(72px, 10vw, 120px) ${({ theme }) => theme.spacing.pageX} 32px;
-  overflow: hidden;
+  padding: clamp(48px, 6vw, 72px) ${({ theme }) => theme.spacing.pageX} 28px;
   background: ${({ theme }) => theme.colors.deepBlack};
 `;
 
-const Watermark = styled.div`
-  position: absolute;
-  top: clamp(24px, 4vw, 48px);
-  left: 50%;
-  opacity: 0.06;
-  pointer-events: none;
-  transform: translateX(-50%);
-
-  img {
-    height: clamp(120px, 20vw, 240px);
-    width: auto;
-  }
-`;
-
 const Grid = styled.div`
-  position: relative;
-  z-index: 1;
   display: grid;
   gap: 40px;
 
@@ -39,6 +20,7 @@ const Grid = styled.div`
 const Column = styled.div`
   display: grid;
   gap: 14px;
+  align-content: start;
 `;
 
 const Label = styled.p`
@@ -91,13 +73,11 @@ const SocialLink = styled.a`
 `;
 
 const Bar = styled.div`
-  position: relative;
-  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: clamp(48px, 7vw, 72px);
+  margin-top: 40px;
   padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
   color: rgba(245, 245, 240, 0.55);
@@ -150,9 +130,6 @@ export function Footer() {
 
   return (
     <FooterWrap>
-      <Watermark aria-hidden="true">
-        <OurenLogo height={200} />
-      </Watermark>
       <Grid>
         <Column>
           <Label>{t.footer.navigation}</Label>
@@ -167,11 +144,11 @@ export function Footer() {
         </Column>
         <Column>
           <Label>{t.footer.contact}</Label>
-          <ExternalLink className="hoverable" href="mailto:hello@ouren.cz">
-            hello@ouren.cz
+          <ExternalLink className="hoverable" href="mailto:info@ouren.cz">
+            info@ouren.cz
           </ExternalLink>
-          <ExternalLink className="hoverable" href="tel:+420123456789">
-            +420 123 456 789
+          <ExternalLink className="hoverable" href="tel:+420722033055">
+            +420 722 033 055
           </ExternalLink>
           <SocialRow>
             <SocialLink aria-label="LinkedIn" className="hoverable" href="https://linkedin.com" rel="noreferrer" target="_blank">
