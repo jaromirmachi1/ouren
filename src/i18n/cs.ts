@@ -4,7 +4,7 @@ export const cs: Translations = {
   meta: {
     homeTitle: 'Ouren Real Estate | Vybíráme. Prezentujeme. Prodáváme.',
     homeDescription:
-      'Ouren je mezinárodní developerská a realitní společnost se sídlem v České republice pro prémiové rezidenční a komerční nemovitosti.',
+      'Ouren je developerská a realitní společnost se sídlem v Brně. Prémiové rezidenční a komerční nemovitosti po celé České republice.',
     blogTitle: 'Journal | Ouren Real Estate',
     blogDescription:
       'Editorialní pohledy na luxusní reality, design, investice a tržní analýzy od Ouren.',
@@ -20,7 +20,7 @@ export const cs: Translations = {
       'Výkup nemovitosti nebo prodej s Ouren — nezávazně posoudíme, která cesta dává větší smysl.',
     aboutTitle: 'O nás | Ouren',
     aboutDescription:
-      'Ouren vybírá, prezentuje a prodává prémiové rezidenční a komerční nemovitosti. Praha, Brno a vybrané zahraniční trhy.',
+      'Ouren vybírá, prezentuje a prodává prémiové rezidenční a komerční nemovitosti. Sídlíme v Brně a působíme po celé České republice.',
     siteName: 'Ouren Real Estate',
   },
   common: {
@@ -56,7 +56,7 @@ export const cs: Translations = {
   hero: {
     brand: 'Ouren',
     headline: 'Vybíráme. Prezentujeme. Prodáváme.',
-    support: 'Prémiové reality v České republice i na mezinárodních trzích.',
+    support: 'Prémiové reality po celé České republice. Sídlíme v Brně.',
     cta: 'Rezidenční projekty',
   },
   propertyMenu: {
@@ -155,6 +155,7 @@ export const cs: Translations = {
   weBuyPage: {
     title: 'Prodáte s námi',
     lead: 'Vy prodáváte — my buď nemovitost vykoupíme, nebo ji za vás dovedeme na trh. Nezávazně posoudíme, která cesta dává větší smysl.',
+    heroAlt: 'Světlý byt s kuchyní, jídelním stolem a sedací soupravou',
     ctaBuy: 'Chci výkup',
     ctaList: 'Chci prodat s Ouren',
     pathsTitle: 'Dvě cesty. Jedno rozhodnutí až podle čísel.',
@@ -219,7 +220,7 @@ export const cs: Translations = {
     proofLead: 'Stejný tým, který vede developerské projekty, řeší i soukromé prodeje a výkupy.',
     proofItems: [
       { value: '24 h', label: 'první odpověď' },
-      { value: 'CZ + EU', label: 'působnost' },
+      { value: 'ČR', label: 'celá republika' },
       { value: '1 partner', label: 'od první zprávy po podpis' },
     ],
     formTitle: 'Nezávazná poptávka',
@@ -275,7 +276,7 @@ export const cs: Translations = {
     eyebrow: 'O Ouren',
     headline: 'Postaveno na preciznosti. Řízeno vizí.',
     body1:
-      'Ouren je mezinárodní realitní firma s kořeny v České republice, která formuje rezidenční i komerční prostředí s editorialní jasností a dlouhodobou hodnotou.',
+      'Ouren je realitní firma se sídlem v Brně. Formujeme rezidenční i komerční prostředí s editorialní jasností a dlouhodobou hodnotou — po celé České republice.',
     body2:
       'Od developerské strategie po umístění projektů provázíme každou fázi s diskrétností, precizností a designovým citem, který povyšuje každou nemovitost, kterou zastupujeme.',
     imageAlt: 'Panorama Žabiny v Brně, projekt zastupovaný Ouren',
@@ -343,23 +344,19 @@ export const cs: Translations = {
       },
       {
         title: 'Investoři',
-        body: 'Rezidence i komerce. V Česku a tam, kde máme důvod být — ne v katalogu celého světa.',
+        body: 'Rezidence i komerce v České republice. Mandáty bereme tam, kde umíme držet stejnou laťku jako u vlastních projektů.',
       },
     ],
     reachTitle: 'Kde působíme',
-    reachLead: 'Praha a Brno jako základ. Zahraničí jen tam, kde umíme být užiteční.',
+    reachLead: 'Sídlíme v Brně. Zakázky řešíme po celé České republice — nejsme mezinárodní kancelář.',
     places: [
       {
-        name: 'Praha',
-        body: 'Privátní nabídky, domy a spolupráce s developery na adresách, které unesou prémiovou cenu.',
-      },
-      {
         name: 'Brno',
-        body: 'Byty, rezidence a lokální trh, který známe z vlastních projektů, ne z mapy.',
+        body: 'Sídlo firmy a domovský trh. Byty, rezidence a lokální adresy, které známe z vlastních projektů, ne z mapy.',
       },
       {
-        name: 'Zahraničí',
-        body: 'Vybrané akvizice a klienti, kteří hledají mimo Česko. Bereme jen mandáty, u kterých umíme držet stejnou laťku.',
+        name: 'Česká republika',
+        body: 'Prodej, pronájem, výkup i development po celé zemi. Praha, regiony i menší města — podle mandátu, ne podle pobočky.',
       },
     ],
     closeTitle: 'Začněme konkrétně.',
@@ -386,7 +383,7 @@ export const cs: Translations = {
         },
         {
           q: 'Kde působíte?',
-          a: 'Základ je Praha a Brno. Zahraniční zakázky bereme jen tam, kde umíme držet stejnou laťku jako doma.',
+          a: 'Sídlíme v Brně a působíme po celé České republice. Nejsme mezinárodní kancelář a nemáme zahraniční pobočky.',
         },
         {
           q: 'Kupujete nemovitosti sami?',
@@ -474,7 +471,7 @@ export const cs: Translations = {
         },
         {
           q: 'Máte pobočky po celé republice?',
-          a: 'Ne. Pracujeme z Prahy a Brna. Nejsme síť poboček.',
+          a: 'Ne. Sídlíme v Brně. Zakázky řešíme po celé České republice, nejsme síť poboček.',
         },
         {
           q: 'V jakém jazyce jednáte?',
@@ -512,8 +509,8 @@ export const cs: Translations = {
     eyebrow: 'Kontakt',
     headline: 'Začněme rozhovor.',
     copy:
-      'Pro akvizice, privátní nabídky a developerská partnerství v České republice i na mezinárodních trzích.',
-    locations: 'Praha · Brno · Mezinárodně',
+      'Pro akvizice, privátní nabídky a developerská partnerství po celé České republice. Sídlíme v Brně.',
+    locations: 'Brno · Česká republika',
   },
   footer: {
     navigation: 'Navigace',

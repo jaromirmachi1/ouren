@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
+import heroImage from '../assets/images/we-buy-hero.jpg';
 import { WeBuyIntake } from '../components/sell/WeBuyIntake';
 import { useLanguage } from '../i18n/LanguageContext';
 import { PageMeta } from '../seo/PageMeta';
@@ -45,30 +46,44 @@ const Hero = styled.header`
   flex-direction: column;
   justify-content: flex-end;
   min-height: 100dvh;
-  padding: clamp(140px, 18vh, 180px) ${({ theme }) => theme.spacing.pageX} clamp(72px, 10vh, 112px);
+  padding: clamp(140px, 18vh, 180px) ${({ theme }) => theme.spacing.pageX} clamp(56px, 8vh, 96px);
   overflow: hidden;
-  background:
-    radial-gradient(circle at 12% 0%, rgba(203, 223, 238, 0.55), transparent 42%),
-    ${({ theme }) => theme.colors.brightBg};
+  color: ${({ theme }) => theme.colors.white};
+  background: #1a1814;
 `;
 
-const HeroGlow = styled.div`
+const HeroMedia = styled.div`
   position: absolute;
-  top: 18%;
-  right: -8%;
+  inset: 0;
   z-index: 0;
-  width: min(48vw, 520px);
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(203, 223, 238, 0.55) 0%, transparent 68%);
-  filter: blur(8px);
+`;
+
+const HeroImg = styled.img`
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 38%;
+`;
+
+const HeroShade = styled.div`
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 6, 15, 0.52) 0%, rgba(5, 6, 15, 0.16) 26%, rgba(5, 6, 15, 0.48) 68%, rgba(5, 6, 15, 0.86) 100%),
+    linear-gradient(90deg, rgba(5, 6, 15, 0.5) 0%, rgba(5, 6, 15, 0.18) 42%, transparent 74%);
   pointer-events: none;
-  will-change: transform;
+`;
+
+const HeroCopy = styled.div`
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  max-width: 40rem;
 `;
 
 const Title = styled.h1`
-  position: relative;
-  z-index: 1;
   max-width: 12ch;
   font-size: clamp(56px, 7.4vw, 92px);
   font-weight: ${({ theme }) => theme.typography.weights.extraLight};
@@ -78,19 +93,15 @@ const Title = styled.h1`
 `;
 
 const Lead = styled.p`
-  position: relative;
-  z-index: 1;
-  max-width: 36rem;
+  max-width: 34rem;
   margin-top: 24px;
-  color: ${({ theme }) => theme.colors.brightMuted};
+  color: rgba(245, 245, 240, 0.82);
   font-size: clamp(17px, 1.9vw, 21px);
   font-weight: ${({ theme }) => theme.typography.weights.light};
   line-height: 1.55;
 `;
 
 const CtaRow = styled.div`
-  position: relative;
-  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
@@ -103,9 +114,9 @@ const Cta = styled.a<{ $primary?: boolean }>`
   min-height: 52px;
   padding: 0 24px;
   border: 1px solid
-    ${({ $primary, theme }) => ($primary ? theme.colors.navy : 'rgba(0, 10, 103, 0.28)')};
-  background: ${({ $primary, theme }) => ($primary ? theme.colors.navy : 'transparent')};
-  color: ${({ $primary, theme }) => ($primary ? theme.colors.white : theme.colors.navy)};
+    ${({ $primary, theme }) => ($primary ? theme.colors.white : 'rgba(245, 245, 240, 0.42)')};
+  background: ${({ $primary, theme }) => ($primary ? theme.colors.white : 'transparent')};
+  color: ${({ $primary, theme }) => ($primary ? theme.colors.navy : theme.colors.white)};
   font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -124,7 +135,7 @@ const Cta = styled.a<{ $primary?: boolean }>`
   }
 
   &:focus-visible {
-    outline: 2px solid ${({ theme }) => theme.colors.navy};
+    outline: 2px solid ${({ theme }) => theme.colors.white};
     outline-offset: 3px;
   }
 `;
@@ -437,7 +448,6 @@ export default function WeBuyPage() {
   const [intent, setIntent] = useState<WeBuyIntent>('unsure');
   const pageRef = useRef<HTMLElement>(null);
   const progressRef = useRef<HTMLDivElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const hash = window.location.hash.replace('#', '');
@@ -478,19 +488,6 @@ export default function WeBuyPage() {
             start: 'top top',
             end: 'bottom bottom',
             scrub: 0.4,
-          },
-        });
-      }
-
-      if (glowRef.current) {
-        gsap.to(glowRef.current, {
-          y: 80,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: page,
-            start: 'top top',
-            end: '+=120%',
-            scrub: 0.6,
           },
         });
       }
@@ -536,32 +533,37 @@ export default function WeBuyPage() {
       <JsonLd data={faqPageJsonLd(copy.faq)} id="webuy-faq" />
 
       <Hero>
-        <HeroGlow aria-hidden="true" ref={glowRef} />
-        <Title data-hero>{copy.title}</Title>
-        <Lead data-hero>{copy.lead}</Lead>
-        <CtaRow data-hero>
-          <Cta
-            $primary
-            className="hoverable"
-            href="#we-buy-form"
-            onClick={(event) => {
-              event.preventDefault();
-              scrollToForm('buy');
-            }}
-          >
-            {copy.ctaBuy}
-          </Cta>
-          <Cta
-            className="hoverable"
-            href="#we-buy-form"
-            onClick={(event) => {
-              event.preventDefault();
-              scrollToForm('list');
-            }}
-          >
-            {copy.ctaList}
-          </Cta>
-        </CtaRow>
+        <HeroMedia>
+          <HeroImg alt={copy.heroAlt} decoding="async" fetchPriority="high" src={heroImage} />
+          <HeroShade aria-hidden="true" />
+        </HeroMedia>
+        <HeroCopy>
+          <Title data-hero>{copy.title}</Title>
+          <Lead data-hero>{copy.lead}</Lead>
+          <CtaRow data-hero>
+            <Cta
+              $primary
+              className="hoverable"
+              href="#we-buy-form"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToForm('buy');
+              }}
+            >
+              {copy.ctaBuy}
+            </Cta>
+            <Cta
+              className="hoverable"
+              href="#we-buy-form"
+              onClick={(event) => {
+                event.preventDefault();
+                scrollToForm('list');
+              }}
+            >
+              {copy.ctaList}
+            </Cta>
+          </CtaRow>
+        </HeroCopy>
       </Hero>
 
       <Section aria-labelledby="paths-title">

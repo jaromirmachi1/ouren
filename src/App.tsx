@@ -41,7 +41,7 @@ const MainStack = styled.div`
   z-index: 2;
 `;
 
-const BRIGHT_PREFIXES = ['/projekty', '/projects', '/prodej', '/pronajem', '/kupujeme', '/o-nas', '/about'];
+const BRIGHT_PREFIXES = ['/projekty', '/projects', '/prodej', '/pronajem', '/o-nas', '/about'];
 
 function isBrightPath(pathname: string) {
   return BRIGHT_PREFIXES.some(

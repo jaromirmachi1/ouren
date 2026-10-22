@@ -1,15 +1,16 @@
-import { lazy, Suspense, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import gsap from 'gsap';
 import styled from 'styled-components';
 import { useLanguage } from '../../i18n/LanguageContext';
-import { shouldUseHeavyEffects, shouldUseLightMotion } from '../../utils/performance';
-import { theme } from '../../styles/theme';
-
-const ColorBends = lazy(() =>
-  import('../ui/ColorBends').then((module) => ({ default: module.ColorBends })),
-);
+import {
+  prefersReducedData,
+  prefersReducedMotion,
+  shouldUseLightMotion,
+} from '../../utils/performance';
 
 const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
+const HERO_VIDEO = '/video/hero.mp4';
+const HERO_POSTER = '/video/hero-poster.jpg';
 
 const Section = styled.section`
   position: relative;
@@ -30,28 +31,48 @@ const Background = styled.div`
   background: ${({ theme: t }) => t.colors.deepBlack};
 `;
 
-const StaticFallback = styled.div`
+const Poster = styled.div`
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(circle at 50% 42%, rgba(26, 47, 160, 0.55) 0%, transparent 42%),
-    radial-gradient(circle at 50% 38%, ${({ theme: t }) => t.colors.navy} 0%, transparent 58%),
-    ${({ theme: t }) => t.colors.deepBlack};
+    ${({ theme: t }) => t.colors.deepBlack}
+      url(${HERO_POSTER}) center / cover no-repeat;
+`;
+
+const Video = styled.video`
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  filter: brightness(0.62) contrast(1.08) saturate(0.78);
+`;
+
+const Filter = styled.div`
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(180deg, rgba(0, 10, 103, 0.34) 0%, rgba(5, 6, 15, 0.18) 34%, rgba(5, 6, 15, 0.72) 100%),
+    radial-gradient(ellipse at 50% 42%, transparent 36%, rgba(5, 6, 15, 0.62) 100%);
+  mix-blend-mode: multiply;
+  pointer-events: none;
 `;
 
 const Vignette = styled.div`
   position: absolute;
   inset: 0;
-  z-index: 1;
+  z-index: 2;
   background:
-    radial-gradient(ellipse at 50% 45%, transparent 42%, rgba(5, 6, 15, 0.55) 100%),
-    linear-gradient(180deg, rgba(5, 6, 15, 0.28) 0%, transparent 28%, transparent 58%, rgba(5, 6, 15, 0.78) 100%);
+    linear-gradient(180deg, rgba(5, 6, 15, 0.42) 0%, transparent 26%, transparent 54%, rgba(5, 6, 15, 0.86) 100%),
+    linear-gradient(90deg, rgba(5, 6, 15, 0.28) 0%, transparent 38%, transparent 72%, rgba(5, 6, 15, 0.22) 100%);
   pointer-events: none;
 `;
 
 const Content = styled.div`
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: grid;
   gap: 14px;
   width: 100%;
@@ -143,26 +164,35 @@ const VisuallyHidden = styled.span`
   border: 0;
 `;
 
-const OUREN_BLUES = [theme.colors.navy, theme.colors.midBlue, theme.colors.lightBlue];
-
 export function Hero() {
   const { t, locale } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
-  const [showWebGL, setShowWebGL] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canPlayVideo = !prefersReducedMotion() && !prefersReducedData();
 
   useEffect(() => {
-    if (!shouldUseHeavyEffects()) return;
+    const video = videoRef.current;
+    if (!video || !canPlayVideo) return;
 
-    let cancelled = false;
-    const timeoutId = window.setTimeout(() => {
-      if (!cancelled) setShowWebGL(true);
-    }, 80);
-
-    return () => {
-      cancelled = true;
-      window.clearTimeout(timeoutId);
+    const play = () => {
+      void video.play().catch(() => {
+        // Autoplay can still be blocked; poster remains visible underneath.
+      });
     };
-  }, []);
+
+    play();
+
+    const onVisibility = () => {
+      if (document.hidden) {
+        video.pause();
+      } else {
+        play();
+      }
+    };
+
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => document.removeEventListener('visibilitychange', onVisibility);
+  }, [canPlayVideo]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -187,27 +217,22 @@ export function Hero() {
   return (
     <Section id="top" ref={sectionRef}>
       <Background aria-hidden="true">
-        <StaticFallback />
-        {showWebGL ? (
-          <Suspense fallback={null}>
-            <ColorBends
-              autoRotate={4}
-              bandWidth={5.5}
-              colors={OUREN_BLUES}
-              frequency={1.05}
-              intensity={1.4}
-              iterations={3}
-              mouseInfluence={0.45}
-              noise={0.1}
-              parallax={0.35}
-              rotation={90}
-              scale={1.1}
-              speed={0.18}
-              transparent
-              warpStrength={1.1}
-            />
-          </Suspense>
+        <Poster />
+        {canPlayVideo ? (
+          <Video
+            autoPlay
+            disablePictureInPicture
+            loop
+            muted
+            playsInline
+            poster={HERO_POSTER}
+            preload="metadata"
+            ref={videoRef}
+          >
+            <source src={HERO_VIDEO} type="video/mp4" />
+          </Video>
         ) : null}
+        <Filter />
         <Vignette />
       </Background>
       <Content>

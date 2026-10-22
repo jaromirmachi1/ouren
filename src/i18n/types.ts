@@ -159,6 +159,7 @@ export type Translations = {
   weBuyPage: {
     title: string;
     lead: string;
+    heroAlt: string;
     ctaBuy: string;
     ctaList: string;
     pathsTitle: string;
@@ -249,11 +250,7 @@ export type Translations = {
     ];
     reachTitle: string;
     reachLead: string;
-    places: [
-      { name: string; body: string },
-      { name: string; body: string },
-      { name: string; body: string },
-    ];
+    places: [{ name: string; body: string }, { name: string; body: string }];
     closeTitle: string;
     closeBody: string;
     write: string;

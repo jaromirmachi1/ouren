@@ -6,7 +6,7 @@ export const SITE_NAME = 'Ouren Real Estate';
 export const DEFAULT_OG_IMAGE = '/og-image.jpg';
 
 export const DEFAULT_DESCRIPTION =
-  'Ouren is a Czech-based international real estate developer and brokerage for premium residential and commercial properties.';
+  'Ouren is a Brno-based real estate developer and brokerage for premium residential and commercial properties across the Czech Republic.';
 
 export function absoluteUrl(path = '/') {
   if (path.startsWith('http://') || path.startsWith('https://')) {

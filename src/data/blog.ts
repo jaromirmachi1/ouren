@@ -32,7 +32,7 @@ export const blogPosts: BlogPost[] = [
     content: [
       'In dense urban environments, light is not an amenity — it is the primary architectural asset. The most desirable residences choreograph daylight from morning to evening.',
       'Deep window reveals, low-reflectance glass, and warm interior palettes amplify luminosity without sacrificing privacy. These details signal quality before a buyer reads a single specification.',
-      'At Ouren, we evaluate projects by how light moves through space across seasons. That lens informs both acquisition strategy and how we present properties to international audiences.',
+      'At Ouren, we evaluate projects by how light moves through space across seasons. That lens informs both acquisition strategy and how we present properties to buyers across the Czech Republic.',
     ],
   },
   {

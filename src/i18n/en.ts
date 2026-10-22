@@ -4,7 +4,7 @@ export const en: Translations = {
   meta: {
     homeTitle: 'Ouren Real Estate | We select. We present. We sell.',
     homeDescription:
-      'Ouren is a Czech-based international real estate developer and brokerage for premium residential and commercial properties.',
+      'Ouren is a Brno-based real estate developer and brokerage for premium residential and commercial properties across the Czech Republic.',
     blogTitle: 'Journal | Ouren Real Estate',
     blogDescription:
       'Editorial insights on luxury real estate, design, investment, and market intelligence from Ouren.',
@@ -20,7 +20,7 @@ export const en: Translations = {
       'Cash buyout or a full listing with Ouren — we assess which path fits, with no obligation.',
     aboutTitle: 'About | Ouren',
     aboutDescription:
-      'Ouren selects, presents, and sells premium residential and commercial property. Prague, Brno, and selected markets abroad.',
+      'Ouren selects, presents, and sells premium residential and commercial property. Based in Brno, working across the Czech Republic.',
     siteName: 'Ouren Real Estate',
   },
   common: {
@@ -56,7 +56,7 @@ export const en: Translations = {
   hero: {
     brand: 'Ouren',
     headline: 'We select. We present. We sell.',
-    support: 'Premium residential and commercial real estate across Czech Republic and international markets.',
+    support: 'Premium residential and commercial real estate across the Czech Republic. Based in Brno.',
     cta: 'View residential projects',
   },
   propertyMenu: {
@@ -155,6 +155,7 @@ export const en: Translations = {
   weBuyPage: {
     title: 'Sell with us',
     lead: 'You sell — we either buy the property outright, or take it to market for you. No obligation; we assess which path makes sense.',
+    heroAlt: 'Bright apartment with a kitchen, dining table, and sofa',
     ctaBuy: 'I want a buyout',
     ctaList: 'I want to list with Ouren',
     pathsTitle: 'Two paths. One decision — after the numbers.',
@@ -219,7 +220,7 @@ export const en: Translations = {
     proofLead: 'The same team behind our developments also handles private sales and buyouts.',
     proofItems: [
       { value: '24 h', label: 'first reply' },
-      { value: 'CZ + EU', label: 'coverage' },
+      { value: 'CZ', label: 'nationwide' },
       { value: '1 partner', label: 'from first note to signing' },
     ],
     formTitle: 'No-obligation inquiry',
@@ -275,7 +276,7 @@ export const en: Translations = {
     eyebrow: 'About Ouren',
     headline: 'Built on precision. Driven by vision.',
     body1:
-      'Ouren is an international real estate firm rooted in the Czech Republic, shaping residential and commercial environments with editorial clarity and long-term value.',
+      'Ouren is a real estate firm based in Brno. We shape residential and commercial environments with editorial clarity and long-term value — across the Czech Republic.',
     body2:
       'From development strategy to placement, we guide every stage with discretion, precision, and a design-led sensibility that elevates each property we represent.',
     imageAlt: 'Panorama Žabiny in Brno, a project represented by Ouren',
@@ -343,23 +344,19 @@ export const en: Translations = {
       },
       {
         title: 'Investors',
-        body: 'Residential and commercial. In the Czech Republic, and only abroad where we have a reason to be.',
+        body: 'Residential and commercial in the Czech Republic. We take mandates only where we can hold the same standard as our own projects.',
       },
     ],
     reachTitle: 'Where we work',
-    reachLead: 'Prague and Brno as the base. Abroad only where we can be useful.',
+    reachLead: 'Based in Brno. We work across the Czech Republic — we are not an international firm.',
     places: [
       {
-        name: 'Prague',
-        body: 'Private listings, houses, and work with developers on addresses that can carry a premium price.',
-      },
-      {
         name: 'Brno',
-        body: 'Apartments, residences, and a local market we know from our own projects, not from a map.',
+        body: 'Our registered office and home market. Apartments, residences, and local addresses we know from our own projects, not from a map.',
       },
       {
-        name: 'Abroad',
-        body: 'Selected acquisitions and clients looking beyond the Czech Republic. We take only mandates we can hold to the same line.',
+        name: 'Czech Republic',
+        body: 'Sale, rent, buyout, and development nationwide. Prague, the regions, and smaller towns — by mandate, not by branch.',
       },
     ],
     closeTitle: 'Start with the specific thing.',
@@ -386,7 +383,7 @@ export const en: Translations = {
         },
         {
           q: 'Where do you work?',
-          a: 'Prague and Brno are the base. Work abroad is taken only where the same standard can be held.',
+          a: 'We are based in Brno and work across the Czech Republic. We are not an international firm and have no offices abroad.',
         },
         {
           q: 'Do you buy properties yourselves?',
@@ -474,7 +471,7 @@ export const en: Translations = {
         },
         {
           q: 'Do you have branches across the country?',
-          a: 'No. We work from Prague and Brno. We are not a branch network.',
+          a: 'No. We are based in Brno. We take work nationwide, but we are not a branch network.',
         },
         {
           q: 'Which languages do you work in?',
@@ -512,8 +509,8 @@ export const en: Translations = {
     eyebrow: 'Contact',
     headline: 'Begin the conversation.',
     copy:
-      'For acquisitions, private listings, and development partnerships across Czech Republic and international markets.',
-    locations: 'Prague · Brno · International',
+      'For acquisitions, private listings, and development partnerships across the Czech Republic. Based in Brno.',
+    locations: 'Brno · Czech Republic',
   },
   footer: {
     navigation: 'Navigation',

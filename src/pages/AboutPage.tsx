@@ -398,7 +398,7 @@ const Places = styled.div`
   gap: clamp(28px, 4vw, 48px);
 
   @media (min-width: 900px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 `;
 
@@ -574,7 +574,10 @@ export default function AboutPage() {
               postalCode: '602 00',
               addressCountry: 'CZ',
             },
-            areaServed: ['Prague', 'Brno', 'International'],
+            areaServed: [
+              { '@type': 'City', name: 'Brno' },
+              { '@type': 'Country', name: 'Czech Republic' },
+            ],
           },
         }}
         id="about-page"

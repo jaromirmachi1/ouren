@@ -22,8 +22,8 @@ export function organizationJsonLd() {
     },
     description: DEFAULT_DESCRIPTION,
     areaServed: [
+      { '@type': 'City', name: 'Brno' },
       { '@type': 'Country', name: 'Czech Republic' },
-      { '@type': 'Place', name: 'International' },
     ],
     sameAs: [],
   };
