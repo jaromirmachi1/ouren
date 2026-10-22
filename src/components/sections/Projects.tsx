@@ -64,6 +64,8 @@ export function Projects() {
     };
   }, [projects]);
 
+  if (!projects.length) return null;
+
   const [featured, ...rest] = projects;
 
   return (
@@ -71,11 +73,13 @@ export function Projects() {
       <Title>{t.projects.title}</Title>
       <Stack>
         {featured ? <ProjectCard featured index={0} project={featured} /> : null}
-        <Rest>
-          {rest.map((project, index) => (
-            <ProjectCard index={index + 1} key={project.id} project={project} />
-          ))}
-        </Rest>
+        {rest.length ? (
+          <Rest>
+            {rest.map((project, index) => (
+              <ProjectCard index={index + 1} key={project.id} project={project} />
+            ))}
+          </Rest>
+        ) : null}
       </Stack>
     </Section>
   );

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
@@ -79,6 +80,25 @@ const StatLabel = styled.p`
   text-transform: uppercase;
 `;
 
+const More = styled(Link)`
+  width: fit-content;
+  margin-top: 8px;
+  color: ${({ theme }) => theme.colors.ice};
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1);
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.ice};
+    outline-offset: 4px;
+  }
+`;
+
 export function About() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
@@ -124,6 +144,9 @@ export function About() {
               <StatLabel>{t.about.stats.propertiesSold}</StatLabel>
             </Stat>
           </Stats>
+          <More className="hoverable" to="/o-nas">
+            {t.about.more}
+          </More>
         </Content>
       </Grid>
     </Section>

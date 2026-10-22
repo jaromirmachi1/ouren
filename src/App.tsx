@@ -18,6 +18,7 @@ const SaleDetailPage = lazy(() => import("./pages/SaleDetailPage"));
 const RentPage = lazy(() => import("./pages/RentPage"));
 const RentDetailPage = lazy(() => import("./pages/RentDetailPage"));
 const WeBuyPage = lazy(() => import("./pages/WeBuyPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
 
 const Loader = styled.div<{ $bright?: boolean }>`
   display: grid;
@@ -40,7 +41,7 @@ const MainStack = styled.div`
   z-index: 2;
 `;
 
-const BRIGHT_PREFIXES = ['/projekty', '/projects', '/prodej', '/pronajem', '/kupujeme'];
+const BRIGHT_PREFIXES = ['/projekty', '/projects', '/prodej', '/pronajem', '/kupujeme', '/o-nas', '/about'];
 
 function isBrightPath(pathname: string) {
   return BRIGHT_PREFIXES.some(
@@ -79,6 +80,8 @@ function AppShell() {
                 <Route element={<RentPage />} path="/pronajem" />
                 <Route element={<RentDetailPage />} path="/pronajem/:slug" />
                 <Route element={<WeBuyPage />} path="/kupujeme" />
+                <Route element={<AboutPage />} path="/o-nas" />
+                <Route element={<Navigate replace to="/o-nas" />} path="/about" />
                 <Route element={<ProjectsPage />} path="/projekty" />
                 <Route element={<ProjectDetailPage />} path="/projekty/:slug" />
                 <Route element={<Navigate replace to="/projekty" />} path="/projects" />

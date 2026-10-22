@@ -7,7 +7,7 @@ const { auth } = NextAuth(authConfig)
 
 /** Public marketing files live under /site after the unified Vite build. */
 const SITE_STATIC =
-  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|txt|xml|pdf|woff2?|ttf|eot|mp4|webm|json|map)$/i
+  /\.(?:png|jpe?g|gif|webp|avif|svg|ico|txt|xml|pdf|woff2?|ttf|eot|mp4|webm|json|map|webmanifest)$/i
 
 function stripAdminPath(pathname: string) {
   if (pathname === ADMIN_BASE || pathname.startsWith(`${ADMIN_BASE}/`)) {

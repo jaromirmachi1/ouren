@@ -18,6 +18,9 @@ export const cs: Translations = {
     weBuyTitle: 'Prodáte s námi | Ouren',
     weBuyDescription:
       'Výkup nemovitosti nebo prodej s Ouren — nezávazně posoudíme, která cesta dává větší smysl.',
+    aboutTitle: 'O nás | Ouren',
+    aboutDescription:
+      'Ouren vybírá, prezentuje a prodává prémiové rezidenční a komerční nemovitosti. Praha, Brno a vybrané zahraniční trhy.',
     siteName: 'Ouren Real Estate',
   },
   common: {
@@ -275,10 +278,102 @@ export const cs: Translations = {
       'Ouren je mezinárodní realitní firma s kořeny v České republice, která formuje rezidenční i komerční prostředí s editorialní jasností a dlouhodobou hodnotou.',
     body2:
       'Od developerské strategie po umístění projektů provázíme každou fázi s diskrétností, precizností a designovým citem, který povyšuje každou nemovitost, kterou zastupujeme.',
-    imageAlt: 'Tým Ouren v moderní architektonické kanceláři',
+    imageAlt: 'Panorama Žabiny v Brně, projekt zastupovaný Ouren',
+    more: 'Celý profil',
+    storyTitle: 'Malý tým. Úzký výběr.',
+    storyBody:
+      'Nebereme každou nemovitost, která se ozve. Zastupujeme to, co umíme obhájit — adresu, stav, příběh i cenu. Od prvního posouzení po předání klíčů držíme jednu linii: diskrétně, přesně a bez zbytečného divadla.',
+    storyNote:
+      'Nejsme síť poboček. Práci drží malý tým, který nemovitost zná osobně. Stejný standard platí pro byt v Brně, dům za Prahou i komerční dům, který má smysl držet dlouho.',
+    practicesTitle: 'Co s námi můžete řešit',
+    practicesLead:
+      'Čtyři praxe, jedna značka. Každá má vlastní tempo a žádná neslibuje víc, než trh unese.',
+    practices: [
+      {
+        title: 'Prodej',
+        summary: 'Byty, domy, pozemky a komerční nemovitosti, které stojí za veřejnou nabídku.',
+      },
+      {
+        title: 'Pronájem',
+        summary: 'Rezidenční i komerční pronájmy pro majitele, kteří chtějí nájemce, ne provoz.',
+      },
+      {
+        title: 'Výkup, nebo prodej s námi',
+        summary: 'Buď nemovitost vykoupíme, nebo ji uvedeme na trh. Řekneme, která cesta dává smysl.',
+      },
+      {
+        title: 'Rezidenční projekty',
+        summary: 'Development od strategie a pojmenování až po umístění jednotlivých jednotek.',
+      },
+    ],
+    principlesTitle: 'Jak pracujeme',
+    principlesLead: 'Čtyři pravidla, která držíme i když je trh hlučný.',
+    principles: [
+      {
+        title: 'Vybíráme',
+        body: 'Portfolio je úzké schválně. Když nemovitost neuneseme, řekneme to na začátku.',
+      },
+      {
+        title: 'Prezentujeme',
+        body: 'Fotografie, text a cena mají stejnou úroveň. Nabídka má vypadat jako dům, ne jako inzerát.',
+      },
+      {
+        title: 'Mluvíme napřímo',
+        body: 'Výkup, prodej, nebo kombinace. Doporučení je konkrétní. První rozhovor nic nezavazuje.',
+      },
+      {
+        title: 'Držíme horizont',
+        body: 'Zajímá nás, jak nemovitost obstojí za pět let, ne jen jak rychle zmizí z portálu.',
+      },
+    ],
+    clientsTitle: 'Pro koho',
+    clientsLead: 'Pracujeme s lidmi, kteří chtějí jasný proces, ne katalog slibů.',
+    clients: [
+      {
+        title: 'Majitelé',
+        body: 'Prodáváte, pronajímáte, nebo zvažujete výkup. První posouzení je nezávazné a ozveme se do jednoho pracovního dne.',
+      },
+      {
+        title: 'Kupující',
+        body: 'Hledáte adresu, ne další prohlídku. Ukážeme jen to, co sedí na způsob, jakým chcete bydlet nebo investovat.',
+      },
+      {
+        title: 'Developeři',
+        body: 'Pomáháme projekt pojmenovat, nacenit a uvést. Od první věty až po poslední jednotku.',
+      },
+      {
+        title: 'Investoři',
+        body: 'Rezidence i komerce. V Česku a tam, kde máme důvod být — ne v katalogu celého světa.',
+      },
+    ],
+    reachTitle: 'Kde působíme',
+    reachLead: 'Praha a Brno jako základ. Zahraničí jen tam, kde umíme být užiteční.',
+    places: [
+      {
+        name: 'Praha',
+        body: 'Privátní nabídky, domy a spolupráce s developery na adresách, které unesou prémiovou cenu.',
+      },
+      {
+        name: 'Brno',
+        body: 'Byty, rezidence a lokální trh, který známe z vlastních projektů, ne z mapy.',
+      },
+      {
+        name: 'Zahraničí',
+        body: 'Vybrané akvizice a klienti, kteří hledají mimo Česko. Bereme jen mandáty, u kterých umíme držet stejnou laťku.',
+      },
+    ],
+    closeTitle: 'Začněme konkrétně.',
+    closeBody: 'Napište, co řešíte. Ozveme se zpravidla do 24 hodin v pracovní dny.',
+    write: 'Napsat',
+    sell: 'Prodáte s námi',
+    operatorTitle: 'Provozovatel webu',
+    operatorBody:
+      'Tyto stránky provozuje SD GROUP PROSPERITY s.r.o., IČO 21369178, se sídlem Radnická 376/11, 602 00 Brno. Společnost je zapsaná v obchodním rejstříku vedeném Krajským soudem v Brně pod spisovou značkou C 138592.',
+    operatorLink: 'Výpis z obchodního rejstříku',
     stats: {
       activeProjects: 'aktivních projektů',
       propertiesSold: 'prodaných nemovitostí',
+      reply: 'odpověď v pracovní dny',
     },
   },
   contact: {
@@ -293,6 +388,8 @@ export const cs: Translations = {
     contact: 'Kontakt',
     portal: 'Ouren Portál',
     copyright: '© 2025 Ouren Real Estate',
+    operator:
+      'Provozovatel: SD GROUP PROSPERITY s.r.o., IČO 21369178, Radnická 376/11, 602 00 Brno. Spisová značka C 138592, Krajský soud v Brně.',
   },
   blog: {
     eyebrow: 'Journal',

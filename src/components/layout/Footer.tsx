@@ -96,6 +96,29 @@ const LangDivider = styled.span`
   font-size: 10px;
 `;
 
+const Legal = styled.p`
+  margin: 28px 0 0;
+  max-width: 62rem;
+  color: rgba(245, 245, 240, 0.45);
+  font-size: 12px;
+  line-height: 1.55;
+`;
+
+const LegalLink = styled.a`
+  color: rgba(245, 245, 240, 0.72);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: ${({ theme }) => theme.colors.ice};
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${({ theme }) => theme.colors.ice};
+    outline-offset: 3px;
+  }
+`;
+
 const LangToggle = styled.button<{ $active?: boolean }>`
   background: transparent;
   color: ${({ $active, theme }) =>
@@ -118,7 +141,7 @@ const FOOTER_NAV: { key: NavKey; to: string }[] = [
   { key: 'weBuy', to: '/kupujeme' },
   { key: 'projects', to: '/projekty' },
   { key: 'sold', to: '/#sold' },
-  { key: 'about', to: '/#about' },
+  { key: 'about', to: '/o-nas' },
   { key: 'journal', to: '/blog' },
   { key: 'contact', to: '/#contact' },
 ];
@@ -184,6 +207,16 @@ export function Footer() {
           </LangToggle>
         </LangRow>
       </Bar>
+      <Legal>
+        {t.footer.operator}{' '}
+        <LegalLink
+          href="https://rejstrik-firem.kurzy.cz/21369178/sd-group-prosperity-sro/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          {t.about.operatorLink}
+        </LegalLink>
+      </Legal>
     </FooterWrap>
   );
 }

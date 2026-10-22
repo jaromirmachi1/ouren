@@ -30,6 +30,8 @@ export type Translations = {
     rentDescription: string;
     weBuyTitle: string;
     weBuyDescription: string;
+    aboutTitle: string;
+    aboutDescription: string;
     siteName: string;
   };
   common: {
@@ -210,9 +212,52 @@ export type Translations = {
     body1: string;
     body2: string;
     imageAlt: string;
+    more: string;
+    storyTitle: string;
+    storyBody: string;
+    storyNote: string;
+    practicesTitle: string;
+    practicesLead: string;
+    practices: [
+      { title: string; summary: string },
+      { title: string; summary: string },
+      { title: string; summary: string },
+      { title: string; summary: string },
+    ];
+    principlesTitle: string;
+    principlesLead: string;
+    principles: [
+      { title: string; body: string },
+      { title: string; body: string },
+      { title: string; body: string },
+      { title: string; body: string },
+    ];
+    clientsTitle: string;
+    clientsLead: string;
+    clients: [
+      { title: string; body: string },
+      { title: string; body: string },
+      { title: string; body: string },
+      { title: string; body: string },
+    ];
+    reachTitle: string;
+    reachLead: string;
+    places: [
+      { name: string; body: string },
+      { name: string; body: string },
+      { name: string; body: string },
+    ];
+    closeTitle: string;
+    closeBody: string;
+    write: string;
+    sell: string;
+    operatorTitle: string;
+    operatorBody: string;
+    operatorLink: string;
     stats: {
       activeProjects: string;
       propertiesSold: string;
+      reply: string;
     };
   };
   contact: {
@@ -226,6 +271,7 @@ export type Translations = {
     contact: string;
     portal: string;
     copyright: string;
+    operator: string;
   };
   blog: {
     eyebrow: string;

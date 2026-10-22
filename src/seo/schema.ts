@@ -11,6 +11,15 @@ export function organizationJsonLd() {
     image: absoluteUrl(DEFAULT_OG_IMAGE),
     email: 'info@ouren.cz',
     telephone: '+420722033055',
+    legalName: 'SD GROUP PROSPERITY s.r.o.',
+    identifier: '21369178',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Radnická 376/11',
+      addressLocality: 'Brno',
+      postalCode: '602 00',
+      addressCountry: 'CZ',
+    },
     description: DEFAULT_DESCRIPTION,
     areaServed: [
       { '@type': 'Country', name: 'Czech Republic' },

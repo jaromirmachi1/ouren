@@ -15,7 +15,7 @@ const LEFT_LINK_KEYS = [
 ];
 
 const RIGHT_LINK_KEYS = [
-  { key: 'about' as const, to: '/#about' },
+  { key: 'about' as const, to: '/o-nas' },
   { key: 'journal' as const, to: '/blog' },
   { key: 'contact' as const, to: '/#contact' },
 ];
@@ -381,6 +381,7 @@ function sectionIdFromPath(to: string) {
   if (to === '/prodej') return 'sale';
   if (to === '/pronajem') return 'rent';
   if (to === '/kupujeme') return 'weBuy';
+  if (to === '/o-nas' || to === '/about') return 'about';
   return '';
 }
 
@@ -408,7 +409,8 @@ function NavLinks({
           (link.to === '/projekty' && activeId === 'projects') ||
           (link.to === '/prodej' && activeId === 'sale') ||
           (link.to === '/pronajem' && activeId === 'rent') ||
-          (link.to === '/kupujeme' && activeId === 'weBuy');
+          (link.to === '/kupujeme' && activeId === 'weBuy') ||
+          (link.to === '/o-nas' && activeId === 'about');
         const linkProps = getNavLinkProps(link.to);
         const isContact = link.key === 'contact';
 
@@ -465,6 +467,8 @@ export function Navbar({ tone = 'dark' }: { tone?: 'dark' | 'light' }) {
       setActiveId('rent');
     } else if (location.pathname.startsWith('/kupujeme')) {
       setActiveId('weBuy');
+    } else if (location.pathname.startsWith('/o-nas') || location.pathname.startsWith('/about')) {
+      setActiveId('about');
     }
 
     const onScroll = () => setScrolled(window.scrollY > 40);

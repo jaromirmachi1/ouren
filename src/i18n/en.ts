@@ -18,6 +18,9 @@ export const en: Translations = {
     weBuyTitle: 'Sell with us | Ouren',
     weBuyDescription:
       'Cash buyout or a full listing with Ouren — we assess which path fits, with no obligation.',
+    aboutTitle: 'About | Ouren',
+    aboutDescription:
+      'Ouren selects, presents, and sells premium residential and commercial property. Prague, Brno, and selected markets abroad.',
     siteName: 'Ouren Real Estate',
   },
   common: {
@@ -275,10 +278,102 @@ export const en: Translations = {
       'Ouren is an international real estate firm rooted in the Czech Republic, shaping residential and commercial environments with editorial clarity and long-term value.',
     body2:
       'From development strategy to placement, we guide every stage with discretion, precision, and a design-led sensibility that elevates each property we represent.',
-    imageAlt: 'Ouren team in a modern architectural office',
+    imageAlt: 'Panorama Žabiny in Brno, a project represented by Ouren',
+    more: 'Full profile',
+    storyTitle: 'A small team. A narrow list.',
+    storyBody:
+      'We do not take every property that calls. We represent what we can defend — the address, the condition, the story, and the price. From the first reading to the keys, the line stays the same: discreet, exact, and free of theatre.',
+    storyNote:
+      'We are not a branch network. A small team knows the property in person. The same standard holds for a flat in Brno, a house outside Prague, and a commercial building worth holding.',
+    practicesTitle: 'What you can bring us',
+    practicesLead:
+      'Four practices, one house. Each has its own pace, and none promises more than the market can carry.',
+    practices: [
+      {
+        title: 'Sale',
+        summary: 'Apartments, houses, land, and commercial property worth a public listing.',
+      },
+      {
+        title: 'Rent',
+        summary: 'Residential and commercial lettings for owners who want a tenant, not a service desk.',
+      },
+      {
+        title: 'Buyout, or a listing',
+        summary: 'We either buy the property or take it to market. We say which path fits.',
+      },
+      {
+        title: 'Residential projects',
+        summary: 'Development from strategy and naming through to placing individual units.',
+      },
+    ],
+    principlesTitle: 'How we work',
+    principlesLead: 'Four rules we keep when the market gets loud.',
+    principles: [
+      {
+        title: 'We select',
+        body: 'The portfolio is narrow on purpose. If we cannot stand behind a property, we say so at the start.',
+      },
+      {
+        title: 'We present',
+        body: 'Photographs, copy, and price sit at the same level. A listing should look like the house, not an advert.',
+      },
+      {
+        title: 'We speak plainly',
+        body: 'Buyout, listing, or a mix. The recommendation is specific. The first conversation binds no one.',
+      },
+      {
+        title: 'We keep the horizon',
+        body: 'We care how a property holds in five years, not only how fast it leaves a portal.',
+      },
+    ],
+    clientsTitle: 'Who it is for',
+    clientsLead: 'People who want a clear process, not a catalogue of promises.',
+    clients: [
+      {
+        title: 'Owners',
+        body: 'You are selling, letting, or weighing a buyout. The first reading is non-binding, and we reply within one business day.',
+      },
+      {
+        title: 'Buyers',
+        body: 'You want an address, not another viewing. We show only what fits how you want to live or invest.',
+      },
+      {
+        title: 'Developers',
+        body: 'We help name a project, price it, and bring it to market. From the first line to the last unit.',
+      },
+      {
+        title: 'Investors',
+        body: 'Residential and commercial. In the Czech Republic, and only abroad where we have a reason to be.',
+      },
+    ],
+    reachTitle: 'Where we work',
+    reachLead: 'Prague and Brno as the base. Abroad only where we can be useful.',
+    places: [
+      {
+        name: 'Prague',
+        body: 'Private listings, houses, and work with developers on addresses that can carry a premium price.',
+      },
+      {
+        name: 'Brno',
+        body: 'Apartments, residences, and a local market we know from our own projects, not from a map.',
+      },
+      {
+        name: 'Abroad',
+        body: 'Selected acquisitions and clients looking beyond the Czech Republic. We take only mandates we can hold to the same line.',
+      },
+    ],
+    closeTitle: 'Start with the specific thing.',
+    closeBody: 'Write what you are dealing with. We usually reply within 24 hours on business days.',
+    write: 'Write',
+    sell: 'Sell with us',
+    operatorTitle: 'Site operator',
+    operatorBody:
+      'This website is operated by SD GROUP PROSPERITY s.r.o., ID No. 21369178, with its registered office at Radnická 376/11, 602 00 Brno, Czech Republic. The company is entered in the Commercial Register kept by the Regional Court in Brno under file No. C 138592.',
+    operatorLink: 'Commercial register extract',
     stats: {
       activeProjects: 'active projects',
       propertiesSold: 'properties sold',
+      reply: 'reply on business days',
     },
   },
   contact: {
@@ -293,6 +388,8 @@ export const en: Translations = {
     contact: 'Contact',
     portal: 'Ouren Portal',
     copyright: '© 2025 Ouren Real Estate',
+    operator:
+      'Operator: SD GROUP PROSPERITY s.r.o., ID 21369178, Radnická 376/11, 602 00 Brno. File No. C 138592, Regional Court in Brno.',
   },
   blog: {
     eyebrow: 'Journal',
