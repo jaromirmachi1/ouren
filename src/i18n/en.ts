@@ -376,6 +376,138 @@ export const en: Translations = {
       reply: 'reply on business days',
     },
   },
+  seoFaq: {
+    home: {
+      title: 'Questions',
+      items: [
+        {
+          q: 'What does Ouren do?',
+          a: 'Ouren selects, presents, and sells premium residential and commercial property. It also represents developers, and for selected properties it can buy outright or list on the open market.',
+        },
+        {
+          q: 'Where do you work?',
+          a: 'Prague and Brno are the base. Work abroad is taken only where the same standard can be held.',
+        },
+        {
+          q: 'Do you buy properties yourselves?',
+          a: 'For selected ones, yes. Elsewhere a market listing fits better. The Sell with us page says which path applies. The first reading binds no one.',
+        },
+        {
+          q: 'How do I reach you?',
+          a: 'Write to info@ouren.cz or call +420 722 033 055. We usually reply within 24 hours on business days.',
+        },
+      ],
+    },
+    sale: {
+      title: 'Before you choose',
+      items: [
+        {
+          q: 'What is on the sale page?',
+          a: 'Apartments, houses, land, and commercial property represented by Ouren. Sold items stay in the list, marked so they are not mistaken for something available.',
+        },
+        {
+          q: 'Is the price final?',
+          a: 'It is the asking price, unless the property is marked sold. Final terms are agreed in the contract, not in the catalogue.',
+        },
+        {
+          q: 'How do I arrange a viewing?',
+          a: 'Send the property name to info@ouren.cz or call +420 722 033 055. Viewings are arranged for listings that are available or reserved.',
+        },
+        {
+          q: 'Do you take properties that are not in the catalogue?',
+          a: 'Yes. Use the Sell with us page. We assess a buyout and a market listing, and the first conversation is non-binding.',
+        },
+      ],
+    },
+    rent: {
+      title: 'Before you rent',
+      items: [
+        {
+          q: 'What is in the rental list?',
+          a: 'Apartments, houses, and commercial space for rent. Let properties stay visible, marked so it is clear they are no longer free.',
+        },
+        {
+          q: 'How long is a lease?',
+          a: 'The term depends on the property and what the parties agree. The catalogue does not use one lease length for every listing.',
+        },
+        {
+          q: 'Can I view a space before signing?',
+          a: 'Yes, for available and reserved listings. Send the name to info@ouren.cz or call +420 722 033 055.',
+        },
+        {
+          q: 'Do you let offices and shops?',
+          a: 'Yes. Commercial lettings sit in the same catalogue. Terms follow the type of space, not an apartment template.',
+        },
+      ],
+    },
+    projects: {
+      title: 'About the projects',
+      items: [
+        {
+          q: 'How is a project different from a sale listing?',
+          a: 'A project is a whole building or a set of units, with its own inventory. Individual apartments and houses without a shared project are on the sale page.',
+        },
+        {
+          q: 'How do I see a free unit?',
+          a: 'The project page has a unit table and a status for each: available, reserved, sold, or rented.',
+        },
+        {
+          q: 'Can I buy into a finished project?',
+          a: 'Finished projects are shown separately. A remaining free unit, if there is one, is in the inventory. Otherwise the project is a reference.',
+        },
+        {
+          q: 'Can Ouren prepare a project with me?',
+          a: 'Yes. We help name it, price it, and bring it to market. The first conversation binds no one.',
+        },
+      ],
+    },
+    about: {
+      title: 'About the firm',
+      items: [
+        {
+          q: 'Who operates this website?',
+          a: 'SD GROUP PROSPERITY s.r.o., ID No. 21369178, registered office Radnická 376/11, 602 00 Brno. The company is entered at the Regional Court in Brno under file No. C 138592.',
+        },
+        {
+          q: 'Are you a brokerage or a developer?',
+          a: 'In a narrow selection, both. We represent property for sale and rent, and we take residential projects from strategy through to placing units.',
+        },
+        {
+          q: 'Do you have branches across the country?',
+          a: 'No. We work from Prague and Brno. We are not a branch network.',
+        },
+        {
+          q: 'Which languages do you work in?',
+          a: 'Czech and English. The site language switches in the footer.',
+        },
+      ],
+    },
+  },
+  entityFaq: {
+    title: 'About this property',
+    projectTitle: 'About this project',
+    whereQ: 'Where is {name}?',
+    whereA: '{name} is in {location}.',
+    statusQ: 'Is {name} still available?',
+    statusA: {
+      available: '{name} is available. The next step is info@ouren.cz or +420 722 033 055.',
+      reserved: '{name} is reserved. We confirm the status before arranging a viewing.',
+      sold: '{name} is sold and is no longer available to buy.',
+      rented: '{name} is let and is no longer available.',
+      inProgress: '{name} is in preparation. Free units, if any are released, are in the table on this page.',
+    },
+    sizeQ: 'What is the size of {name}?',
+    sizeA: 'The area of {name} is {area}.',
+    sizeLandA: 'The area of {name} is {area}, and the land is {land}.',
+    sizeUnknown: 'We will confirm the area of {name} on request. Write to info@ouren.cz.',
+    nextQ: 'How do I find out more about {name}?',
+    nextA: 'Write to info@ouren.cz or call +420 722 033 055 and name {name}. We usually reply within 24 hours on business days.',
+    unitsQ: 'How many units in {name} are free?',
+    unitsA: '{name} currently has {available} free units. The project lists {total} units in total.',
+    unitsNone: '{name} has no unit marked free right now. The project lists {total} units, and their status is in the table above.',
+    projectStatusQ: 'What stage is {name} in?',
+    projectStatusA: 'The status of {name} is {status}.',
+  },
   contact: {
     eyebrow: 'Contact',
     headline: 'Begin the conversation.',

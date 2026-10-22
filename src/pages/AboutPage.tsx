@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import styled from 'styled-components';
 import panoramaZabinyImage from '../assets/images/IMG_3434.jpg';
+import { FaqSection } from '../components/seo/FaqSection';
 import { useLanguage } from '../i18n/LanguageContext';
 import { PageMeta } from '../seo/PageMeta';
 import { JsonLd } from '../seo/JsonLd';
@@ -701,6 +702,8 @@ export default function AboutPage() {
           </ContactLines>
         </CloseRow>
       </Section>
+
+      <FaqSection id="about-faq" items={t.seoFaq.about.items} title={t.seoFaq.about.title} />
 
       <Section>
         <SectionHead data-reveal>

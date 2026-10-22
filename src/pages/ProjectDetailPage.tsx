@@ -7,6 +7,8 @@ import { loadProjectBySlug } from '../data/projects-source';
 import { useLanguage } from '../i18n/LanguageContext';
 import { formatProjectPrice } from '../i18n/format';
 import { PageMeta } from '../seo/PageMeta';
+import { projectFaq } from '../seo/entityFaq';
+import { FaqSection } from '../components/seo/FaqSection';
 import type { Project } from '../types';
 
 const Page = styled.main`
@@ -284,6 +286,11 @@ export default function ProjectDetailPage() {
         <InventoryTitle>{t.projects.inventoryTitle}</InventoryTitle>
         <UnitInventory units={project.inventory ?? []} />
       </InventoryBlock>
+      <FaqSection
+        id="project-faq"
+        items={projectFaq(project, t.entityFaq, t.status[project.status]).items}
+        title={t.entityFaq.projectTitle}
+      />
     </Page>
   );
 }

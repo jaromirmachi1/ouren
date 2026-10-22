@@ -28,6 +28,7 @@ export default function SalePage() {
       />
       <ListingCatalog
         basePath="/prodej"
+        faq={t.seoFaq.sale}
         listings={listings}
         title={t.listings.saleTitle}
       />

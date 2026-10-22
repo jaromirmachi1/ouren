@@ -5,6 +5,8 @@ import styled from 'styled-components';
 import { WeBuyIntake } from '../components/sell/WeBuyIntake';
 import { useLanguage } from '../i18n/LanguageContext';
 import { PageMeta } from '../seo/PageMeta';
+import { JsonLd } from '../seo/JsonLd';
+import { faqPageJsonLd } from '../seo/schema';
 import type { WeBuyIntent } from '../types';
 import { prefersReducedMotion } from '../utils/performance';
 import { refreshScrollTriggers } from '../utils/scrollReveal';
@@ -531,6 +533,7 @@ export default function WeBuyPage() {
         path="/kupujeme"
         title={t.meta.weBuyTitle}
       />
+      <JsonLd data={faqPageJsonLd(copy.faq)} id="webuy-faq" />
 
       <Hero>
         <HeroGlow aria-hidden="true" ref={glowRef} />

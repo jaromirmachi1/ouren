@@ -29,6 +29,7 @@ export default function RentPage() {
       <ListingCatalog
         basePath="/pronajem"
         countLabel={t.listings.countRent}
+        faq={t.seoFaq.rent}
         lead={t.listings.rentLead}
         listings={listings}
         title={t.listings.rentTitle}

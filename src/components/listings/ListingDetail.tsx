@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import type { Listing } from '../../data/listings';
 import { useLanguage } from '../../i18n/LanguageContext';
+import { FaqSection } from '../seo/FaqSection';
+import { listingFaq } from '../../seo/entityFaq';
 
 const navClear = 'clamp(128px, 15vh, 156px)';
 
@@ -331,6 +333,11 @@ export function ListingDetail({ listing, backTo, backLabel }: ListingDetailProps
           ))}
         </Reel>
       </Stage>
+      <FaqSection
+        id="listing-faq"
+        items={listingFaq(listing, locale, t.entityFaq).items}
+        title={t.entityFaq.title}
+      />
     </Page>
   );
 }

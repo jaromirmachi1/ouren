@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { useLanguage } from '../../i18n/LanguageContext';
 import { ListingCard } from './ListingCard';
+import { FaqSection } from '../seo/FaqSection';
 import type { Listing } from '../../data/listings';
+import type { FaqBlock } from '../../i18n/types';
 
 const Page = styled.main`
   min-height: 100dvh;
@@ -69,6 +71,7 @@ type ListingCatalogProps = {
   countLabel?: string;
   listings: Listing[];
   basePath: '/prodej' | '/pronajem';
+  faq?: FaqBlock;
 };
 
 const STATUS_ORDER: Record<Listing['status'], number> = {
@@ -88,6 +91,7 @@ export function ListingCatalog({
   countLabel,
   listings,
   basePath,
+  faq,
 }: ListingCatalogProps) {
   const { t } = useLanguage();
   const ordered = sortListings(listings);
@@ -112,6 +116,9 @@ export function ListingCatalog({
           ))}
         </Grid>
       )}
+      {faq ? (
+        <FaqSection id={basePath === '/prodej' ? 'sale-faq' : 'rent-faq'} items={faq.items} title={faq.title} />
+      ) : null}
     </Page>
   );
 }

@@ -16,6 +16,13 @@ export type BlogCategoryKey = 'market' | 'design' | 'investment' | 'lifestyle';
 
 export type ProjectStatusKey = 'available' | 'reserved' | 'sold' | 'inProgress' | 'rented';
 
+export type FaqItem = { q: string; a: string };
+
+export type FaqBlock = {
+  title: string;
+  items: [FaqItem, FaqItem, FaqItem, FaqItem];
+};
+
 export type Translations = {
   meta: {
     homeTitle: string;
@@ -259,6 +266,38 @@ export type Translations = {
       propertiesSold: string;
       reply: string;
     };
+  };
+  seoFaq: {
+    home: FaqBlock;
+    sale: FaqBlock;
+    rent: FaqBlock;
+    projects: FaqBlock;
+    about: FaqBlock;
+  };
+  entityFaq: {
+    title: string;
+    projectTitle: string;
+    whereQ: string;
+    whereA: string;
+    statusQ: string;
+    statusA: {
+      available: string;
+      reserved: string;
+      sold: string;
+      rented: string;
+      inProgress: string;
+    };
+    sizeQ: string;
+    sizeA: string;
+    sizeLandA: string;
+    sizeUnknown: string;
+    nextQ: string;
+    nextA: string;
+    unitsQ: string;
+    unitsA: string;
+    unitsNone: string;
+    projectStatusQ: string;
+    projectStatusA: string;
   };
   contact: {
     eyebrow: string;

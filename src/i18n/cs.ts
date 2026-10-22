@@ -376,6 +376,138 @@ export const cs: Translations = {
       reply: 'odpověď v pracovní dny',
     },
   },
+  seoFaq: {
+    home: {
+      title: 'Časté otázky',
+      items: [
+        {
+          q: 'Co Ouren dělá?',
+          a: 'Vybírá, prezentuje a prodává prémiové rezidenční a komerční nemovitosti. Zastupuje i developery a u vybraných nemovitostí umí výkup, nebo klasický prodej na trhu.',
+        },
+        {
+          q: 'Kde působíte?',
+          a: 'Základ je Praha a Brno. Zahraniční zakázky bereme jen tam, kde umíme držet stejnou laťku jako doma.',
+        },
+        {
+          q: 'Kupujete nemovitosti sami?',
+          a: 'U vybraných ano. Jinde dává smysl prodej na trhu. Na stránce Prodáte s námi řekneme, která cesta sedí. První posouzení nic nezavazuje.',
+        },
+        {
+          q: 'Jak vás kontaktovat?',
+          a: 'Napište na info@ouren.cz nebo zavolejte +420 722 033 055. Ozýváme se zpravidla do 24 hodin v pracovní dny.',
+        },
+      ],
+    },
+    sale: {
+      title: 'Než si vyberete',
+      items: [
+        {
+          q: 'Co je na stránce Prodej?',
+          a: 'Byty, domy, pozemky a komerční nemovitosti, které Ouren zastupuje. Prodané položky zůstávají v přehledu, ale jsou označené a nejde je zaměnit s volnou nabídkou.',
+        },
+        {
+          q: 'Je uvedená cena konečná?',
+          a: 'Je to nabídková cena, pokud nemovitost není označená jako prodaná. Konečné podmínky se sjednávají ve smlouvě, ne v katalogu.',
+        },
+        {
+          q: 'Jak si domluvím prohlídku?',
+          a: 'Napište název nemovitosti na info@ouren.cz nebo zavolejte +420 722 033 055. Prohlídku domlouváme u nabídek, které jsou volné nebo rezervované.',
+        },
+        {
+          q: 'Berete i nemovitosti, které v katalogu nejsou?',
+          a: 'Ano. Ozvěte se přes stránku Prodáte s námi. Posoudíme výkup i klasický prodej a první rozhovor je nezávazný.',
+        },
+      ],
+    },
+    rent: {
+      title: 'Než si pronajmete',
+      items: [
+        {
+          q: 'Co je v nabídce pronájmu?',
+          a: 'Byty, domy a komerční prostory k pronájmu. Pronajaté položky v přehledu zůstávají, ale jsou označené, aby bylo vidět, co už není volné.',
+        },
+        {
+          q: 'Jak dlouho trvá nájem?',
+          a: 'Délku určuje konkrétní nemovitost a domluva stran. Katalog nemá jednu délku smlouvy pro všechny nabídky.',
+        },
+        {
+          q: 'Můžu si prostor prohlédnout před podpisem?',
+          a: 'Ano, u volných a rezervovaných nabídek. Napište název na info@ouren.cz nebo volejte +420 722 033 055.',
+        },
+        {
+          q: 'Pronajímáte i kanceláře a obchody?',
+          a: 'Ano. Komerční pronájem je ve stejném katalogu. Podmínky se řeší podle typu prostoru, ne podle šablony bytu.',
+        },
+      ],
+    },
+    projects: {
+      title: 'K projektům',
+      items: [
+        {
+          q: 'Čím se projekt liší od nabídky na Prodej?',
+          a: 'Projekt je celek, dům nebo soubor jednotek, s vlastním inventářem. Jednotlivé byty a domy bez společného projektu jsou na stránce Prodej.',
+        },
+        {
+          q: 'Jak poznám volnou jednotku?',
+          a: 'Na detailu projektu je tabulka jednotek a jejich stav: volné, rezervované, prodané nebo pronajaté.',
+        },
+        {
+          q: 'Dají se koupit i dokončené projekty?',
+          a: 'Dokončené projekty ukazujeme zvlášť. Volná jednotka, pokud zbývá, je v inventáři. Jinak jde o referenci.',
+        },
+        {
+          q: 'Můžu s Ouren připravit vlastní projekt?',
+          a: 'Ano. Pomáháme s pojmenováním, cenou a uvedením na trh. První rozhovor nic nezavazuje.',
+        },
+      ],
+    },
+    about: {
+      title: 'K firmě',
+      items: [
+        {
+          q: 'Kdo provozuje tento web?',
+          a: 'SD GROUP PROSPERITY s.r.o., IČO 21369178, se sídlem Radnická 376/11, 602 00 Brno. Společnost je zapsaná u Krajského soudu v Brně pod spisovou značkou C 138592.',
+        },
+        {
+          q: 'Jste realitní kancelář, nebo developer?',
+          a: 'V úzkém výběru obojí. Zastupujeme nemovitosti k prodeji a pronájmu a vedeme rezidenční projekty od strategie po umístění jednotek.',
+        },
+        {
+          q: 'Máte pobočky po celé republice?',
+          a: 'Ne. Pracujeme z Prahy a Brna. Nejsme síť poboček.',
+        },
+        {
+          q: 'V jakém jazyce jednáte?',
+          a: 'Česky a anglicky. Jazyk webu přepnete v patičce.',
+        },
+      ],
+    },
+  },
+  entityFaq: {
+    title: 'K této nemovitosti',
+    projectTitle: 'K tomuto projektu',
+    whereQ: 'Kde se nachází {name}?',
+    whereA: '{name} je v lokalitě {location}.',
+    statusQ: 'Je {name} stále v nabídce?',
+    statusA: {
+      available: '{name} je v nabídce. Další krok domluvíte na info@ouren.cz nebo na +420 722 033 055.',
+      reserved: '{name} je rezervovaná. Než domluvíme prohlídku, stav ověříme.',
+      sold: '{name} je prodaná a už není volná ke koupi.',
+      rented: '{name} je pronajatá a už není volná.',
+      inProgress: '{name} je v přípravě. Volné jednotky, pokud už jsou, jsou v tabulce na této stránce.',
+    },
+    sizeQ: 'Jaká je výměra {name}?',
+    sizeA: 'Výměra {name} je {area}.',
+    sizeLandA: 'Výměra {name} je {area}, pozemek má {land}.',
+    sizeUnknown: 'Výměru {name} upřesníme na vyžádání. Napište na info@ouren.cz.',
+    nextQ: 'Jak se o {name} dozvědět víc?',
+    nextA: 'Napište na info@ouren.cz nebo zavolejte +420 722 033 055 a uveďte název {name}. Ozýváme se zpravidla do 24 hodin v pracovní dny.',
+    unitsQ: 'Kolik jednotek v {name} je volných?',
+    unitsA: 'V {name} je teď volných jednotek: {available}. Celkem jich projekt eviduje {total}.',
+    unitsNone: 'V {name} teď není označená volná jednotka. Projekt eviduje {total} jednotek a jejich stav je v tabulce výše.',
+    projectStatusQ: 'V jakém stavu je {name}?',
+    projectStatusA: 'Stav projektu {name} je {status}.',
+  },
   contact: {
     eyebrow: 'Kontakt',
     headline: 'Začněme rozhovor.',

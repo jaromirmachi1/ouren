@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BrightProjectCard } from '../components/projects/BrightProjectCard';
+import { FaqSection } from '../components/seo/FaqSection';
 import { loadActiveProjects, loadSoldProjects } from '../data/projects-source';
 import { useLanguage } from '../i18n/LanguageContext';
 import { PageMeta } from '../seo/PageMeta';
@@ -100,6 +101,7 @@ export default function ProjectsPage() {
           </Grid>
         </Block>
       ) : null}
+      <FaqSection id="projects-faq" items={t.seoFaq.projects.items} title={t.seoFaq.projects.title} />
     </Page>
   );
 }

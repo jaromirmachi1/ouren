@@ -10,6 +10,7 @@ import { PropertyMenu } from '../components/sections/PropertyMenu';
 import { Projects } from '../components/sections/Projects';
 import { SellWithUs } from '../components/sections/SellWithUs';
 import { SoldProjects } from '../components/sections/SoldProjects';
+import { FaqSection } from '../components/seo/FaqSection';
 import { PageMeta } from '../seo/PageMeta';
 import { JsonLd } from '../seo/JsonLd';
 import { websiteJsonLd } from '../seo/schema';
@@ -61,6 +62,7 @@ export default function HomePage() {
       <SoldProjects />
       <SellWithUs />
       <About />
+      <FaqSection id="home-faq" items={t.seoFaq.home.items} title={t.seoFaq.home.title} tone="dark" />
       <Contact />
     </Page>
   );
